@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="BadmintonManagement.BUS/BadmintonManagement.BUS.csproj" />
+  <Project Path="BadmintonManagement.DAL/BadmintonManagement.DAL.csproj" />
+  <Project Path="BadmintonManagement.DTO/BadmintonManagement.DTO.csproj" />
+  <Project Path="BadmintonManagement.GUI/BadmintonManagement.GUI.csproj" />
+</Solution>
