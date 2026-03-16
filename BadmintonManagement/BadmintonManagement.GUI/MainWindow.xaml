@@ -42,38 +42,11 @@
                 </Setter.Value>
             </Setter>
         </Style>
-
-        <Style TargetType="RadioButton" x:Key="TabMenuItemStyle">
-            <Setter Property="Background" Value="Transparent"/>
-            <Setter Property="Foreground" Value="#636e72"/>
-            <Setter Property="FontSize" Value="14"/>
-            <Setter Property="FontWeight" Value="SemiBold"/>
-            <Setter Property="Margin" Value="0,0,25,0"/>
-            <Setter Property="Cursor" Value="Hand"/>
-            <Setter Property="Template">
-                <Setter.Value>
-                    <ControlTemplate TargetType="RadioButton">
-                        <Border Background="{TemplateBinding Background}" BorderBrush="#0984e3" 
-                                x:Name="border" Padding="0,5">
-                            <ContentPresenter VerticalAlignment="Center"/>
-                        </Border>
-                        <ControlTemplate.Triggers>
-                            <Trigger Property="IsChecked" Value="True">
-                                <Setter Property="Foreground" Value="#0984e3"/>
-                                <Setter TargetName="border" Property="BorderThickness" Value="0,0,0,3"/>
-                            </Trigger>
-                        </ControlTemplate.Triggers>
-                    </ControlTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>
     </Window.Resources>
 
     <Grid>
         <Grid.Background>
-            <ImageBrush ImageSource="/bg.jpg" 
-                Stretch="UniformToFill" 
-                Opacity="1" />
+            <ImageBrush ImageSource="/bg.jpg" Stretch="UniformToFill" Opacity="1" />
         </Grid.Background>
 
         <Grid.ColumnDefinitions>
@@ -81,41 +54,29 @@
             <ColumnDefinition Width="*"/>
         </Grid.ColumnDefinitions>
 
-        <Border Grid.Column="0" 
-        Background="#CCF1F2F6" Margin="10" 
-        CornerRadius="15">
-
+        <Border Grid.Column="0" Background="#CCF1F2F6" Margin="10" CornerRadius="15">
             <Border.Effect>
                 <DropShadowEffect BlurRadius="15" ShadowDepth="0" Opacity="0.05"/>
             </Border.Effect>
-
             <DockPanel LastChildFill="False">
                 <StackPanel DockPanel.Dock="Top" VerticalAlignment="Top" Margin="0,20">
                     <TextBlock Text="🏸" FontSize="28" HorizontalAlignment="Center" Margin="0,0,0,30"/>
-
-                    <Button Style="{StaticResource IconMenuButtonStyle}" Content="🏠" ToolTip="Trang chủ / Thống kê"/>
-
+                    <Button Style="{StaticResource IconMenuButtonStyle}" Content="🏠" ToolTip="Trang chủ"/>
                     <Button Style="{StaticResource IconMenuButtonStyle}" Content="🏟️" x:Name="btnCourt" Click="btnCourt_Click" ToolTip="Sơ đồ sân"/>
-
-                    <Button Style="{StaticResource IconMenuButtonStyle}" Content="📅" ToolTip="Lịch đặt sân" Tag="5"/>
-                    <Button Style="{StaticResource IconMenuButtonStyle}" Content="👥" ToolTip="Hội viên &amp; Khách hàng"/>
-                    <Button Style="{StaticResource IconMenuButtonStyle}" Content="🛒" ToolTip="Dịch vụ &amp; Bán hàng"/>
-
-                    <Button Style="{StaticResource IconMenuButtonStyle}" Content="📊" ToolTip="Báo cáo tài chính"/>
+                    <Button Style="{StaticResource IconMenuButtonStyle}" Content="📅" ToolTip="Lịch đặt" Tag="5"/>
+                    <Button Style="{StaticResource IconMenuButtonStyle}" Content="👥" ToolTip="Khách hàng"/>
+                    <Button Style="{StaticResource IconMenuButtonStyle}" Content="🛒" ToolTip="Dịch vụ"/>
+                    <Button Style="{StaticResource IconMenuButtonStyle}" Content="📊" ToolTip="Báo cáo"/>
                 </StackPanel>
-
                 <StackPanel DockPanel.Dock="Bottom" Margin="0,0,0,20">
-                    <Button Style="{StaticResource IconMenuButtonStyle}" Content="⚙️" ToolTip="Cấu hình hệ thống"/>
-
-                    <Button Margin="0,10,0,0" Cursor="Hand" ToolTip="Huy Hoàng (Admin)">
+                    <Button Style="{StaticResource IconMenuButtonStyle}" Content="⚙️" ToolTip="Cài đặt"/>
+                    <Button Margin="0,10,0,0" Cursor="Hand">
                         <Button.Template>
                             <ControlTemplate>
                                 <Grid HorizontalAlignment="Center">
                                     <Ellipse Width="40" Height="40" Fill="#3498DB"/>
-                                    <TextBlock Text="H" Foreground="White" FontWeight="Bold" 
-                                       VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                    <Ellipse Width="12" Height="12" Fill="#2ECC71" Stroke="White" StrokeThickness="2"
-                                     VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
+                                    <TextBlock Text="H" Foreground="White" FontWeight="Bold" VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    <Ellipse Width="12" Height="12" Fill="#2ECC71" Stroke="White" StrokeThickness="2" VerticalAlignment="Bottom" HorizontalAlignment="Right"/>
                                 </Grid>
                             </ControlTemplate>
                         </Button.Template>
@@ -127,6 +88,7 @@
         <Grid Grid.Column="1" Margin="10,20,20,20">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
@@ -137,26 +99,23 @@
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="10,0,30,0">
+                <StackPanel Grid.Column="0" VerticalAlignment="Center" Margin="0,0,30,0">
                     <StackPanel Orientation="Horizontal">
                         <TextBlock Text="THE" FontSize="11" FontWeight="Light" Foreground="#2d3436" VerticalAlignment="Bottom" Margin="0,0,4,3"/>
-                        <TextBlock Text="CHAMPIONS" FontSize="18" FontWeight="Black" Foreground="#0984e3" VerticalAlignment="Center"/>
+                        <TextBlock Text="CHAMPIONS" FontSize="18" FontWeight="Black" Foreground="#0984e3"/>
                     </StackPanel>
                     <TextBlock Text="Hệ thống quản lý sân chuyên nghiệp" FontSize="9" FontWeight="SemiBold" Foreground="#b2bec3" Margin="2,0,0,0"/>
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
-                    <Border Background="#40FFFFFF" CornerRadius="20" Height="40" Width="250">
+                    <Border Background="#40FFFFFF" CornerRadius="20" Height="40" Width="200">
                         <StackPanel Orientation="Horizontal" Margin="15,0">
                             <TextBlock Text="🔍" VerticalAlignment="Center" Foreground="#4b4b4b" Opacity="0.6"/>
-                            <TextBox x:Name="txtSearch" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" Width="190" Margin="10,0" Foreground="#2d3436" Text="Tìm kiếm sân..."/>
+                            <TextBox x:Name="txtSearch" Background="Transparent" BorderThickness="0" VerticalAlignment="Center" Width="140" Margin="10,0" Foreground="#2d3436" Text="Tìm kiếm..."/>
                         </StackPanel>
                     </Border>
 
-                    <Button x:Name="btnNewBooking" 
-                Click="btnNewBooking_Click"
-                Background="#00D2D3" Foreground="White" 
-                Width="130" Height="38" BorderThickness="0" Margin="20,0">
+                    <Button x:Name="btnNewBooking" Click="btnNewBooking_Click" Background="#00D2D3" Foreground="White" Width="130" Height="38" BorderThickness="0" Margin="15,0">
                         <Button.Resources>
                             <Style TargetType="Border">
                                 <Setter Property="CornerRadius" Value="19"/>
@@ -168,26 +127,26 @@
                         </StackPanel>
                     </Button>
 
-                    <Border Background="#2000D2D3" CornerRadius="15" Padding="12,5" Margin="0,0,20,0">
+                    <Border Background="#2000D2D3" CornerRadius="15" Padding="12,5" Margin="0,0,15,0">
                         <StackPanel Orientation="Horizontal">
                             <Ellipse Width="8" Height="8" Fill="#00D2D3" Margin="0,0,8,0"/>
                             <TextBlock VerticalAlignment="Center">
-                    <Run Text="Trống:" FontSize="11" Foreground="#636e72"/>
-                    <Run x:Name="txtStatusCount" Text=" 8/10" FontWeight="Bold" Foreground="#2d3436" FontSize="12"/>
+    <Run Text="Trống:" FontSize="11" Foreground="#636e72"/>
+    <Run x:Name="txtStatusCount" Text=" 0/8" FontWeight="Bold" Foreground="#2d3436" FontSize="12"/>
                             </TextBlock>
                         </StackPanel>
                     </Border>
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
-                        <TextBlock x:Name="txtBigTime" Text="17:38" FontSize="26" FontWeight="Light" Foreground="#2d3436" VerticalAlignment="Center"/>
+                        <TextBlock x:Name="txtBigTime" Text="12:00" FontSize="26" FontWeight="Light" Foreground="#2d3436"/>
                         <StackPanel Margin="10,0,0,0" VerticalAlignment="Center">
-                            <TextBlock x:Name="txtDate" Text="14/03/2026" FontSize="11" FontWeight="SemiBold" Foreground="#636e72"/>
+                            <TextBlock x:Name="txtDate" Text="16/03/2026" FontSize="11" FontWeight="SemiBold" Foreground="#636e72"/>
                             <TextBlock Text="LÀM VIỆC" FontSize="9" FontWeight="Bold" Foreground="#0984e3" Opacity="0.8"/>
                         </StackPanel>
                     </StackPanel>
                 </StackPanel>
 
-                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0,10,0">
+                <StackPanel Grid.Column="2" Orientation="Horizontal" VerticalAlignment="Center">
                     <StackPanel Margin="0,0,10,0">
                         <TextBlock Text="Huy Hoàng" FontWeight="Bold" Foreground="#2F3542" HorizontalAlignment="Right"/>
                         <TextBlock Text="Admin" FontSize="11" Foreground="#00D2D3" HorizontalAlignment="Right"/>
@@ -197,7 +156,6 @@
             </Grid>
 
             <UniformGrid Grid.Row="1" Columns="4" Height="100" Margin="10,10,10,0">
-
                 <Border Style="{StaticResource TrelloCardStyle}" Margin="5">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0">
                         <Grid Margin="0,0,15,0">
@@ -205,13 +163,11 @@
                             <TextBlock Text="💰" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="Doanh thu ngày" FontSize="12" Foreground="#636e72" FontWeight="SemiBold"/>
-                            <TextBlock Text="₫2,450,000" FontSize="18" FontWeight="Black" Foreground="#2d3436"/>
-                            <TextBlock Text="+12.5% so với hôm qua" FontSize="10" Foreground="#2ecc71" FontWeight="Bold"/>
+                            <TextBlock Text="Doanh thu ngày" FontSize="12" Foreground="#636e72"/>
+                            <TextBlock Text="₫2,450,000" FontSize="18" FontWeight="Black"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
-
                 <Border Style="{StaticResource TrelloCardStyle}" Margin="5">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0">
                         <Grid Margin="0,0,15,0">
@@ -219,13 +175,11 @@
                             <TextBlock Text="📅" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="Lượt đặt sân" FontSize="12" Foreground="#636e72" FontWeight="SemiBold"/>
-                            <TextBlock Text="42 lượt" FontSize="18" FontWeight="Black" Foreground="#2d3436"/>
-                            <TextBlock Text="+5.2% tăng trưởng" FontSize="10" Foreground="#2ecc71" FontWeight="Bold"/>
+                            <TextBlock Text="Lượt đặt" FontSize="12" Foreground="#636e72"/>
+                            <TextBlock Text="42 lượt" FontSize="18" FontWeight="Black"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
-
                 <Border Style="{StaticResource TrelloCardStyle}" Margin="5">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0">
                         <Grid Margin="0,0,15,0">
@@ -233,13 +187,11 @@
                             <TextBlock Text="👤" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="Hội viên mới" FontSize="12" Foreground="#636e72" FontWeight="SemiBold"/>
-                            <TextBlock Text="12 khách" FontSize="18" FontWeight="Black" Foreground="#2d3436"/>
-                            <TextBlock Text="+2 người hôm nay" FontSize="10" Foreground="#0984e3" FontWeight="Bold"/>
+                            <TextBlock Text="Khách mới" FontSize="12" Foreground="#636e72"/>
+                            <TextBlock Text="12 khách" FontSize="18" FontWeight="Black"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
-
                 <Border Style="{StaticResource TrelloCardStyle}" Margin="5">
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="10,0">
                         <Grid Margin="0,0,15,0">
@@ -247,50 +199,32 @@
                             <TextBlock Text="📈" FontSize="20" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                         </Grid>
                         <StackPanel VerticalAlignment="Center">
-                            <TextBlock Text="Tỉ lệ lấp đầy" FontSize="12" Foreground="#636e72" FontWeight="SemiBold"/>
-                            <TextBlock Text="85%" FontSize="18" FontWeight="Black" Foreground="#2d3436"/>
-                            <TextBlock Text="Đang ở mức cao" FontSize="10" Foreground="#e67e22" FontWeight="Bold"/>
+                            <TextBlock Text="Lấp đầy" FontSize="12" Foreground="#636e72"/>
+                            <TextBlock Text="85%" FontSize="18" FontWeight="Black"/>
                         </StackPanel>
                     </StackPanel>
                 </Border>
             </UniformGrid>
 
-            <UniformGrid Grid.Row="1" Columns="4" Margin="0,20,0,0">
+            <UniformGrid Grid.Row="2" Columns="4" Margin="0,20,0,0">
+
                 <Border Background="#ebecf0" Margin="8" CornerRadius="10" Padding="10">
                     <DockPanel>
-                        <TextBlock DockPanel.Dock="Top" Text="SẴN SÀNG" FontWeight="Bold" Foreground="#172b4d" Margin="5,0,0,10"/>
+                        <TextBlock DockPanel.Dock="Top" Text="SÂN TRỐNG" FontWeight="Bold" Foreground="#172b4d" Margin="5,0,0,10"/>
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
                             <ItemsControl x:Name="icSanSan">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Style="{StaticResource TrelloCardStyle}">
+                                        <Border Style="{StaticResource TrelloCardStyle}" BorderBrush="#2ecc71" BorderThickness="0,0,0,4">
                                             <StackPanel>
                                                 <TextBlock Text="{Binding TenSan}" FontWeight="Bold" Foreground="#172b4d"/>
-                                                <TextBlock Text="{Binding MaSan}" FontSize="11" Foreground="#5e6c84"/>
+                                                <TextBlock Text="Sẵn sàng" FontSize="11" Foreground="#27ae60"/>
                                             </StackPanel>
                                         </Border>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
                             </ItemsControl>
                         </ScrollViewer>
-                    </DockPanel>
-                </Border>
-
-                <Border Background="#ebecf0" Margin="8" CornerRadius="10" Padding="10">
-                    <DockPanel>
-                        <TextBlock DockPanel.Dock="Top" Text="KHÁCH ĐỢI" FontWeight="Bold" Foreground="#172b4d" Margin="5,0,0,10"/>
-                        <ItemsControl x:Name="icKhachDoi">
-                            <ItemsControl.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Style="{StaticResource TrelloCardStyle}" BorderBrush="#f1c40f" BorderThickness="3,0,0,0">
-                                        <StackPanel>
-                                            <TextBlock Text="{Binding TenSan}" FontWeight="Bold"/>
-                                            <TextBlock Text="{Binding GioDen}" FontSize="11" Foreground="#f39c12"/>
-                                        </StackPanel>
-                                    </Border>
-                                </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
                     </DockPanel>
                 </Border>
 
@@ -308,9 +242,7 @@
                                                     <TextBlock Text="{Binding ThoiGianConLai}" HorizontalAlignment="Right" Foreground="#0984e3" FontWeight="Bold"/>
                                                 </Grid>
                                                 <TextBlock Text="{Binding TenKhach}" FontSize="12" Foreground="#636e72" Margin="0,5"/>
-
-                                                <ProgressBar Value="{Binding ProgressValue}" Height="6" Margin="0,5,0,0" 
-                                                 Foreground="#0984e3" Background="#dfe6e9" BorderThickness="0"/>
+                                                <ProgressBar Value="{Binding ProgressValue, Mode=OneWay}" Height="6" Margin="0,5,0,0" Foreground="#0984e3" Background="#dfe6e9" BorderThickness="0"/>
                                             </StackPanel>
                                         </Border>
                                     </DataTemplate>
@@ -322,15 +254,15 @@
 
                 <Border Background="#ebecf0" Margin="8" CornerRadius="10" Padding="10">
                     <DockPanel>
-                        <TextBlock DockPanel.Dock="Top" Text="THANH TOÁN / BẢO TRÌ" FontWeight="Bold" Foreground="#172b4d" Margin="5,0,0,10"/>
+                        <TextBlock DockPanel.Dock="Top" Text="LỊCH ĐẶT TRONG NGÀY" FontWeight="Bold" Foreground="#172b4d" Margin="5,0,0,10"/>
                         <ScrollViewer VerticalScrollBarVisibility="Auto">
-                            <ItemsControl x:Name="icBaoTri">
+                            <ItemsControl x:Name="icKhachDoi">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Border Style="{StaticResource TrelloCardStyle}" BorderBrush="#e74c3c" BorderThickness="0,0,0,3">
+                                        <Border Style="{StaticResource TrelloCardStyle}" BorderBrush="#f1c40f" BorderThickness="0,0,0,4">
                                             <StackPanel>
-                                                <TextBlock Text="{Binding TenSan}" FontWeight="Bold" Foreground="#172b4d"/>
-                                                <TextBlock Text="Cần dọn dẹp &amp; Thu tiền" FontSize="11" Foreground="#e74c3c"/>
+                                                <TextBlock Text="{Binding TenSan}" FontWeight="Bold" FontSize="12" Foreground="#172b4d"/>
+                                                <TextBlock Text="{Binding ThongTinCho}" FontSize="11" Foreground="#f39c12"/>
                                             </StackPanel>
                                         </Border>
                                     </DataTemplate>
@@ -339,6 +271,27 @@
                         </ScrollViewer>
                     </DockPanel>
                 </Border>
+
+                <Border Background="#ebecf0" Margin="8" CornerRadius="10" Padding="10">
+                    <DockPanel>
+                        <TextBlock DockPanel.Dock="Top" Text="BẢO TRÌ" FontWeight="Bold" Foreground="#172b4d" Margin="5,0,0,10"/>
+                        <ScrollViewer VerticalScrollBarVisibility="Auto">
+                            <ItemsControl x:Name="icBaoTri">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Style="{StaticResource TrelloCardStyle}" BorderBrush="#e74c3c" BorderThickness="0,0,0,4">
+                                            <StackPanel>
+                                                <TextBlock Text="{Binding TenSan}" FontWeight="Bold" Foreground="#172b4d"/>
+                                                <TextBlock Text="Đang sửa chữa / Tạm dừng" FontSize="11" Foreground="#e74c3c"/>
+                                            </StackPanel>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </DockPanel>
+                </Border>
+
             </UniformGrid>
         </Grid>
     </Grid>
