@@ -1,8 +1,11 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
+using System.Security.Cryptography;
+using System.Text;
 using System.Windows;
-using System.Windows.Threading;
 using System.Windows.Media;
-using Microsoft.Data.SqlClient;
+using System.Windows.Threading;
+using BadmintonManagement.BUS;
 
 namespace BadmintonManagement.GUI
 {
@@ -15,15 +18,54 @@ namespace BadmintonManagement.GUI
             InitializeComponent();
         }
 
+        // HÀM MÃ HÓA SHA-256 (Phải giống hệt bên RegisterWindow)
+        public static string HashPassword(string password)
+        {
+            using (SHA256 sha256Hash = SHA256.Create())
+            {
+                byte[] bytes = sha256Hash.ComputeHash(Encoding.UTF8.GetBytes(password));
+                StringBuilder builder = new StringBuilder();
+                for (int i = 0; i < bytes.Length; i++)
+                {
+                    builder.Append(bytes[i].ToString("x2"));
+                }
+                return builder.ToString();
+            }
+        }
+
         // 1. Xử lý Đăng nhập
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
-            if (string.IsNullOrEmpty(txtUsername.Text) || string.IsNullOrEmpty(txtPassword.Password))
+            string user = txtUsername.Text.Trim();
+            string pass = txtPassword.Password;
+
+            if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass))
             {
-                ShowAlert("Vui lòng nhập đầy đủ thông tin!");
+                ShowAlert("Vui lòng nhập đầy đủ tài khoản và mật khẩu!");
                 return;
             }
-            // Code login SQL của Huy Hoàng dán tiếp vào đây...
+
+            try
+            {
+                // GỌI BUS: Đây là nơi lỗi CS1061 xuất hiện nếu bước 1 chưa xong
+                TaiKhoanBUS bus = new TaiKhoanBUS();
+                var result = bus.KiemTraDangNhap(user, pass);
+
+                if (result.maKH != null)
+                {
+                    MainWindow main = new MainWindow(result.maKH);
+                    main.Show();
+                    this.Close();
+                }
+                else
+                {
+                    ShowAlert("Tài khoản hoặc mật khẩu không chính xác!");
+                }
+            }
+            catch (Exception ex)
+            {
+                ShowAlert("Lỗi hệ thống: " + ex.Message);
+            }
         }
 
         // 2. Chuyển sang màn hình Đăng ký

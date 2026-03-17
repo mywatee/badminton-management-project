@@ -13,6 +13,7 @@ namespace BadmintonManagement.GUI
     public partial class ForgotPasswordWindow : Window
     {
         string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=QLSCL;Integrated Security=True;TrustServerCertificate=True";
+        private string loggedInMaKH = "";
         private string currentOTP;
 
         public ForgotPasswordWindow()
@@ -57,7 +58,7 @@ namespace BadmintonManagement.GUI
                 return;
             }
 
-            // Kiểm tra định dạng
+            // 1. Kiểm tra định dạng Regex
             if (isGmail)
             {
                 if (!Regex.IsMatch(input, @"^[\w-\.]+@gmail\.com$"))
@@ -75,20 +76,54 @@ namespace BadmintonManagement.GUI
                 }
             }
 
-            // Tạo mã OTP 6 số
-            Random rd = new Random();
-            currentOTP = rd.Next(100000, 999999).ToString();
+            // 2. KIỂM TRA DATABASE VÀ LẤY MaKH
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    // Nếu là Gmail thì tìm theo cột Email, nếu là SĐT thì tìm theo cột SDT
+                    string sql = isGmail ?
+                        "SELECT MaKH FROM KHACH_HANG WHERE Email = @input" :
+                        "SELECT MaKH FROM KHACH_HANG WHERE SDT = @input";
 
-            if (isGmail)
-            {
-                SendEmail(input, currentOTP);
-            }
-            else
-            {
-                // Giả lập SMS cho đồ án
-                MessageBox.Show($"[GIẢ LẬP SMS] Mã OTP gửi tới {input} là: {currentOTP}");
-                ShowAlert("Mã xác nhận đã gửi qua tin nhắn!", false);
-                stkOTP.Visibility = Visibility.Visible; // HIỆN Ô NHẬP OTP
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@input", input);
+
+                    object result = cmd.ExecuteScalar();
+
+                    if (result != null)
+                    {
+                        // GÁN GIÁ TRỊ VÀO BIẾN TOÀN CỤC (Để fix lỗi CS0103)
+                        loggedInMaKH = result.ToString();
+
+                        // 3. Nếu tìm thấy khách hàng thì mới tạo và gửi OTP
+                        Random rd = new Random();
+                        currentOTP = rd.Next(100000, 999999).ToString();
+
+                        if (isGmail)
+                        {
+                            SendEmail(input, currentOTP);
+                        }
+                        else
+                        {
+                            // Giả lập SMS cho đồ án
+                            MessageBox.Show($"[GIẢ LẬP SMS] Mã OTP gửi tới {input} là: {currentOTP}");
+                            ShowAlert("Mã xác nhận đã gửi qua tin nhắn!", false);
+                            stkOTP.Visibility = Visibility.Visible;
+                        }
+                    }
+                    else
+                    {
+                        ShowAlert("Thông tin này không tồn tại trên hệ thống!");
+                        return;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ShowAlert("Lỗi kết nối: " + ex.Message);
+                    return;
+                }
             }
         }
 
@@ -110,7 +145,7 @@ namespace BadmintonManagement.GUI
         // 4. Nhấn nút Đổi mật khẩu
         private void btnUpdatePass_Click(object sender, RoutedEventArgs e)
         {
-            string newPass = txtNewPass.Password;
+            string newPass = txtNewPass.Password; // Giả sử bạn dùng PasswordBox
 
             if (newPass.Length < 6)
             {
@@ -118,10 +153,32 @@ namespace BadmintonManagement.GUI
                 return;
             }
 
-            string contactInfo = txtInputRecovery.Text.Trim();
-            bool isGmail = cbMethod.SelectedIndex == 0;
+            // --- BƯỚC QUAN TRỌNG: MÃ HÓA MẬT KHẨU MỚI ---
+            string hashedNewPass = RegisterWindow.HashPassword(newPass);
 
-            UpdatePasswordInDatabase(contactInfo, newPass, isGmail);
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    // Cập nhật mật khẩu đã mã hóa vào DB
+                    string sql = "UPDATE TAI_KHOAN SET MatKhauHash = @pass WHERE MaKH = @ma";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@pass", hashedNewPass); // Dùng chuỗi đã băm
+                    cmd.Parameters.AddWithValue("@ma", loggedInMaKH); // MaKH bạn xác định được qua OTP
+
+                    int rows = cmd.ExecuteNonQuery();
+                    if (rows > 0)
+                    {
+                        MessageBox.Show("Đổi mật khẩu thành công! Hãy đăng nhập lại.");
+                        this.Close();
+                    }
+                }
+                catch (Exception ex)
+                {
+                    ShowAlert("Lỗi DB: " + ex.Message);
+                }
+            }
         }
 
         // 5. Cập nhật vào SQL
@@ -198,6 +255,19 @@ namespace BadmintonManagement.GUI
             timer.Interval = TimeSpan.FromSeconds(3);
             timer.Tick += (s, e) => { brdAlert.Visibility = Visibility.Collapsed; timer.Stop(); };
             timer.Start();
+        }
+
+        private void btnClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close(); // Đóng cửa sổ khôi phục mật khẩu
+        }
+
+        private void Window_MouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == System.Windows.Input.MouseButtonState.Pressed)
+            {
+                this.DragMove();
+            }
         }
 
         private void btnBack_Click(object sender, RoutedEventArgs e) { this.Close(); }

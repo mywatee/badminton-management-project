@@ -28,5 +28,21 @@ namespace BadmintonManagement.GUI
             this.DialogResult = true; // Đánh dấu là đã bấm OK
             this.Close();
         }
+        private void btnConfirm_Click(object sender, RoutedEventArgs e)
+        {
+            this.DialogResult = true; // Trả về kết quả true để các form cha biết
+            this.Close(); // Đóng thông báo
+        }
+        private void btnGoToLogin_Click(object sender, RoutedEventArgs e)
+        {
+            // Cách 1: Chỉ đóng cái thông báo này lại
+            this.Close();
+
+            // Cách 2: Nếu bạn muốn nó đóng thông báo VÀ đóng luôn cả form Đăng ký để về Login
+            // (Giả sử bạn gọi dialog này từ RegisterWindow)
+            // DialogResult = true; 
+            // this.Close();
+        }
+
     }
 }

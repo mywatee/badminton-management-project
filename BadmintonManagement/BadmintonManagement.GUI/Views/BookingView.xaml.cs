@@ -1,5 +1,5 @@
 using System.Windows.Controls;
-using QLSANCL.BadmintonManagement.ViewModels;
+//using QLSANCL.BadmintonManagement.ViewModels;
 
 namespace QLSANCL.BadmintonManagement.Views
 {
@@ -8,7 +8,7 @@ namespace QLSANCL.BadmintonManagement.Views
         public BookingView()
         {
             InitializeComponent();
-            DataContext = new BookingViewModel();
+            //DataContext = new BookingViewModel();
         }
     }
 }

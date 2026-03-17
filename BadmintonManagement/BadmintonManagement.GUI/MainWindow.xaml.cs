@@ -1,37 +1,64 @@
 ﻿using System;
 using System.Linq;
 using System.Windows;
-using BadmintonManagement.BUS;
-using BadmintonManagement.DTO;
 using System.Collections.Generic;
-using System.Windows;
 using System.Windows.Threading;
 using Microsoft.Data.SqlClient;
 using System.Data;
+
 namespace BadmintonManagement.GUI
 {
     public partial class MainWindow : Window
     {
-        private SanBUS _sanBUS = new SanBUS();
-
-        // Nhớ kiểm tra lại Data Source cho đúng với máy bạn (.\SQLEXPRESS hoặc localhost\SQLEXPRESS)
+        // Chuỗi kết nối Database
         string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=QLSCL;Integrated Security=True;TrustServerCertificate=True";
+
+        private string loggedInMaKH;
+
+        // Sửa Constructor để nhận mã khách hàng
+        public MainWindow(string maKH)
+        {
+            InitializeComponent();
+            this.loggedInMaKH = maKH; // Lưu lại mã để dùng
+
+            StartClock();
+            LoadAllData();
+            ShowUserInfo(); // Hàm mới để hiện tên khách
+        }
+
+        // Hàm lấy tên từ SQL dựa vào MaKH
+        private void ShowUserInfo()
+        {
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                try
+                {
+                    conn.Open();
+                    string sql = "SELECT HoTen FROM KHACH_HANG WHERE MaKH = @ma";
+                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    cmd.Parameters.AddWithValue("@ma", loggedInMaKH);
+
+                    object result = cmd.ExecuteScalar();
+                    if (result != null)
+                    {
+                        // txtUserDisplayName là cái TextBlock ở góc dưới sidebar
+                        txtUserDisplayName.Text = result.ToString();
+                    }
+                }
+                catch { /* Xử lý lỗi nếu cần */ }
+            }
+        }
 
         public MainWindow()
         {
             InitializeComponent();
-            StartClock();
-            LoadData(); // Load dữ liệu ngay khi khởi động 
-
-            LoadAllData(); // Gọi hàm tổng hợp để load tất cả các cột
+            StartClock();     // Chạy đồng hồ hệ thống
+            LoadAllData();    // Đổ dữ liệu vào 4 cột Kanban
         }
 
+        // 1. Đồng hồ hiển thị trên Dashboard
         private void StartClock()
         {
-            System.Windows.Threading.DispatcherTimer timer = new System.Windows.Threading.DispatcherTimer();
-            timer.Interval = TimeSpan.FromSeconds(1);
-            timer.Tick += (s, e) => {
-
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += (s, e) =>
@@ -42,65 +69,38 @@ namespace BadmintonManagement.GUI
             timer.Start();
         }
 
-        private void LoadData()
-        {
-            try
-            {
-                var dsSan = _sanBUS.LayTatCaSan();
-
-                // Kiểm tra null trước khi gán để tránh crash
-                if (icSanSan != null)
-                    icSanSan.ItemsSource = dsSan.Where(s => s.TrangThai == "Sẵn sàng").ToList();
-
-                if (icBaoTri != null)
-                    icBaoTri.ItemsSource = dsSan.Where(s => s.TrangThai == "Bảo trì").ToList();
-
-                if (txtStatusCount != null)
-                {
-                    int total = dsSan.Count;
-                    int available = dsSan.Count(s => s.TrangThai == "Sẵn sàng");
-                    txtStatusCount.Text = $"Trống: {available}/{total}";
-                }
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Lỗi tải dữ liệu: " + ex.Message);
-            }
-
-        // Hàm này sẽ gọi tất cả các hàm con để đổ dữ liệu vào Kanban
+        // 2. Hàm tổng hợp để load tất cả dữ liệu
         private void LoadAllData()
         {
-            LoadAvailableCourts();  // Cột 1
-            LoadActiveCourts();     // Cột 2
-            LoadMaintenanceCourts(); // Cột 3
-            LoadWaitingList();      // Cột 4
+            LoadAvailableCourts();   // Cột 1: Sân trống
+            LoadActiveCourts();      // Cột 2: Đang thi đấu
+            LoadMaintenanceCourts(); // Cột 3: Bảo trì
+            LoadWaitingList();       // Cột 4: Nhật ký đặt sân
         }
 
-        // CỘT 1: Sân trống & Lịch đặt trước
+        // CỘT 1: Sân trống & Cập nhật con số tổng quát
         private void LoadAvailableCourts()
         {
             List<object> availableCourts = new List<object>();
-            int totalCourts = 0; // Biến để đếm tổng số sân
+            int totalCourts = 0;
 
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 try
                 {
                     conn.Open();
-
-                    // 1. Đếm tổng số sân đang có trong bảng SAN
-                    string sqlCount = "SELECT COUNT(*) FROM SAN";
-                    SqlCommand cmdCount = new SqlCommand(sqlCount, conn);
+                    // Đếm tổng số sân
+                    SqlCommand cmdCount = new SqlCommand("SELECT COUNT(*) FROM SAN", conn);
                     totalCourts = (int)cmdCount.ExecuteScalar();
 
-                    // 2. Lấy danh sách sân trống thực sự
+                    // Lấy danh sách sân trống thực sự (không có ai đang nhận sân)
                     string sql = @"SELECT TenSan FROM SAN 
-                           WHERE TrangThai = N'Sẵn sàng' 
-                           AND MaSan NOT IN (
-                               SELECT MaSan FROM CT_DAT_SAN CT 
-                               JOIN DAT_SAN DS ON CT.MaPhieuDat = DS.MaPhieuDat 
-                               WHERE DS.TrangThai = N'Nhận sân'
-                           )";
+                                   WHERE TrangThai = N'Sẵn sàng' 
+                                   AND MaSan NOT IN (
+                                       SELECT MaSan FROM CT_DAT_SAN CT 
+                                       JOIN DAT_SAN DS ON CT.MaPhieuDat = DS.MaPhieuDat 
+                                       WHERE DS.TrangThai = N'Nhận sân'
+                                   )";
                     SqlCommand cmd = new SqlCommand(sql, conn);
                     using (SqlDataReader r = cmd.ExecuteReader())
                     {
@@ -110,16 +110,14 @@ namespace BadmintonManagement.GUI
                         }
                     }
 
-                    icSanSan.ItemsSource = availableCourts;
-
-                    // 3. Cập nhật con số thực tế lên giao diện (Ví dụ: 5/8)
-                    txtStatusCount.Text = $" {availableCourts.Count}/{totalCourts}";
+                    if (icSanSan != null) icSanSan.ItemsSource = availableCourts;
+                    if (txtStatusCount != null) txtStatusCount.Text = $"{availableCourts.Count}/{totalCourts}";
                 }
-                catch (Exception ex) { MessageBox.Show("Lỗi đếm sân: " + ex.Message); }
+                catch (Exception ex) { MessageBox.Show("Lỗi Cột 1: " + ex.Message); }
             }
         }
 
-        // CỘT 2: Đang thi đấu (Lấy thông tin khách và sân)
+        // CỘT 2: Đang thi đấu
         private void LoadActiveCourts()
         {
             List<object> activeList = new List<object>();
@@ -144,17 +142,17 @@ namespace BadmintonManagement.GUI
                                 TenSan = r["TenSan"].ToString(),
                                 TenKhach = r["HoTen"].ToString(),
                                 ThoiGianConLai = "Đang đá",
-                                ProgressValue = 65 // Huy Hoàng có thể tính toán % dựa trên giờ bắt đầu/kết thúc sau này
+                                ProgressValue = 65
                             });
                         }
                     }
-                    icDangSuDung.ItemsSource = activeList;
+                    if (icDangSuDung != null) icDangSuDung.ItemsSource = activeList;
                 }
                 catch (Exception ex) { MessageBox.Show("Lỗi Cột 2: " + ex.Message); }
             }
         }
 
-        // CỘT 3: Thanh toán / Bảo trì
+        // CỘT 3: Bảo trì
         private void LoadMaintenanceCourts()
         {
             List<object> mainList = new List<object>();
@@ -163,8 +161,7 @@ namespace BadmintonManagement.GUI
                 try
                 {
                     conn.Open();
-                    string sql = "SELECT TenSan FROM SAN WHERE TrangThai = N'Bảo trì'";
-                    SqlCommand cmd = new SqlCommand(sql, conn);
+                    SqlCommand cmd = new SqlCommand("SELECT TenSan FROM SAN WHERE TrangThai = N'Bảo trì'", conn);
                     using (SqlDataReader r = cmd.ExecuteReader())
                     {
                         while (r.Read())
@@ -172,13 +169,13 @@ namespace BadmintonManagement.GUI
                             mainList.Add(new { TenSan = r["TenSan"].ToString() });
                         }
                     }
-                    icBaoTri.ItemsSource = mainList;
+                    if (icBaoTri != null) icBaoTri.ItemsSource = mainList;
                 }
                 catch (Exception ex) { MessageBox.Show("Lỗi Cột 3: " + ex.Message); }
             }
         }
 
-        // CỘT 4: Lịch đặt sắp tới
+        // CỘT 4: Nhật ký đặt sân hôm nay
         private void LoadWaitingList()
         {
             List<object> waitingList = new List<object>();
@@ -187,53 +184,41 @@ namespace BadmintonManagement.GUI
                 try
                 {
                     conn.Open();
-                    // Lấy tất cả các ca đặt của ngày hôm nay để làm Nhật ký (Recent Activity)
                     string sql = @"SELECT S.TenSan, K.HoTen, CG.GioBatDau, DS.TrangThai 
-                         FROM CT_DAT_SAN CT
-                         JOIN DAT_SAN DS ON CT.MaPhieuDat = DS.MaPhieuDat
-                         JOIN SAN S ON CT.MaSan = S.MaSan
-                         JOIN KHACH_HANG K ON DS.MaKH = K.MaKH
-                         JOIN CA_GIO CG ON CT.MaCa = CG.MaCa
-                         WHERE CT.NgaySuDung = CAST(GETDATE() AS DATE)
-                         ORDER BY CG.GioBatDau ASC";
-
+                                 FROM CT_DAT_SAN CT
+                                 JOIN DAT_SAN DS ON CT.MaPhieuDat = DS.MaPhieuDat
+                                 JOIN SAN S ON CT.MaSan = S.MaSan
+                                 JOIN KHACH_HANG K ON DS.MaKH = K.MaKH
+                                 JOIN CA_GIO CG ON CT.MaCa = CG.MaCa
+                                 WHERE CT.NgaySuDung = CAST(GETDATE() AS DATE)
+                                 ORDER BY CG.GioBatDau ASC";
                     SqlCommand cmd = new SqlCommand(sql, conn);
                     using (SqlDataReader r = cmd.ExecuteReader())
                     {
                         while (r.Read())
                         {
-                            string trangThai = r["TrangThai"].ToString();
                             waitingList.Add(new
                             {
                                 TenSan = r["TenSan"].ToString(),
-                                // Hiển thị thêm Trạng thái để cột Nhật ký rõ ràng hơn
-                                ThongTinCho = $"{r["HoTen"]} ({r["GioBatDau"]}) - {trangThai}"
+                                ThongTinCho = $"{r["HoTen"]} ({r["GioBatDau"]}) - {r["TrangThai"]}"
                             });
                         }
                     }
-                    icKhachDoi.ItemsSource = waitingList;
+                    if (icKhachDoi != null) icKhachDoi.ItemsSource = waitingList;
                 }
-                catch (Exception ex) { MessageBox.Show("Lỗi Cột Nhật ký: " + ex.Message); }
+                catch (Exception ex) { MessageBox.Show("Lỗi Cột 4: " + ex.Message); }
             }
         }
 
+        // CÁC SỰ KIỆN NÚT BẤM
         private void btnCourt_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Đang chuyển sang màn hình Sơ đồ sân...", "Thông báo");
+            LoadAllData(); // Nhấn vào Sơ đồ sân để làm mới dữ liệu
         }
 
         private void btnNewBooking_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Mở Form đặt lịch cho khách hàng mới", "Hệ thống");        }
-
-        private void btnCourt_Click(object sender, RoutedEventArgs e)
-        {
-            LoadData();
-        }
-
-        private void btnNewBooking_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("Mở form đặt sân mới...");
+            MessageBox.Show("Mở Form đặt sân mới...", "Thông báo");
         }
     }
 }
