@@ -10,23 +10,31 @@ namespace BadmintonManagement.GUI
 {
     public partial class MainWindow : Window
     {
-        // Chuỗi kết nối Database
         string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=QLSCL;Integrated Security=True;TrustServerCertificate=True";
-
         private string loggedInMaKH;
+        private string loggedInVaiTro; // Biến mới
 
-        // Sửa Constructor để nhận mã khách hàng
-        public MainWindow(string maKH)
+        // SỬA CONSTRUCTOR NHẬN THÊM THAM SỐ 'vaiTro'
+        public MainWindow(string maKH, string vaiTro)
         {
             InitializeComponent();
-            this.loggedInMaKH = maKH; // Lưu lại mã để dùng
+            this.loggedInMaKH = maKH;
+            this.loggedInVaiTro = vaiTro; // Gán giá trị
 
             StartClock();
             LoadAllData();
-            ShowUserInfo(); // Hàm mới để hiện tên khách
+            ShowUserInfo();
+
+            // Test nhanh xem có phải Admin không
+            if (vaiTro == "Admin")
+            {
+                MessageBox.Show("Đăng nhập thành công với quyền ADMIN!", "Thông báo");
+                // Bạn có thể thêm logic ẩn/hiện nút ở đây
+            }
         }
 
-        // Hàm lấy tên từ SQL dựa vào MaKH
+        public MainWindow() { InitializeComponent(); }
+
         private void ShowUserInfo()
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -35,25 +43,48 @@ namespace BadmintonManagement.GUI
                 {
                     conn.Open();
                     string sql = "SELECT HoTen FROM KHACH_HANG WHERE MaKH = @ma";
-                    SqlCommand cmd = new SqlCommand(sql, conn);
-                    cmd.Parameters.AddWithValue("@ma", loggedInMaKH);
-
-                    object result = cmd.ExecuteScalar();
-                    if (result != null)
+                    // Nếu là Admin (MaKH null), có thể cần query bảng NHAN_VIEN, tạm thời giữ nguyên
+                    if (loggedInMaKH != null)
                     {
-                        // txtUserDisplayName là cái TextBlock ở góc dưới sidebar
-                        txtUserDisplayName.Text = result.ToString();
+                        SqlCommand cmd = new SqlCommand(sql, conn);
+                        cmd.Parameters.AddWithValue("@ma", loggedInMaKH);
+                        object result = cmd.ExecuteScalar();
+                        if (result != null && txtUserDisplayName != null)
+                        {
+                            txtUserDisplayName.Text = result.ToString();
+                        }
+                    }
+                    else if (txtUserDisplayName != null)
+                    {
+                        txtUserDisplayName.Text = "Admin";
                     }
                 }
-                catch { /* Xử lý lỗi nếu cần */ }
+                catch { }
             }
         }
 
-        public MainWindow()
+        private void ApplyPermissions()
         {
-            InitializeComponent();
-            StartClock();     // Chạy đồng hồ hệ thống
-            LoadAllData();    // Đổ dữ liệu vào 4 cột Kanban
+            // Giả sử bạn có các nút Menu tên là: btnDatSan, btnDichVu, btnKhachHang
+
+            // Nếu là Khách Hàng (KhachHang)
+            if (loggedInVaiTro == "KhachHang")
+            {
+                // Chỉ cho phép xem Dashboard và Đặt sân
+                // btnDatSan.IsEnabled = true; 
+                // btnDichVu.IsEnabled = false; // Vô hiệu hóa hoặc ẩn
+                // btnKhachHang.Visibility = Visibility.Collapsed; // Ẩn hoàn toàn
+            }
+            // Nếu là Admin hoặc Nhân viên
+            else if (loggedInVaiTro == "Admin" || loggedInVaiTro == "NhanVien")
+            {
+                // Cho phép truy cập tất cả
+                // btnDatSan.IsEnabled = true;
+                // btnDichVu.IsEnabled = true;
+                // btnKhachHang.Visibility = Visibility.Visible;
+
+                // Đổi màu sidebar hoặc thông báo đặc biệt nếu muốn
+            }
         }
 
         // 1. Đồng hồ hiển thị trên Dashboard
