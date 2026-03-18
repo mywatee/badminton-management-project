@@ -1,38 +1,54 @@
-﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Collections.Generic;
-using System.Data;
+﻿using System;
+using System.Linq;
 using System.Windows;
+using System.Collections.Generic;
 using System.Windows.Threading;
+using Microsoft.Data.SqlClient;
+using System.Data;
 
 namespace BadmintonManagement.GUI
 {
-    public partial class MainWindow : Window
+    public partial class AdminDashboard : Window
     {
         string connectionString = @"Data Source=.\SQLEXPRESS;Initial Catalog=QLSCL;Integrated Security=True;TrustServerCertificate=True";
         private string loggedInMaKH;
-        private string loggedInVaiTro; // Biến lưu vai trò
+        private string loggedInVaiTro; // Biến mới
 
-        // CONSTRUCTOR NHẬN CẢ MAKH VÀ VAITRO
-        public MainWindow(string maKH, string vaiTro)
+        // SỬA CONSTRUCTOR NHẬN THÊM THAM SỐ 'vaiTro'
+        public AdminDashboard(string maKH, string vaiTro)
         {
             InitializeComponent();
             this.loggedInMaKH = maKH;
-            this.loggedInVaiTro = vaiTro;
+            this.loggedInVaiTro = vaiTro; // Gán giá trị
 
             StartClock();
             LoadAllData();
             ShowUserInfo();
-            ApplyPermissions(); // Áp dụng phân quyền giao diện
+
+            // Test nhanh xem có phải Admin không
+            if (vaiTro == "Admin")
+            {
+                MessageBox.Show("Đăng nhập thành công với quyền ADMIN!", "Thông báo");
+                // Bạn có thể thêm logic ẩn/hiện nút ở đây
+            }
         }
 
-        // Constructor mặc định (dùng cho Designer hoặc trường hợp khác)
-        public MainWindow()
+        public AdminDashboard() { InitializeComponent(); }
+        private void btnNewBooking_Click(object sender, RoutedEventArgs e)
         {
-            InitializeComponent();
-        }
+            // Mở form đặt sân
+            BookingWindow booking = new BookingWindow();
 
-        // Hàm hiển thị thông tin user và vai trò
+            // Nếu đặt thành công (DialogResult == true)
+            if (booking.ShowDialog() == true)
+            {
+                // Làm mới lại dữ liệu trên Dashboard để cập nhật số lượng sân trống
+                LoadAllData();
+
+                // Optional: Hiện thông báo nhỏ
+                // ShowAlert("Đã cập nhật danh sách sân", false);
+            }
+        }
         private void ShowUserInfo()
         {
             using (SqlConnection conn = new SqlConnection(connectionString))
@@ -40,118 +56,95 @@ namespace BadmintonManagement.GUI
                 try
                 {
                     conn.Open();
-                    string hoTen = "";
-
-                    // Nếu là Admin/NhanVien (MaKH có thể null), lấy tên từ bảng NHAN_VIEN
-                    if (loggedInVaiTro == "Admin" || loggedInVaiTro == "NhanVien")
+                    string sql = "SELECT HoTen FROM KHACH_HANG WHERE MaKH = @ma";
+                    // Nếu là Admin (MaKH null), có thể cần query bảng NHAN_VIEN, tạm thời giữ nguyên
+                    if (loggedInMaKH != null)
                     {
-                        // Lấy MaNV từ tài khoản hiện tại
-                        string sqlGetMaNV = "SELECT MaNV FROM TAI_KHOAN WHERE VaiTro = @vaiTro AND TrangThai = 1";
-                        // Lưu ý: Câu truy vấn trên chưa chính xác nếu có nhiều NV, cần sửa lại logic lấy MaNV cụ thể
-                        // Cách đơn giản nhất cho đồ án: Giả sử Admin đăng nhập thì hiện tên "Quản trị viên"
-                        hoTen = "Quản Trị Viên";
-
-                        // Nếu muốn chính xác hơn, bạn cần truyền MaNV từ lúc đăng nhập, hoặc query lại:
-                        // string sql = "SELECT HoTen FROM NHAN_VIEN WHERE MaNV = (SELECT MaNV FROM TAI_KHOAN WHERE TenDangNhap = ...)";
-                    }
-                    else if (!string.IsNullOrEmpty(loggedInMaKH))
-                    {
-                        // Là Khách hàng, lấy từ KHACH_HANG
-                        string sql = "SELECT HoTen FROM KHACH_HANG WHERE MaKH = @ma";
                         SqlCommand cmd = new SqlCommand(sql, conn);
                         cmd.Parameters.AddWithValue("@ma", loggedInMaKH);
                         object result = cmd.ExecuteScalar();
-                        if (result != null) hoTen = result.ToString();
+                        if (result != null && txtUserDisplayName != null)
+                        {
+                            txtUserDisplayName.Text = result.ToString();
+                        }
                     }
-
-                    if (txtUserDisplayName != null) txtUserDisplayName.Text = hoTen;
-
-                    // Hiển thị vai trò
-                    if (txtUserRole != null)
+                    else if (txtUserDisplayName != null)
                     {
-                        if (loggedInVaiTro == "Admin") txtUserRole.Text = "Quản trị viên";
-                        else if (loggedInVaiTro == "NhanVien") txtUserRole.Text = "Nhân viên";
-                        else txtUserRole.Text = "Khách hàng";
+                        txtUserDisplayName.Text = "Admin";
                     }
                 }
                 catch { }
             }
         }
 
-        // Hàm phân quyền (Ẩn/Hiện nút)
         private void ApplyPermissions()
         {
+            // Giả sử bạn có các nút Menu tên là: btnDatSan, btnDichVu, btnKhachHang
+
+            // Nếu là Khách Hàng (KhachHang)
             if (loggedInVaiTro == "KhachHang")
             {
-                // Khách hàng không được xem báo cáo chi tiết hoặc quản lý nhân viên (nếu có)
-                // Ví dụ: btnBaoCao.Visibility = Visibility.Collapsed;
+                // Chỉ cho phép xem Dashboard và Đặt sân
+                // btnDatSan.IsEnabled = true; 
+                // btnDichVu.IsEnabled = false; // Vô hiệu hóa hoặc ẩn
+                // btnKhachHang.Visibility = Visibility.Collapsed; // Ẩn hoàn toàn
             }
-            else if (loggedInVaiTro == "Admin")
+            // Nếu là Admin hoặc Nhân viên
+            else if (loggedInVaiTro == "Admin" || loggedInVaiTro == "NhanVien")
             {
-                // Admin thấy tất cả
-                this.Title = "Badminton Management - ADMIN DASHBOARD";
+                // Cho phép truy cập tất cả
+                // btnDatSan.IsEnabled = true;
+                // btnDichVu.IsEnabled = true;
+                // btnKhachHang.Visibility = Visibility.Visible;
+
+                // Đổi màu sidebar hoặc thông báo đặc biệt nếu muốn
             }
         }
 
-        // Sự kiện nút "Bảng điều khiển" (Làm mới dữ liệu)
-        private void btnCourt_Click(object sender, RoutedEventArgs e)
-        {
-            LoadAllData();
-        }
-
-        // SỰ KIỆN NÚT "ĐẶT SÂN" (MỚI THÊM)
-        private void btnNewBooking_Click(object sender, RoutedEventArgs e)
-        {
-            // Mở form đặt sân
-            var bookingWindow = new BookingWindow();
-
-            // Nếu đặt thành công (DialogResult == true)
-            if (bookingWindow.ShowDialog() == true)
-            {
-                // Làm mới lại dữ liệu Dashboard
-                LoadAllData();
-                MessageBox.Show("Đã cập nhật danh sách sân!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
-            }
-        }
-
+        // 1. Đồng hồ hiển thị trên Dashboard
         private void StartClock()
         {
             DispatcherTimer timer = new DispatcherTimer();
             timer.Interval = TimeSpan.FromSeconds(1);
             timer.Tick += (s, e) =>
             {
-                if (txtBigTime != null) txtBigTime.Text = DateTime.Now.ToString("HH:mm");
-                if (txtDate != null) txtDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
+                txtBigTime.Text = DateTime.Now.ToString("HH:mm");
+                txtDate.Text = DateTime.Now.ToString("dd/MM/yyyy");
             };
             timer.Start();
         }
 
+        // 2. Hàm tổng hợp để load tất cả dữ liệu
         private void LoadAllData()
         {
-            LoadAvailableCourts();
-            LoadActiveCourts();
-            LoadMaintenanceCourts();
-            LoadWaitingList();
+            LoadAvailableCourts();   // Cột 1: Sân trống
+            LoadActiveCourts();      // Cột 2: Đang thi đấu
+            LoadMaintenanceCourts(); // Cột 3: Bảo trì
+            LoadWaitingList();       // Cột 4: Nhật ký đặt sân
         }
 
+        // CỘT 1: Sân trống & Cập nhật con số tổng quát
         private void LoadAvailableCourts()
         {
             List<object> availableCourts = new List<object>();
             int totalCourts = 0;
+
             using (SqlConnection conn = new SqlConnection(connectionString))
             {
                 try
                 {
                     conn.Open();
+                    // Đếm tổng số sân
                     SqlCommand cmdCount = new SqlCommand("SELECT COUNT(*) FROM SAN", conn);
                     totalCourts = (int)cmdCount.ExecuteScalar();
 
+                    // Lấy danh sách sân trống thực sự (không có ai đang nhận sân)
                     string sql = @"SELECT TenSan FROM SAN 
                                    WHERE TrangThai = N'Sẵn sàng' 
                                    AND MaSan NOT IN (
                                        SELECT MaSan FROM CT_DAT_SAN CT 
                                        JOIN DAT_SAN DS ON CT.MaPhieuDat = DS.MaPhieuDat 
-                                       WHERE DS.TrangThai = N'Nhận sân' OR DS.TrangThai = N'Chờ'
+                                       WHERE DS.TrangThai = N'Nhận sân'
                                    )";
                     SqlCommand cmd = new SqlCommand(sql, conn);
                     using (SqlDataReader r = cmd.ExecuteReader())
@@ -161,13 +154,15 @@ namespace BadmintonManagement.GUI
                             availableCourts.Add(new { TenSan = r["TenSan"].ToString() });
                         }
                     }
+
                     if (icSanSan != null) icSanSan.ItemsSource = availableCourts;
                     if (txtStatusCount != null) txtStatusCount.Text = $"{availableCourts.Count}/{totalCourts}";
                 }
-                catch (Exception ex) { MessageBox.Show("Lỗi tải sân trống: " + ex.Message); }
+                catch (Exception ex) { MessageBox.Show("Lỗi Cột 1: " + ex.Message); }
             }
         }
 
+        // CỘT 2: Đang thi đấu
         private void LoadActiveCourts()
         {
             List<object> activeList = new List<object>();
@@ -191,16 +186,18 @@ namespace BadmintonManagement.GUI
                             {
                                 TenSan = r["TenSan"].ToString(),
                                 TenKhach = r["HoTen"].ToString(),
-                                ProgressValue = 65 // Giả lập tiến độ
+                                ThoiGianConLai = "Đang đá",
+                                ProgressValue = 65
                             });
                         }
                     }
                     if (icDangSuDung != null) icDangSuDung.ItemsSource = activeList;
                 }
-                catch (Exception ex) { MessageBox.Show("Lỗi tải sân đang đấu: " + ex.Message); }
+                catch (Exception ex) { MessageBox.Show("Lỗi Cột 2: " + ex.Message); }
             }
         }
 
+        // CỘT 3: Bảo trì
         private void LoadMaintenanceCourts()
         {
             List<object> mainList = new List<object>();
@@ -219,10 +216,11 @@ namespace BadmintonManagement.GUI
                     }
                     if (icBaoTri != null) icBaoTri.ItemsSource = mainList;
                 }
-                catch (Exception ex) { MessageBox.Show("Lỗi tải sân bảo trì: " + ex.Message); }
+                catch (Exception ex) { MessageBox.Show("Lỗi Cột 3: " + ex.Message); }
             }
         }
 
+        // CỘT 4: Nhật ký đặt sân hôm nay
         private void LoadWaitingList()
         {
             List<object> waitingList = new List<object>();
@@ -231,14 +229,14 @@ namespace BadmintonManagement.GUI
                 try
                 {
                     conn.Open();
-                    string sql = @"SELECT TOP 10 S.TenSan, K.HoTen, CG.GioBatDau, DS.TrangThai 
+                    string sql = @"SELECT S.TenSan, K.HoTen, CG.GioBatDau, DS.TrangThai 
                                  FROM CT_DAT_SAN CT
                                  JOIN DAT_SAN DS ON CT.MaPhieuDat = DS.MaPhieuDat
                                  JOIN SAN S ON CT.MaSan = S.MaSan
                                  JOIN KHACH_HANG K ON DS.MaKH = K.MaKH
                                  JOIN CA_GIO CG ON CT.MaCa = CG.MaCa
-                                 WHERE CT.NgaySuDung >= CAST(GETDATE() AS DATE)
-                                 ORDER BY CT.NgaySuDung ASC, CG.GioBatDau ASC";
+                                 WHERE CT.NgaySuDung = CAST(GETDATE() AS DATE)
+                                 ORDER BY CG.GioBatDau ASC";
                     SqlCommand cmd = new SqlCommand(sql, conn);
                     using (SqlDataReader r = cmd.ExecuteReader())
                     {
@@ -253,8 +251,14 @@ namespace BadmintonManagement.GUI
                     }
                     if (icKhachDoi != null) icKhachDoi.ItemsSource = waitingList;
                 }
-                catch (Exception ex) { MessageBox.Show("Lỗi tải lịch trong ngày: " + ex.Message); }
+                catch (Exception ex) { MessageBox.Show("Lỗi Cột 4: " + ex.Message); }
             }
+        }
+
+        // CÁC SỰ KIỆN NÚT BẤM
+        private void btnCourt_Click(object sender, RoutedEventArgs e)
+        {
+            LoadAllData(); // Nhấn vào Sơ đồ sân để làm mới dữ liệu
         }
     }
 }

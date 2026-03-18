@@ -1,4 +1,4 @@
-﻿<Window x:Class="BadmintonManagement.GUI.MainWindow"
+﻿<Window x:Class="BadmintonManagement.GUI.AdminDashboard"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
@@ -31,7 +31,7 @@
                 <!-- Menu Items -->
                 <StackPanel Grid.Row="1" Margin="20,20,20,0">
                     <Button Content="📊 Bảng điều khiển" Style="{StaticResource MenuButtonActive}" Click="btnCourt_Click"/>
-                    <Button x:Name="btnDatSan" Content="📅 Đặt sân" Style="{StaticResource MenuButton}" Margin="0,10,0,0" Click="btnNewBooking_Click"/>
+                    <Button Content="📅 Đặt sân" Style="{StaticResource MenuButton}" Margin="0,10,0,0"/>
                     <Button Content="💁 Dịch vụ" Style="{StaticResource MenuButton}" Margin="0,10,0,0"/>
                     <Button Content="👥 Khách hàng" Style="{StaticResource MenuButton}" Margin="0,10,0,0"/>
                 </StackPanel>

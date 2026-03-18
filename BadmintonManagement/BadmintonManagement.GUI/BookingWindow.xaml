@@ -1,0 +1,123 @@
+﻿<Window x:Class="BadmintonManagement.GUI.BookingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:sys="clr-namespace:System;assembly=mscorlib"
+        Title="Đặt Sân Mới" Height="550" Width="450"
+        WindowStartupLocation="CenterOwner"
+        Background="#f1f5f9"
+        FontFamily="Segoe UI"
+        ResizeMode="NoResize">
+
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,20">
+            <TextBlock Text="🏸 Đặt Sân Mới" FontSize="24" FontWeight="Bold" Foreground="#0f172a"/>
+            <TextBlock Text="Điền thông tin để tạo phiếu đặt sân" Foreground="#64748b" FontSize="13"/>
+        </StackPanel>
+
+        <!-- Form Inputs -->
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+
+                <!-- Chọn Khách Hàng -->
+                <TextBlock Text="Khách hàng" FontWeight="Bold" Foreground="#334155" Margin="0,0,0,5"/>
+                <ComboBox x:Name="cbKhachHang" Height="40" Margin="0,0,0,15" 
+                          BorderBrush="#cbd5e1" BorderThickness="1">
+                    <!-- Hiển thị Họ Tên, lưu giá trị MaKH -->
+                    <ComboBox.DisplayMemberPath>HọTen</ComboBox.DisplayMemberPath>
+                    <ComboBox.SelectedValuePath>MaKH</ComboBox.SelectedValuePath>
+                </ComboBox>
+
+                <!-- Chọn Ngày -->
+                <TextBlock Text="Ngày sử dụng" FontWeight="Bold" Foreground="#334155" Margin="0,0,0,5"/>
+                <DatePicker x:Name="dpNgaySuDung" Height="40" Margin="0,0,0,15" 
+                            SelectedDate="{x:Static sys:DateTime.Today}"
+                            BorderBrush="#cbd5e1" BorderThickness="1"/>
+
+                <!-- Chọn Sân -->
+                <TextBlock Text="Chọn Sân" FontWeight="Bold" Foreground="#334155" Margin="0,0,0,5"/>
+                <ComboBox x:Name="cbSan" Height="40" Margin="0,0,0,15" 
+                          BorderBrush="#cbd5e1" BorderThickness="1">
+                    <ComboBox.DisplayMemberPath>TenSan</ComboBox.DisplayMemberPath>
+                    <ComboBox.SelectedValuePath>MaSan</ComboBox.SelectedValuePath>
+                </ComboBox>
+
+                <!-- Chọn Ca Giờ -->
+                <TextBlock Text="Ca giờ" FontWeight="Bold" Foreground="#334155" Margin="0,0,0,5"/>
+                <ComboBox x:Name="cbCaGio" Height="40" Margin="0,0,0,15" 
+                          BorderBrush="#cbd5e1" BorderThickness="1">
+                    <ComboBox.DisplayMemberPath>TenCa</ComboBox.DisplayMemberPath>
+                    <ComboBox.SelectedValuePath>MaCa</ComboBox.SelectedValuePath>
+                </ComboBox>
+
+                <!-- Hiển thị giá tạm tính -->
+                <Border Background="#e0f2fe" CornerRadius="8" Padding="10" Margin="0,0,0,15">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                        <TextBlock Text="Tổng tiền dự kiến: " FontWeight="Bold" Foreground="#0369a1"/>
+                        <TextBlock x:Name="txtTongTien" Text="0 đ" FontWeight="Bold" FontSize="16" Foreground="#0284c7"/>
+                    </StackPanel>
+                </Border>
+
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Buttons -->
+        <Grid Grid.Row="2" Margin="0,20,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <!-- Nút Hủy -->
+            <Button Content="Hủy" Grid.Column="0" Height="45" 
+                    Background="#ffffff" Foreground="#64748b" FontWeight="Bold"
+                    BorderBrush="#cbd5e1" BorderThickness="1"
+                    Click="btnHuy_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+
+            <!-- Nút Xác nhận đặt -->
+            <Button Content="Xác nhận đặt" Grid.Column="2" Height="45" 
+                    Background="#10b981" Foreground="White" FontWeight="Bold"
+                    BorderThickness="0"
+                    Click="btnDatSan_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}" 
+                                BorderBrush="{TemplateBinding BorderBrush}" 
+                                BorderThickness="{TemplateBinding BorderThickness}" 
+                                CornerRadius="8">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </ControlTemplate>
+                </Button.Template>
+                <Button.Style>
+                    <Style TargetType="Button">
+                        <Setter Property="Cursor" Value="Hand"/>
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Background" Value="#059669"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Button.Style>
+            </Button>
+        </Grid>
+    </Grid>
+</Window>

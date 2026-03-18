@@ -12,6 +12,7 @@ namespace BadmintonManagement.GUI
             InitializeComponent();
         }
 
+        // Trong LoginWindow.xaml.cs
         private void btnLogin_Click(object sender, RoutedEventArgs e)
         {
             string user = txtUsername.Text.Trim();
@@ -19,7 +20,7 @@ namespace BadmintonManagement.GUI
 
             if (string.IsNullOrEmpty(user) || string.IsNullOrEmpty(pass))
             {
-                ShowAlert("Vui lòng nhập đầy đủ tài khoản và mật khẩu!");
+                ShowAlert("Vui lòng nhập đầy đủ!");
                 return;
             }
 
@@ -28,12 +29,25 @@ namespace BadmintonManagement.GUI
                 TaiKhoanBUS bus = new TaiKhoanBUS();
                 var result = bus.KiemTraDangNhap(user, pass);
 
-                if (!string.IsNullOrEmpty(result.maKH))
+                if (!string.IsNullOrEmpty(result.vaiTro)) // Kiểm tra vai trò thay vì chỉ maKH
                 {
-                    // SỬA Ở ĐÂY: Truyền cả result.vaiTro vào constructor
-                    MainWindow main = new MainWindow(result.maKH, result.vaiTro);
-                    main.Show();
-                    this.Close();
+                    if (result.vaiTro == "Admin")
+                    {
+                        // Mở giao diện Admin (Có thể vẫn là MainWindow nhưng truyền thêm vai trò)
+                        // Hoặc tạo mới AdminDashboard nếu bạn muốn tách biệt hoàn toàn
+                        MainWindow main = new MainWindow(result.maKH, result.vaiTro);
+                        main.Show();
+                        this.Close();
+                    }
+                    else if (result.vaiTro == "KhachHang")
+                    {
+                        MessageBox.Show("Chào khách hàng! Giao diện dành riêng đang cập nhật.", "Thông báo");
+                        // Có thể mở CustomerPortal ở đây
+                    }
+                    else
+                    {
+                        ShowAlert("Tài khoản chưa được phân quyền hoặc mật khẩu sai.");
+                    }
                 }
                 else
                 {
@@ -42,7 +56,7 @@ namespace BadmintonManagement.GUI
             }
             catch (Exception ex)
             {
-                ShowAlert("Lỗi hệ thống: " + ex.Message);
+                ShowAlert("Lỗi: " + ex.Message);
             }
         }
 

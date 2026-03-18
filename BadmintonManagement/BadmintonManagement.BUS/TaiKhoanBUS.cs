@@ -9,7 +9,7 @@ namespace BadmintonManagement.BUS
 
         public string DangKyMoi(string hoTen, string sdt, string email, string user, string pass)
         {
-            // Sửa lỗi biến em ail -> email
+            // Đã sửa lỗi biến 'em ail' thành 'email'
             var check = _tkDAL.CheckExist(user, sdt, email);
 
             if (check.userCount > 0) return "Tên đăng nhập đã tồn tại!";
@@ -36,7 +36,7 @@ namespace BadmintonManagement.BUS
 
             if (saltObj is Guid userSalt)
             {
-                // Sửa lỗi has hedInput -> hashedInput
+                // Đã sửa lỗi 'has hedInput' thành 'hashedInput'
                 byte[] hashedInput = SecurityHelper.HashPasswordWithSalt(pass, userSalt);
                 return _tkDAL.CheckLogin(user, hashedInput);
             }
