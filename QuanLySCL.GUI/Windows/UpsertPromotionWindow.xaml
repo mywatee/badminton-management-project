@@ -1,0 +1,55 @@
+<Window x:Class="QuanLySCL.GUI.Windows.UpsertPromotionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Cập nhật Khuyến mãi" Height="620" Width="450" WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize" Background="White">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock x:Name="txtTitle" Text="THÊM KHUYẾN MÃI" FontSize="20" FontWeight="Bold" Foreground="#0F172A" Margin="0,0,0,24"/>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel Margin="0,0,0,16">
+                <!-- Mã KM -->
+                <TextBox x:Name="txtMaKM" materialDesign:HintAssist.Hint="Mã khuyến mãi (VD: SALE50)" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,16" FontSize="14" CharacterCasing="Upper"/>
+
+                <!-- Tên Chương trình -->
+                <TextBox x:Name="txtTenKM" materialDesign:HintAssist.Hint="Tên chương trình" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,16" FontSize="14"/>
+
+                <!-- Loại Giảm -->
+                <ComboBox x:Name="cmbKieu" materialDesign:HintAssist.Hint="Loại giảm giá" Style="{StaticResource MaterialDesignFloatingHintComboBox}" Margin="0,0,0,16" FontSize="14">
+                    <ComboBoxItem Content="AMOUNT" Tag="AMOUNT"/>
+                    <ComboBoxItem Content="PERCENT" Tag="PERCENT"/>
+                </ComboBox>
+
+                <!-- Mức Giảm -->
+                <TextBox x:Name="txtGiaTri" materialDesign:HintAssist.Hint="Giá trị giảm (Số tiền hoặc %)" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,16" FontSize="14"/>
+
+                <!-- Đơn tối thiểu -->
+                <TextBox x:Name="txtDonToiThieu" materialDesign:HintAssist.Hint="Đơn tối thiểu áp dụng (Không bắt buộc)" Style="{StaticResource MaterialDesignFloatingHintTextBox}" Margin="0,0,0,16" FontSize="14"/>
+
+                <!-- Ngày BD -->
+                <DatePicker x:Name="dpNgayBD" materialDesign:HintAssist.Hint="Ngày bắt đầu (Không bắt buộc)" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="0,0,0,16" FontSize="14"/>
+
+                <!-- Ngày KT -->
+                <DatePicker x:Name="dpNgayKT" materialDesign:HintAssist.Hint="Ngày kết thúc (Không bắt buộc)" Style="{StaticResource MaterialDesignFloatingHintDatePicker}" Margin="0,0,0,16" FontSize="14"/>
+
+                <!-- Trạng thái -->
+                <CheckBox x:Name="chkTrangThai" Content="Đang hoạt động" IsChecked="True" Margin="0,8,0,0"/>
+
+                <TextBlock x:Name="txtError" Foreground="#EF4444" Margin="0,16,0,0" TextWrapping="Wrap" Visibility="Collapsed"/>
+            </StackPanel>
+        </ScrollViewer>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+            <Button Content="HỦY BỎ" Click="BtnCancel_Click" Style="{StaticResource MaterialDesignOutlinedButton}" Margin="0,0,12,0" Width="100"/>
+            <Button Content="LƯU" Click="BtnSave_Click" Style="{StaticResource MaterialDesignRaisedButton}" Background="#4F46E5" BorderBrush="#4F46E5" Width="100"/>
+        </StackPanel>
+    </Grid>
+</Window>

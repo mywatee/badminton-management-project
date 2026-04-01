@@ -1,0 +1,499 @@
+<Page x:Class="QuanLySCL.GUI.Views.ServicesView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:converters="clr-namespace:QuanLySCL.GUI.Converters"
+
+      Title="Dịch vụ">
+
+    <Page.Resources>
+        <!-- Modern Colors -->
+        <Color x:Key="PrimaryColor">#4F46E5</Color>
+        <Color x:Key="SuccessColor">#10B981</Color>
+        <Color x:Key="WarningColor">#F59E0B</Color>
+
+        <Style x:Key="PosCard" TargetType="{x:Type Border}" BasedOn="{StaticResource Card}">
+            <Setter Property="Margin" Value="0,0,16,16"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="BorderBrush" Value="#F1F5F9"/>
+            <Setter Property="Width" Value="210"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="BorderBrush" Value="#4F46E5"/>
+                    <Setter Property="Background" Value="#F8FAFC"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="CategoryBadge" TargetType="{x:Type Border}">
+            <Setter Property="CornerRadius" Value="6"/>
+            <Setter Property="Padding" Value="8,2"/>
+            <Setter Property="HorizontalAlignment" Value="Left"/>
+            <Setter Property="Background" Value="#F1F5F9"/>
+        </Style>
+
+        <!-- Converters -->
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        <converters:NumericToVisibilityConverter x:Key="NumericToVisibilityConverter"/>
+        <converters:NullToBooleanConverter x:Key="NullToBooleanConverter"/>
+        <converters:StringToBoolConverter x:Key="StringToBoolConverter"/>
+    </Page.Resources>
+
+
+    <Grid Background="#F8FAFC">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header Area -->
+        <Border Grid.Row="0" Background="White" Padding="40,24,40,24" BorderBrush="#E2E8F0" BorderThickness="0,0,0,1">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel>
+                    <TextBlock Text="Trạm bán hàng POS" FontSize="32" FontWeight="Bold" Foreground="#0F172A"/>
+                    <TextBlock Text="Cung cấp dịch vụ nhanh chóng và ghi nợ trực tiếp vào sân." FontSize="14" Foreground="#64748B" Margin="0,4,0,0"/>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                    <Border Background="#F1F5F9" CornerRadius="20" Padding="4" Margin="0,0,20,0">
+                        <StackPanel Orientation="Horizontal">
+                            <RadioButton Style="{StaticResource MaterialDesignTabRadioButton}"
+                                         Content="Bán lẻ" IsChecked="{Binding IsAddToBookingMode, Converter={StaticResource InverseBooleanConverter}}"
+                                         Padding="16,8" MinWidth="100"/>
+                            <RadioButton Style="{StaticResource MaterialDesignTabRadioButton}"
+                                         Content="Ghi nợ vào sân" IsChecked="{Binding IsAddToBookingMode}"
+                                         Padding="16,8" MinWidth="120"/>
+                        </StackPanel>
+                    </Border>
+                    <Button Style="{StaticResource MaterialDesignOutlinedButton}" Content="Lịch sử" Command="{Binding ReloadSalesCommand}" Margin="0,0,8,0"/>
+                </StackPanel>
+            </Grid>
+        </Border>
+
+        <TabControl Grid.Row="1" Style="{StaticResource MaterialDesignTabControl}" materialDesign:ColorZoneAssist.Mode="Standard">
+            <TabItem Header="BÁN HÀNG">
+                <Grid Margin="40,24,40,40">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="380"/>
+                    </Grid.ColumnDefinitions>
+
+                    <!-- Left: Product List -->
+                    <Grid Grid.Column="0" Margin="0,0,24,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+
+                        <!-- Search & Filter -->
+                        <Grid Margin="0,0,0,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="200"/>
+                            </Grid.ColumnDefinitions>
+
+                            <Border Background="White" CornerRadius="12" BorderBrush="#E2E8F0" BorderThickness="1" Padding="12,0">
+                                <Grid>
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*"/>
+                                    </Grid.ColumnDefinitions>
+                                    <materialDesign:PackIcon Kind="Search" Foreground="#94A3B8" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                                    <TextBox Grid.Column="1" Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}" 
+                                             BorderThickness="0" materialDesign:TextFieldAssist.DecorationVisibility="Collapsed" 
+                                             Height="44" VerticalContentAlignment="Center"
+                                             materialDesign:HintAssist.Hint="Tìm tên dịch vụ, đồ uống..."/>
+                                </Grid>
+                            </Border>
+
+                            <ComboBox Grid.Column="1" Margin="16,0,0,0" 
+                                      ItemsSource="{Binding CategoryOptions}" SelectedItem="{Binding SelectedCategory}" 
+                                      Height="46" materialDesign:HintAssist.Hint="Loại"
+                                      Style="{StaticResource MaterialDesignOutlinedComboBox}"/>
+                        </Grid>
+
+                        <!-- Service Grid -->
+                        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                            <ItemsControl ItemsSource="{Binding Services}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Style="{StaticResource PosCard}" Padding="16">
+                                            <Grid>
+                                                <Grid.RowDefinitions>
+                                                    <RowDefinition Height="Auto"/>
+                                                    <RowDefinition Height="*"/>
+                                                    <RowDefinition Height="Auto"/>
+                                                </Grid.RowDefinitions>
+
+                                                <!-- Icon & Category -->
+                                                <StackPanel>
+                                                    <Grid>
+                                                        <Border Width="48" Height="48" Background="#EEF2FF" CornerRadius="12" HorizontalAlignment="Left">
+                                                            <materialDesign:PackIcon Kind="PackageVariant" Width="24" Height="24" Foreground="#4F46E5" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                        </Border>
+                                                        <Border CornerRadius="12" Padding="8,4" HorizontalAlignment="Right" VerticalAlignment="Top">
+                                                            <Border.Style>
+                                                                <Style TargetType="Border">
+                                                                    <Setter Property="Background" Value="#DCFCE7"/>
+                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding Category}" Value="Equipment">
+                                                                            <Setter Property="Visibility" Value="Collapsed"/> <!-- Equipment doesn't show stock -->
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding IsOutOfStock}" Value="True">
+                                                                            <Setter Property="Background" Value="#FEE2E2"/>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding IsLowStock}" Value="True">
+                                                                            <Setter Property="Background" Value="#FEF3C7"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Border.Style>
+                                                            <TextBlock FontSize="10" FontWeight="Bold">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock">
+                                                                        <Setter Property="Text" Value="{Binding Stock, StringFormat='Tồn: {0}'}"/>
+                                                                        <Setter Property="Foreground" Value="#166534"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding IsOutOfStock}" Value="True">
+                                                                                <Setter Property="Text" Value="Hết hàng"/>
+                                                                                <Setter Property="Foreground" Value="#B91C1C"/>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding IsLowStock}" Value="True">
+                                                                                <Setter Property="Text" Value="{Binding Stock, StringFormat='Sắp hết: {0}'}"/>
+                                                                                <Setter Property="Foreground" Value="#B45309"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                        </Border>
+                                                    </Grid>
+                                                    
+                                                    <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="16" Foreground="#1E293B" Margin="0,16,0,4" TextWrapping="Wrap" Height="44"/>
+                                                    <Border Style="{StaticResource CategoryBadge}">
+                                                        <TextBlock Text="{Binding Category}" FontSize="11" FontWeight="SemiBold" Foreground="#64748B"/>
+                                                    </Border>
+                                                </StackPanel>
+
+                                                <!-- Footer: Price & Add -->
+                                                <Grid Grid.Row="2" Margin="0,16,0,0">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+
+                                                    <StackPanel VerticalAlignment="Center">
+                                                        <TextBlock Text="{Binding Price, StringFormat=N0}" FontSize="18" FontWeight="ExtraBold" Foreground="#10B981"/>
+                                                        <TextBlock Text="{Binding Unit}" FontSize="11" Foreground="#94A3B8"/>
+                                                    </StackPanel>
+
+                                                    <Button Grid.Column="1" Style="{StaticResource MaterialDesignFloatingActionMiniSecondaryButton}"
+                                                            Width="40" Height="40" Background="#4F46E5" BorderBrush="#4F46E5"
+                                                            IsEnabled="{Binding IsOutOfStock, Converter={StaticResource InverseBooleanConverter}}"
+                                                            Command="{Binding DataContext.AddToCartCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}">
+                                                        <materialDesign:PackIcon Kind="Plus" Foreground="White" Width="20" Height="20"/>
+                                                    </Button>
+                                                </Grid>
+                                            </Grid>
+                                        </Border>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                    </Grid>
+
+                    <!-- Right: Cart & Checkout -->
+                    <Border Grid.Column="1" Background="White" CornerRadius="16" BorderBrush="#E2E8F0" BorderThickness="1" Padding="24">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+
+                            <StackPanel Margin="0,0,0,12">
+                                <StackPanel Orientation="Horizontal" Margin="0,0,0,4">
+                                    <materialDesign:PackIcon Kind="ShoppingBasket" Width="20" Height="20" Foreground="#4F46E5" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                    <TextBlock Text="ĐƠN HÀNG" FontSize="14" FontWeight="ExtraBold" Foreground="#1E293B" VerticalAlignment="Center"/>
+                                </StackPanel>
+                                <Border Height="1" Background="#E2E8F0"/>
+                            </StackPanel>
+
+                            <!-- Add to Booking Selection -->
+                            <Grid Grid.Row="1" Margin="0,0,0,12" Visibility="{Binding IsAddToBookingMode, Converter={StaticResource BooleanToVisibilityConverter}}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <ComboBox ItemsSource="{Binding ActiveBookings}" SelectedItem="{Binding SelectedActiveBooking}" 
+                                          materialDesign:HintAssist.Hint="Chọn sân đang sử dụng"
+                                          Style="{StaticResource MaterialDesignOutlinedComboBox}" Height="44">
+                                    <ComboBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <StackPanel Orientation="Horizontal">
+                                                <materialDesign:PackIcon Kind="TableTennis" Margin="0,0,8,0" VerticalAlignment="Center" Width="16" Height="16"/>
+                                                <TextBlock Text="{Binding Court}" FontWeight="Bold" FontSize="12"/>
+                                                <TextBlock Text=" - " FontSize="12"/>
+                                                <TextBlock Text="{Binding Customer}" Foreground="#64748B" FontSize="12"/>
+                                            </StackPanel>
+                                        </DataTemplate>
+                                    </ComboBox.ItemTemplate>
+                                </ComboBox>
+                                <Button Grid.Column="1" Style="{StaticResource MaterialDesignIconButton}" Command="{Binding RefreshActiveBookingsCommand}" Margin="4,0,0,0" Width="32" Height="32">
+                                    <materialDesign:PackIcon Kind="Refresh" Width="18" Height="18"/>
+                                </Button>
+                            </Grid>
+
+                            <!-- Standalone Khách hàng Selection -->
+                            <ComboBox Grid.Row="1" ItemsSource="{Binding Customers}" SelectedItem="{Binding SelectedCustomer}" 
+                                      materialDesign:HintAssist.Hint="Thông tin khách hàng"
+                                      Margin="0,0,0,12" Visibility="{Binding IsAddToBookingMode, Converter={StaticResource InverseBooleanToVisibilityConverter}}"
+                                      Style="{StaticResource MaterialDesignOutlinedComboBox}" Height="44" IsEditable="True">
+                                <ComboBox.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid>
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="*"/>
+                                                <ColumnDefinition Width="Auto"/>
+                                            </Grid.ColumnDefinitions>
+                                            <TextBlock Text="{Binding Name}" FontWeight="Bold" FontSize="12"/>
+                                            <TextBlock Grid.Column="1" Text="{Binding Phone}" Foreground="#94A3B8" Margin="8,0,0,0" FontSize="11"/>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ComboBox.ItemTemplate>
+                            </ComboBox>
+
+                            <!-- Cart Items -->
+                            <ScrollViewer Grid.Row="2" VerticalScrollBarVisibility="Auto" 
+                                          materialDesign:ScrollViewerAssist.IsAutoHideEnabled="False"
+                                          Margin="0,0,-8,0" Padding="0,0,8,0">
+                                <ItemsControl ItemsSource="{Binding CartItems}">
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border BorderBrush="#F1F5F9" BorderThickness="0,0,0,1" Padding="0,8">
+                                                <Grid>
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition Width="*"/>
+                                                        <ColumnDefinition Width="Auto"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <StackPanel>
+                                                        <TextBlock Text="{Binding ServiceName}" FontWeight="SemiBold" FontSize="13" Foreground="#1E293B"/>
+                                                        <StackPanel Orientation="Horizontal" Margin="0,4,0,0">
+                                                            <Button Style="{StaticResource MaterialDesignIconButton}" Width="20" Height="20" Padding="0"
+                                                                    Command="{Binding DataContext.DecreaseQuantityCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}">
+                                                                <materialDesign:PackIcon Kind="MinusCircleOutline" Width="16" Height="16" Foreground="#94A3B8"/>
+                                                            </Button>
+                                                            <TextBlock Text="{Binding Quantity}" Margin="8,0" FontWeight="Bold" FontSize="13"/>
+                                                            <Button Style="{StaticResource MaterialDesignIconButton}" Width="20" Height="20" Padding="0"
+                                                                    Command="{Binding DataContext.IncreaseQuantityCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}">
+                                                                <materialDesign:PackIcon Kind="PlusCircleOutline" Width="16" Height="16" Foreground="#4F46E5"/>
+                                                            </Button>
+                                                        </StackPanel>
+                                                    </StackPanel>
+                                                    <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Center">
+                                                        <TextBlock Text="{Binding Total, StringFormat=N0}" FontWeight="Bold" Foreground="#1E293B" FontSize="14"/>
+                                                        <Button Style="{StaticResource MaterialDesignIconButton}" Height="20" Width="20" Padding="0"
+                                                                Command="{Binding DataContext.RemoveFromCartCommand, RelativeSource={RelativeSource AncestorType=Page}}" CommandParameter="{Binding}">
+                                                            <materialDesign:PackIcon Kind="Close" Width="14" Height="14" Foreground="#EF4444"/>
+                                                        </Button>
+                                                    </StackPanel>
+                                                </Grid>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </ScrollViewer>
+
+                            <!-- Totals & Checkout -->
+                            <StackPanel Grid.Row="3" Margin="0,12,0,0">
+                                <StackPanel Margin="0,12,0,16">
+                                    <Grid Margin="0,0,0,4">
+                                        <TextBlock Text="Tạm tính" FontSize="13" Foreground="#64748B"/>
+                                        <TextBlock HorizontalAlignment="Right" Text="{Binding CartSubtotal, StringFormat=N0}" Foreground="#1E293B" FontWeight="SemiBold"/>
+                                    </Grid>
+                                    
+                                    <Grid Margin="0,0,0,4" Visibility="{Binding DiscountAmount, Converter={StaticResource NumericToVisibilityConverter}}">
+                                        <TextBlock Text="Giảm giá" FontSize="13" Foreground="#64748B"/>
+                                        <TextBlock HorizontalAlignment="Right" Text="{Binding DiscountAmount, StringFormat=-N0}" Foreground="#EF4444" FontWeight="SemiBold"/>
+                                    </Grid>
+ 
+                                    <Border Height="1" Background="#E2E8F0" Margin="0,4,0,8"/>
+ 
+                                    <Grid>
+                                        <TextBlock Text="TỔNG CỘNG" FontWeight="ExtraBold" FontSize="16" Foreground="#1E293B"/>
+                                        <TextBlock HorizontalAlignment="Right" Text="{Binding TotalPayable, StringFormat=N0}" FontWeight="ExtraBold" FontSize="20" Foreground="#4F46E5"/>
+                                    </Grid>
+                                </StackPanel>
+                                
+                                <!-- Payment Method Selection -->
+                                <Border Background="#F1F5F9" CornerRadius="8" Padding="2" Margin="0,0,0,12"
+                                        Visibility="{Binding IsAddToBookingMode, Converter={StaticResource InverseBooleanToVisibilityConverter}}">
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*"/>
+                                            <ColumnDefinition Width="*"/>
+                                        </Grid.ColumnDefinitions>
+                                        <RadioButton Grid.Column="0" Content="Tiền mặt" 
+                                                     IsChecked="{Binding SelectedPaymentMethod, Converter={StaticResource StringToBoolConverter}, ConverterParameter='Tiền mặt'}"
+                                                     Style="{StaticResource MaterialDesignTabRadioButton}" 
+                                                     Height="32" FontSize="12"/>
+                                        <RadioButton Grid.Column="1" Content="Chuyển khoản" 
+                                                     IsChecked="{Binding SelectedPaymentMethod, Converter={StaticResource StringToBoolConverter}, ConverterParameter='Chuyển khoản'}"
+                                                     Style="{StaticResource MaterialDesignTabRadioButton}" 
+                                                     Height="32" FontSize="12"/>
+                                    </Grid>
+                                </Border>
+
+                                <Button Style="{StaticResource MaterialDesignRaisedButton}" Height="54" 
+                                        Background="#4F46E5" BorderBrush="#4F46E5" materialDesign:ButtonAssist.CornerRadius="12"
+                                        Command="{Binding CheckoutCommand}">
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="CashCheck" Width="24" Height="24" Margin="0,0,12,0"/>
+                                        <TextBlock Text="{Binding CheckoutButtonText}" FontSize="16" FontWeight="Bold"/>
+                                    </StackPanel>
+                                </Button>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </TabItem>
+
+            <TabItem Header="LỊCH SỬ">
+                <Grid Margin="40,24,40,40">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                        <RowDefinition Height="Auto"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Background="White" CornerRadius="16" BorderBrush="#E2E8F0" BorderThickness="1" Padding="24" Margin="0,0,0,20">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="300"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel Margin="0,0,24,0">
+                                <TextBlock Text="Từ ngày" FontSize="12" FontWeight="SemiBold" Foreground="#64748B" Margin="4,0,0,4"/>
+                                <DatePicker SelectedDate="{Binding SalesFromDate}" Width="250" Height="50" VerticalContentAlignment="Center" Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Margin="0,0,24,0">
+                                <TextBlock Text="Đến ngày" FontSize="12" FontWeight="SemiBold" Foreground="#64748B" Margin="4,0,0,4"/>
+                                <DatePicker SelectedDate="{Binding SalesToDate}" Width="250" Height="50" VerticalContentAlignment="Center" Style="{StaticResource MaterialDesignOutlinedDatePicker}"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="3">
+                                <TextBlock Text="Tìm kiếm..." FontSize="12" FontWeight="SemiBold" Foreground="#64748B" Margin="4,0,0,4"/>
+                                <TextBox Text="{Binding SalesSearchText, UpdateSourceTrigger=PropertyChanged}" Height="50" VerticalContentAlignment="Center"
+                                         Style="{StaticResource MaterialDesignOutlinedTextBox}"/>
+                            </StackPanel>
+
+                            <Button Grid.Column="4" Style="{StaticResource MaterialDesignFloatingActionMiniButton}" 
+                                    Margin="16,0,0,0" VerticalAlignment="Bottom" Height="44" Width="44"
+                                    Command="{Binding ReloadSalesCommand}">
+                                <materialDesign:PackIcon Kind="Refresh"/>
+                            </Button>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Row="1" Background="White" CornerRadius="16" BorderBrush="#E2E8F0" BorderThickness="1" Padding="24">
+                        <DataGrid ItemsSource="{Binding ServiceSales}" AutoGenerateColumns="False" IsReadOnly="True" CanUserAddRows="False"
+                                  HeadersVisibility="Column" GridLinesVisibility="None" SelectionMode="Single"
+                                  MouseDoubleClick="ServiceSalesGrid_DoubleClick"
+                                  Style="{StaticResource MaterialDesignDataGrid}">
+
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="THỜI GIAN" Binding="{Binding IssuedAt, StringFormat=dd/MM/yyyy HH:mm}" Width="160"/>
+                                <DataGridTextColumn Header="MÃ HĐ" Binding="{Binding InvoiceId}" FontWeight="Bold" Width="140"/>
+                                <DataGridTextColumn Header="KHÁCH HÀNG" Binding="{Binding CustomerName}" Width="*"/>
+                                <DataGridTextColumn Header="THANH TOÁN" Binding="{Binding PaymentMethod}" Width="140"/>
+                                <DataGridTextColumn Header="TỔNG TIỀN" Binding="{Binding TotalPayable, StringFormat=N0}" FontWeight="Bold" Foreground="#4F46E5" Width="140">
+                                    <DataGridTextColumn.ElementStyle>
+                                        <Style TargetType="TextBlock">
+                                            <Setter Property="HorizontalAlignment" Value="Right"/>
+                                            <Setter Property="Margin" Value="0,0,12,0"/>
+                                        </Style>
+                                    </DataGridTextColumn.ElementStyle>
+                                </DataGridTextColumn>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+
+                    <!-- See More Button -->
+                    <Button Grid.Row="2" Style="{StaticResource MaterialDesignFlatButton}" 
+                            HorizontalAlignment="Center" Margin="0,12,0,0"
+                            Command="{Binding LoadMoreSalesCommand}"
+                            Visibility="{Binding HasMoreSales, Converter={StaticResource BooleanToVisibilityConverter}}">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="ChevronDown" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                            <TextBlock Text="Xem thêm lịch sử" FontWeight="SemiBold"/>
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </TabItem>
+            <TabItem x:Name="AdminManageTab" Header="QUẢN LÝ">
+                <Grid Margin="40,24,40,40">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+
+                    <Border Grid.Row="0" Background="White" CornerRadius="12" BorderBrush="#E2E8F0" BorderThickness="1" Padding="24" Margin="0,0,0,20">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+
+                            <StackPanel>
+                                <TextBlock Text="Danh mục hàng hóa" FontSize="20" FontWeight="Bold" Foreground="#1E293B"/>
+                                <TextBlock Text="Quản lý kho hàng, đơn giá và phân loại dịch vụ." FontSize="14" Foreground="#64748B" Margin="0,4,0,0"/>
+                            </StackPanel>
+
+                            <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                                <Button Style="{StaticResource MaterialDesignOutlinedButton}" Content="Tải lại" Click="Reload_Click" Margin="0,0,12,0"/>
+                                <Button Style="{StaticResource MaterialDesignRaisedButton}" Background="#4F46E5" BorderBrush="#4F46E5" Content="Thêm sản phẩm" Click="Add_Click" Margin="0,0,12,0"/>
+                                <Button Style="{StaticResource MaterialDesignRaisedButton}" Background="#EF4444" BorderBrush="#EF4444" Content="Xóa" Click="Delete_Click" 
+                                        IsEnabled="{Binding SelectedService, Converter={StaticResource NullToBooleanConverter}}"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <Border Grid.Row="1" Background="White" CornerRadius="12" BorderBrush="#E2E8F0" BorderThickness="1" Padding="24">
+                        <DataGrid ItemsSource="{Binding Services}" SelectedItem="{Binding SelectedService}" AutoGenerateColumns="False" 
+                                  CanUserAddRows="False" IsReadOnly="True" GridLinesVisibility="None" MouseDoubleClick="Edit_Click"
+                                  Style="{StaticResource MaterialDesignDataGrid}">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="MÃ" Binding="{Binding Id}" Width="100"/>
+                                <DataGridTextColumn Header="TÊN SẢN PHẨM" Binding="{Binding Name}" FontWeight="SemiBold" Width="*"/>
+                                <DataGridTextColumn Header="LOẠI" Binding="{Binding Category}" Width="140"/>
+                                <DataGridTextColumn Header="ĐƠN VỊ" Binding="{Binding Unit}" Width="100"/>
+                                <DataGridTextColumn Header="GIÁ BÁN" Binding="{Binding Price, StringFormat=N0}" FontWeight="Bold" Foreground="#10B981" Width="140"/>
+                                <DataGridTextColumn Header="TỒN KHO" Binding="{Binding Stock}" Width="100"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </Border>
+                </Grid>
+            </TabItem>
+        </TabControl>
+
+    </Grid>
+</Page>

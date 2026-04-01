@@ -1,0 +1,227 @@
+<Window x:Class="QuanLySCL.GUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="QLSANCL - Hệ thống quản lý sân cầu lông" 
+        Height="900" 
+        Width="1600"
+        WindowState="Maximized"
+        WindowStartupLocation="CenterScreen"
+        Background="{StaticResource BackgroundGray}">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="260"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- Sidebar -->
+        <Border Grid.Column="0" Background="{StaticResource NavyBlueBrush}">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+
+                <!-- Logo Section -->
+                <Border Grid.Row="0" BorderBrush="#334155" BorderThickness="0,0,0,1" Padding="24">
+                    <StackPanel Orientation="Horizontal">
+                        <Border Width="40" Height="40" Background="{StaticResource LimeGreen}" CornerRadius="8" Margin="0,0,12,0">
+                            <materialDesign:PackIcon Kind="Badminton" Width="24" Height="24" 
+                                                     Foreground="{StaticResource NavyBlueBrush}" 
+                                                     HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <StackPanel>
+                            <TextBlock Text="QLSANCL" FontSize="20" FontWeight="Bold" Foreground="White"/>
+                            <TextBlock Text="Quản lý sân cầu lông" FontSize="10" Foreground="#94A3B8"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Border>
+
+                <!-- Navigation Menu -->
+                <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                    <StackPanel Margin="16">
+                        <TextBlock x:Name="AdminSectionTitle"
+                                   Text="QUẢN TRỊ CAO CẤP"
+                                   Foreground="#94A3B8"
+                                   FontSize="10"
+                                   FontWeight="SemiBold"
+                                   Margin="8,8,0,8"
+                                   Visibility="Collapsed"/>
+
+                        <!-- Admin Sub-Menu Holder -->
+                        <StackPanel x:Name="AdminSection">
+                            <CheckBox x:Name="AdminPanelNav" Content="Quản trị" Tag="AdminToggle"
+                                      Style="{StaticResource NavButtonStyle}"
+                                      Visibility="Collapsed"
+                                      Checked="AdminToggle_Changed"
+                                      Unchecked="AdminToggle_Changed">
+                                <CheckBox.ContentTemplate>
+                                    <DataTemplate>
+                                        <Grid Width="200">
+                                            <StackPanel Orientation="Horizontal">
+                                                <materialDesign:PackIcon Kind="ShieldAccount" Width="20" Height="20" Margin="0,0,12,0"/>
+                                                <TextBlock Text="{Binding}" VerticalAlignment="Center"/>
+                                            </StackPanel>
+                                            <materialDesign:PackIcon Kind="ChevronDown" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,0,16,0" x:Name="ArrowIcon">
+                                                <materialDesign:PackIcon.RenderTransform>
+                                                    <RotateTransform Angle="0" CenterX="10" CenterY="10"/>
+                                                </materialDesign:PackIcon.RenderTransform>
+                                            </materialDesign:PackIcon>
+                                        </Grid>
+                                        <DataTemplate.Triggers>
+                                            <DataTrigger Binding="{Binding IsChecked, RelativeSource={RelativeSource AncestorType=CheckBox}}" Value="True">
+                                                <Setter TargetName="ArrowIcon" Property="RenderTransform">
+                                                    <Setter.Value>
+                                                        <RotateTransform Angle="180" CenterX="10" CenterY="10"/>
+                                                    </Setter.Value>
+                                                </Setter>
+                                            </DataTrigger>
+                                        </DataTemplate.Triggers>
+                                    </DataTemplate>
+                                </CheckBox.ContentTemplate>
+                            </CheckBox>
+
+                            <StackPanel x:Name="AdminSubMenu" Visibility="Collapsed" Margin="0,4,0,8">
+                                <RadioButton Content="Ca giờ" Tag="AdminTimeSlots" 
+                                             Style="{StaticResource NavSubButtonStyle}" 
+                                             Checked="NavigationButton_Checked"/>
+                                <RadioButton Content="Bảng giá" Tag="AdminPricing" 
+                                             Style="{StaticResource NavSubButtonStyle}" 
+                                             Checked="NavigationButton_Checked"/>
+                                <RadioButton Content="Sân" Tag="AdminCourts" 
+                                             Style="{StaticResource NavSubButtonStyle}" 
+                                             Checked="NavigationButton_Checked"/>
+                                <RadioButton Content="Tài khoản" Tag="AdminAccounts" 
+                                             Style="{StaticResource NavSubButtonStyle}" 
+                                             Checked="NavigationButton_Checked"/>
+                                <RadioButton Content="Khuyến mãi" Tag="AdminPromotions" 
+                                             Style="{StaticResource NavSubButtonStyle}" 
+                                             Checked="NavigationButton_Checked"/>
+                            </StackPanel>
+                        </StackPanel>
+
+                        <TextBlock Text="CHỨC NĂNG" Foreground="#94A3B8" FontSize="10" FontWeight="SemiBold" Margin="8,16,0,8"/>
+
+                        <RadioButton x:Name="DashboardNav" Content="Tổng quan" Tag="Dashboard" 
+                                     Style="{StaticResource NavButtonStyle}" 
+                                     IsChecked="True" 
+                                     Checked="NavigationButton_Checked">
+                            <RadioButton.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="ViewDashboard" Width="20" Height="20" Margin="0,0,12,0"/>
+                                        <TextBlock Text="{Binding}" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </RadioButton.ContentTemplate>
+                        </RadioButton>
+
+                        <RadioButton x:Name="BookingNav" Content="Đặt sân" Tag="Booking" 
+                                     Style="{StaticResource NavButtonStyle}" 
+                                     Checked="NavigationButton_Checked">
+                            <RadioButton.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Calendar" Width="20" Height="20" Margin="0,0,12,0"/>
+                                        <TextBlock Text="{Binding}" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </RadioButton.ContentTemplate>
+                        </RadioButton>
+
+                        <RadioButton x:Name="ServicesNav" Content="Dịch vụ" Tag="Services" 
+                                     Style="{StaticResource NavButtonStyle}" 
+                                     Checked="NavigationButton_Checked">
+                            <RadioButton.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="ShoppingOutline" Width="20" Height="20" Margin="0,0,12,0"/>
+                                        <TextBlock Text="{Binding}" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </RadioButton.ContentTemplate>
+                        </RadioButton>
+
+                        <RadioButton x:Name="CustomersNav" Content="Khách hàng" Tag="Customers" 
+                                     Style="{StaticResource NavButtonStyle}" 
+                                     Checked="NavigationButton_Checked">
+                            <RadioButton.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="AccountGroup" Width="20" Height="20" Margin="0,0,12,0"/>
+                                        <TextBlock Text="{Binding}" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </RadioButton.ContentTemplate>
+                        </RadioButton>
+
+                        <RadioButton x:Name="StaffNav" Content="Nhân viên" Tag="Staff" 
+                                     Style="{StaticResource NavButtonStyle}" 
+                                     Checked="NavigationButton_Checked">
+                            <RadioButton.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="Briefcase" Width="20" Height="20" Margin="0,0,12,0"/>
+                                        <TextBlock Text="{Binding}" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </RadioButton.ContentTemplate>
+                        </RadioButton>
+
+                        <RadioButton x:Name="ReportsNav" Content="Báo cáo" Tag="Reports" 
+                                     Style="{StaticResource NavButtonStyle}" 
+                                     Checked="NavigationButton_Checked">
+                            <RadioButton.ContentTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="ChartBar" Width="20" Height="20" Margin="0,0,12,0"/>
+                                        <TextBlock Text="{Binding}" VerticalAlignment="Center"/>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </RadioButton.ContentTemplate>
+                        </RadioButton>
+                    </StackPanel>
+                </ScrollViewer>
+
+                <!-- User Info & Logout -->
+                <Border Grid.Row="2" BorderBrush="#334155" BorderThickness="0,1,0,0" Padding="16">
+                    <StackPanel>
+                        <Grid Margin="0,0,0,12">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            
+                            <Border Width="40" Height="40" Background="#475569" CornerRadius="20" Margin="0,0,12,0" Grid.Column="0">
+                                <TextBlock x:Name="txtInitials" Text="AD" FontSize="14" FontWeight="SemiBold"
+                                           Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            </Border>
+                            <StackPanel VerticalAlignment="Center" Grid.Column="1">
+                                <TextBlock x:Name="txtUserName" Text="Admin User" FontSize="13" FontWeight="Medium" Foreground="White" TextTrimming="CharacterEllipsis"/>
+                                <TextBlock x:Name="txtUserRole" Text="admin@qlsancl.com" FontSize="9" Foreground="#94A3B8"/>
+                            </StackPanel>
+                        </Grid>
+
+                        <Button Style="{StaticResource MaterialDesignOutlinedButton}" 
+                                Foreground="#F87171" BorderBrush="#F87171"
+                                BorderThickness="1"
+                                Height="36" 
+                                Click="Logout_Click">
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Logout" Width="18" Height="18" Margin="0,0,8,0" VerticalAlignment="Center"/>
+                                <TextBlock Text="ĐĂNG XUẤT" FontSize="11" FontWeight="Bold" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </Button>
+                    </StackPanel>
+                </Border>
+            </Grid>
+        </Border>
+
+        <!-- Main Content Area -->
+        <Frame x:Name="MainFrame" Grid.Column="1" NavigationUIVisibility="Hidden"/>
+    </Grid>
+</Window>

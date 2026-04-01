@@ -1,0 +1,82 @@
+<Window x:Class="QuanLySCL.GUI.Windows.CheckOutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Thanh toán và Trả sân" Height="500" Width="450"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Background="#F8FAFC">
+
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <StackPanel Grid.Row="0" Margin="0,0,0,24">
+            <TextBlock Text="Xác nhận Thanh toán" FontSize="24" FontWeight="Bold" Foreground="#0F172A"/>
+            <TextBlock Text="Vui lòng kiểm tra lại thông tin trước khi hoàn tất" FontSize="13" Foreground="#64748B" Margin="0,4,0,0"/>
+        </StackPanel>
+
+        <!-- Content -->
+        <StackPanel Grid.Row="1">
+            <Border Background="White" CornerRadius="12" Padding="20" BorderBrush="#E2E8F0" BorderThickness="1">
+                <StackPanel>
+                    <!-- Info Groups -->
+                    <Grid Margin="0,0,0,16">
+                        <TextBlock Text="Khách hàng:" Foreground="#64748B" FontSize="13"/>
+                        <TextBlock Text="{Binding Booking.Customer}" HorizontalAlignment="Right" FontWeight="SemiBold" Foreground="#0F172A"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,16">
+                        <TextBlock Text="Sân / Giờ:" Foreground="#64748B" FontSize="13"/>
+                        <TextBlock HorizontalAlignment="Right" Foreground="#0F172A">
+                            <Run Text="{Binding Booking.Court}" FontWeight="SemiBold"/>
+                            <Run Text=" | " Foreground="#CBD5E1"/>
+                            <Run Text="{Binding Booking.Time}"/>
+                        </TextBlock>
+                    </Grid>
+
+                    <Separator Background="#F1F5F9" Margin="0,8,0,16"/>
+
+                    <!-- Monetary Groups -->
+                    <Grid Margin="0,0,0,12">
+                        <TextBlock Text="Tiền thuê sân:" Foreground="#64748B" FontSize="13"/>
+                        <TextBlock Text="{Binding Booking.Amount, StringFormat='₫{0:N0}'}" HorizontalAlignment="Right" Foreground="#0F172A"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,12">
+                        <TextBlock Text="Tiền dịch vụ phát sinh:" Foreground="#64748B" FontSize="13"/>
+                        <TextBlock Text="{Binding ServiceFee, StringFormat='₫{0:N0}'}" HorizontalAlignment="Right" Foreground="#0F172A"/>
+                    </Grid>
+                    <Grid Margin="0,0,0,12">
+                        <TextBlock Text="Giảm giá / Voucher:" Foreground="#64748B" FontSize="13"/>
+                        <TextBox Text="{Binding Discount, UpdateSourceTrigger=PropertyChanged, StringFormat='N0'}" Width="100" HorizontalAlignment="Right" TextAlignment="Right"/>
+                    </Grid>
+
+                    <Separator Background="#F1F5F9" Margin="0,16,0,16"/>
+
+                    <!-- Total -->
+                    <Grid>
+                        <TextBlock Text="TỔNG THANH TOÁN" FontWeight="Bold" Foreground="#0F172A" VerticalAlignment="Center"/>
+                        <TextBlock Text="{Binding TotalAmount, StringFormat='₫{0:N0}'}" HorizontalAlignment="Right" FontSize="20" FontWeight="Bold" Foreground="#10B981"/>
+                    </Grid>
+                </StackPanel>
+            </Border>
+
+            <StackPanel Margin="0,20,0,0">
+                <TextBlock Text="Hình thức thanh toán" FontSize="13" FontWeight="SemiBold" Foreground="#475569" Margin="0,0,0,8"/>
+                <ComboBox SelectedValue="{Binding PaymentMethod}" SelectedValuePath="Content">
+                    <ComboBoxItem Content="Tiền mặt" IsSelected="True"/>
+                    <ComboBoxItem Content="Chuyển khoản (QR)"/>
+                    <ComboBoxItem Content="Thẻ Ngân hàng"/>
+                </ComboBox>
+            </StackPanel>
+        </StackPanel>
+
+        <!-- Footer -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,24,0,0">
+            <Button Content="Hủy bỏ" Click="Cancel_Click" Style="{StaticResource MaterialDesignOutlinedButton}" Width="100" Margin="0,0,12,0" BorderBrush="#E2E8F0" Foreground="#64748B"/>
+            <Button Content="XÁC NHẬN VÀ XUẤT HÓA ĐƠN" Click="Finish_Click" Background="#84CC16" Foreground="#0F172A" FontWeight="Bold" Padding="16,0"/>
+        </StackPanel>
+    </Grid>
+</Window>

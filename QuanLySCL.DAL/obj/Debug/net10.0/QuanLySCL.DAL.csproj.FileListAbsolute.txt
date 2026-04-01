@@ -1,0 +1,15 @@
+D:\github\QuanLySCL\QuanLySCL.DAL\bin\Debug\net10.0\QuanLySCL.DAL.deps.json
+D:\github\QuanLySCL\QuanLySCL.DAL\bin\Debug\net10.0\QuanLySCL.DAL.dll
+D:\github\QuanLySCL\QuanLySCL.DAL\bin\Debug\net10.0\QuanLySCL.DAL.pdb
+D:\github\QuanLySCL\QuanLySCL.DAL\bin\Debug\net10.0\QuanLySCL.Models.dll
+D:\github\QuanLySCL\QuanLySCL.DAL\bin\Debug\net10.0\QuanLySCL.Models.pdb
+D:\github\QuanLySCL\QuanLySCL.DAL\obj\Debug\net10.0\QuanLySCL.DAL.csproj.AssemblyReference.cache
+D:\github\QuanLySCL\QuanLySCL.DAL\obj\Debug\net10.0\QuanLySCL.DAL.GeneratedMSBuildEditorConfig.editorconfig
+D:\github\QuanLySCL\QuanLySCL.DAL\obj\Debug\net10.0\QuanLySCL.DAL.AssemblyInfoInputs.cache
+D:\github\QuanLySCL\QuanLySCL.DAL\obj\Debug\net10.0\QuanLySCL.DAL.AssemblyInfo.cs
+D:\github\QuanLySCL\QuanLySCL.DAL\obj\Debug\net10.0\QuanLySCL.DAL.csproj.CoreCompileInputs.cache
+D:\github\QuanLySCL\QuanLySCL.DAL\obj\Debug\net10.0\QuanLySC.677F7DFA.Up2Date
+D:\github\QuanLySCL\QuanLySCL.DAL\obj\Debug\net10.0\QuanLySCL.DAL.dll
+D:\github\QuanLySCL\QuanLySCL.DAL\obj\Debug\net10.0\refint\QuanLySCL.DAL.dll
+D:\github\QuanLySCL\QuanLySCL.DAL\obj\Debug\net10.0\QuanLySCL.DAL.pdb
+D:\github\QuanLySCL\QuanLySCL.DAL\obj\Debug\net10.0\ref\QuanLySCL.DAL.dll

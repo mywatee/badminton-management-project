@@ -1,0 +1,17 @@
+D:\github\QuanLySCL\QuanLySCL.BUS\bin\Debug\net10.0\QuanLySCL.BUS.deps.json
+D:\github\QuanLySCL\QuanLySCL.BUS\bin\Debug\net10.0\QuanLySCL.BUS.dll
+D:\github\QuanLySCL\QuanLySCL.BUS\bin\Debug\net10.0\QuanLySCL.BUS.pdb
+D:\github\QuanLySCL\QuanLySCL.BUS\bin\Debug\net10.0\QuanLySCL.DAL.dll
+D:\github\QuanLySCL\QuanLySCL.BUS\bin\Debug\net10.0\QuanLySCL.Models.dll
+D:\github\QuanLySCL\QuanLySCL.BUS\bin\Debug\net10.0\QuanLySCL.DAL.pdb
+D:\github\QuanLySCL\QuanLySCL.BUS\bin\Debug\net10.0\QuanLySCL.Models.pdb
+D:\github\QuanLySCL\QuanLySCL.BUS\obj\Debug\net10.0\QuanLySCL.BUS.csproj.AssemblyReference.cache
+D:\github\QuanLySCL\QuanLySCL.BUS\obj\Debug\net10.0\QuanLySCL.BUS.GeneratedMSBuildEditorConfig.editorconfig
+D:\github\QuanLySCL\QuanLySCL.BUS\obj\Debug\net10.0\QuanLySCL.BUS.AssemblyInfoInputs.cache
+D:\github\QuanLySCL\QuanLySCL.BUS\obj\Debug\net10.0\QuanLySCL.BUS.AssemblyInfo.cs
+D:\github\QuanLySCL\QuanLySCL.BUS\obj\Debug\net10.0\QuanLySCL.BUS.csproj.CoreCompileInputs.cache
+D:\github\QuanLySCL\QuanLySCL.BUS\obj\Debug\net10.0\QuanLySC.D633B9AD.Up2Date
+D:\github\QuanLySCL\QuanLySCL.BUS\obj\Debug\net10.0\QuanLySCL.BUS.dll
+D:\github\QuanLySCL\QuanLySCL.BUS\obj\Debug\net10.0\refint\QuanLySCL.BUS.dll
+D:\github\QuanLySCL\QuanLySCL.BUS\obj\Debug\net10.0\QuanLySCL.BUS.pdb
+D:\github\QuanLySCL\QuanLySCL.BUS\obj\Debug\net10.0\ref\QuanLySCL.BUS.dll

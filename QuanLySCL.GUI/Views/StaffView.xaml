@@ -1,0 +1,116 @@
+<Page x:Class="QuanLySCL.GUI.Views.StaffView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      Title="Nhân viên">
+
+    <ScrollViewer VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="40">
+            <StackPanel Margin="0,0,0,32">
+                <TextBlock Text="Quản lý nhân sự &amp; tài khoản" FontSize="32" FontWeight="Bold" Foreground="#0F172A"/>
+                <TextBlock Text="Quản lý nhân viên và tài khoản người dùng" FontSize="14" Foreground="#64748B" Margin="0,4,0,0"/>
+            </StackPanel>
+
+            <Grid Margin="0,0,0,24">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Style="{StaticResource Card}" Margin="0,0,12,0">
+                    <Grid>
+                        <StackPanel>
+                            <TextBlock Text="Tổng số nhân viên" FontSize="13" Foreground="#64748B"/>
+                            <TextBlock Text="{Binding TotalStaffCount}" FontSize="24" FontWeight="Bold" Foreground="#0F172A" Margin="0,8,0,0"/>
+                        </StackPanel>
+                        <Border Width="48" Height="48" Background="#3B82F6" CornerRadius="8" HorizontalAlignment="Right" VerticalAlignment="Top">
+                            <materialDesign:PackIcon Kind="AccountCog" Width="24" Height="24" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="1" Style="{StaticResource Card}" Margin="6,0">
+                    <Grid>
+                        <StackPanel>
+                            <TextBlock Text="Có tài khoản" FontSize="13" Foreground="#64748B"/>
+                            <TextBlock Text="{Binding StaffAccountsCount}" FontSize="24" FontWeight="Bold" Foreground="#0F172A" Margin="0,8,0,0"/>
+                        </StackPanel>
+                        <Border Width="48" Height="48" Background="#10B981" CornerRadius="8" HorizontalAlignment="Right" VerticalAlignment="Top">
+                            <materialDesign:PackIcon Kind="AccountCheck" Width="24" Height="24" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="2" Style="{StaticResource Card}" Margin="6,0">
+                    <Grid>
+                        <StackPanel>
+                            <TextBlock Text="Chưa có tài khoản" FontSize="13" Foreground="#64748B"/>
+                            <TextBlock Text="{Binding StaffWithoutAccountCount}" FontSize="24" FontWeight="Bold" Foreground="#0F172A" Margin="0,8,0,0"/>
+                        </StackPanel>
+                        <Border Width="48" Height="48" Background="#F59E0B" CornerRadius="8" HorizontalAlignment="Right" VerticalAlignment="Top">
+                            <materialDesign:PackIcon Kind="AccountOff" Width="24" Height="24" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </Grid>
+                </Border>
+
+                <Border Grid.Column="3" Style="{StaticResource Card}" Margin="12,0,0,0">
+                    <Grid>
+                        <StackPanel>
+                            <TextBlock Text="Đang kích hoạt" FontSize="13" Foreground="#64748B"/>
+                            <TextBlock Text="{Binding ActiveStaffAccountsCount}" FontSize="24" FontWeight="Bold" Foreground="#0F172A" Margin="0,8,0,0"/>
+                        </StackPanel>
+                        <Border Width="48" Height="48" Background="#8B5CF6" CornerRadius="8" HorizontalAlignment="Right" VerticalAlignment="Top">
+                            <materialDesign:PackIcon Kind="ShieldAccount" Width="24" Height="24" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                    </Grid>
+                </Border>
+            </Grid>
+
+            <Border Style="{StaticResource Card}">
+                <StackPanel>
+                    <Grid Margin="0,0,0,20">
+                        <TextBlock Text="Danh sách nhân viên" FontSize="18" FontWeight="SemiBold" Foreground="#0F172A"/>
+                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                            <TextBox Width="300"
+                                     Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}"
+                                     materialDesign:HintAssist.Hint="Tìm kiếm nhân viên..."
+                                     Margin="0,0,12,0"/>
+                            <Button Style="{StaticResource LimeButton}" Click="AddStaff_Click">
+                                <StackPanel Orientation="Horizontal">
+                                    <materialDesign:PackIcon Kind="Plus" Width="16" Height="16" Margin="0,0,8,0"/>
+                                    <TextBlock Text="Thêm nhân viên"/>
+                                </StackPanel>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+
+                    <DataGrid AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              ItemsSource="{Binding StaffMembers}"
+                              SelectedItem="{Binding SelectedStaff}">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ID" Binding="{Binding Staff.Id}" Width="80" FontWeight="Medium"/>
+                            <DataGridTextColumn Header="Họ tên" Binding="{Binding Staff.Name}" Width="*" FontWeight="SemiBold"/>
+                            <DataGridTextColumn Header="SĐT" Binding="{Binding Staff.Phone}" Width="140"/>
+                            <DataGridTextColumn Header="Vị trí" Binding="{Binding Staff.Role}" Width="160"/>
+                            <DataGridTextColumn Header="Tài khoản" Binding="{Binding AccountUsername}" Width="140"/>
+                            <DataGridTextColumn Header="Quyền" Binding="{Binding AccountRole}" Width="100"/>
+                            <DataGridTextColumn Header="Kích hoạt" Binding="{Binding AccountActiveText}" Width="90"/>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+                        <Button Style="{StaticResource OutlineButton}" Margin="0,0,12,0" Click="CreateAccount_Click">Tạo tài khoản</Button>
+                        <Button Style="{StaticResource OutlineButton}" Margin="0,0,12,0" Click="ManageAccount_Click">Quản lý tài khoản</Button>
+                        <Button Style="{StaticResource OutlineButton}" Margin="0,0,12,0" Click="ToggleAccountStatus_Click">Khóa/Mở</Button>
+                        <Button Style="{StaticResource OutlineButton}" Margin="0,0,12,0" Click="ResetPassword_Click">Reset mật khẩu</Button>
+                        <Button Style="{StaticResource OutlineButton}" Margin="0,0,12,0" Click="EditStaff_Click">Sửa</Button>
+                        <Button Style="{StaticResource RedButton}" Click="DeleteStaff_Click">Xóa</Button>
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

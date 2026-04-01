@@ -1,0 +1,45 @@
+<Window x:Class="QuanLySCL.GUI.Windows.CreateStaffAccountWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Tạo tài khoản"
+        Width="520" Height="420"
+        WindowStartupLocation="CenterOwner"
+        Background="{StaticResource BackgroundGray}">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,16">
+            <TextBlock Text="Tạo tài khoản cho nhân viên" FontSize="20" FontWeight="SemiBold" Foreground="#0F172A"/>
+            <TextBlock Text="{Binding StaffSummary}" FontSize="12" Foreground="#64748B" Margin="0,4,0,0"/>
+        </StackPanel>
+
+        <StackPanel Grid.Row="1">
+            <TextBox Text="{Binding Username, UpdateSourceTrigger=PropertyChanged}"
+                     materialDesign:HintAssist.Hint="Tên đăng nhập"
+                     Margin="0,0,0,12"/>
+
+            <PasswordBox x:Name="PasswordBox"
+                         materialDesign:HintAssist.Hint="Mật khẩu"
+                         Margin="0,0,0,12"/>
+
+            <ComboBox ItemsSource="{Binding RoleOptions}"
+                      SelectedItem="{Binding SelectedRole}"
+                      materialDesign:HintAssist.Hint="Quyền"
+                      Margin="0,0,0,12"/>
+
+            <CheckBox IsChecked="{Binding AccountIsActive}" Content="Kích hoạt tài khoản" Margin="0,0,0,12"/>
+
+            <TextBlock Text="{Binding ErrorText}" Foreground="#EF4444" TextWrapping="Wrap" />
+        </StackPanel>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+            <Button Content="Hủy" Style="{StaticResource OutlineButton}" Width="90" Margin="0,0,12,0" Click="Cancel_Click"/>
+            <Button Content="Tạo" Style="{StaticResource LimeButton}" Width="90" Click="Create_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

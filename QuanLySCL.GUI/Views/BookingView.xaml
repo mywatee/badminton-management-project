@@ -1,0 +1,408 @@
+<Page x:Class="QuanLySCL.GUI.Views.BookingView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+      xmlns:local="clr-namespace:QuanLySCL.GUI.Converters"
+      mc:Ignorable="d"
+      Title="Đặt sân">
+
+    <Page.Resources>
+        <local:DateEqualsToBoolConverter x:Key="DateEqualsToBoolConverter"/>
+    </Page.Resources>
+
+    <ScrollViewer x:Name="RootScroll" VerticalScrollBarVisibility="Auto">
+        <StackPanel Margin="40">
+            <Grid Margin="0,0,0,32">
+                <StackPanel>
+                    <TextBlock Text="Quản lý lịch đặt sân" FontSize="32" FontWeight="Bold" Foreground="#0F172A"/>
+                    <TextBlock Text="Theo dõi lịch cả tuần theo ngày, ca giờ và trạng thái từng sân" FontSize="14" Foreground="#64748B" Margin="0,4,0,0"/>
+                </StackPanel>
+                <Button HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource LimeButton}" Click="CreateBooking_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <materialDesign:PackIcon Kind="Plus" Width="16" Height="16" Margin="0,0,8,0"/>
+                        <TextBlock Text="Đặt sân mới"/>
+                    </StackPanel>
+                </Button>
+            </Grid>
+
+            <Border x:Name="ScheduleSection" Style="{StaticResource Card}" Margin="0,0,0,24">
+                <StackPanel>
+                    <Grid Margin="0,0,0,20">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="Auto"/>
+                        </Grid.ColumnDefinitions>
+
+                        <StackPanel>
+                            <TextBlock Text="Court Schedule" FontSize="20" FontWeight="SemiBold" Foreground="#0F172A"/>
+                            <TextBlock Text="{Binding CurrentWeekRange}" FontSize="13" Foreground="#64748B" Margin="0,4,0,0"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Center">
+                            <Button Click="PreviousWeek_Click"
+                                    Padding="10,8"
+                                    Margin="0,0,8,0"
+                                    Background="#E2E8F0"
+                                    BorderBrush="#CBD5E1"
+                                    Foreground="#0F172A"
+                                    Cursor="Hand">
+                                <materialDesign:PackIcon Kind="ChevronLeft" Width="18" Height="18"/>
+                            </Button>
+                            <DatePicker SelectedDate="{Binding SelectedDate, UpdateSourceTrigger=PropertyChanged}"
+                                        Width="150"
+                                        Margin="0,0,8,0"/>
+                            <Button Click="Today_Click"
+                                    Content="Hôm nay"
+                                    Padding="14,8"
+                                    Margin="0,0,8,0"
+                                    Background="#ECFCCB"
+                                    BorderBrush="#D9F99D"
+                                    Foreground="#3F6212"
+                                    FontWeight="SemiBold"
+                                    Cursor="Hand"/>
+                            <Button Click="NextWeek_Click"
+                                    Padding="10,8"
+                                    Background="#E2E8F0"
+                                    BorderBrush="#CBD5E1"
+                                    Foreground="#0F172A"
+                                    Cursor="Hand">
+                                <materialDesign:PackIcon Kind="ChevronRight" Width="18" Height="18"/>
+                            </Button>
+                        </StackPanel>
+                    </Grid>
+
+                    <ItemsControl ItemsSource="{Binding WeekDays}" Margin="0,0,0,16">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <UniformGrid Rows="1" Columns="7"/>
+                            </ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Button Click="WeekDay_Click"
+                                        Tag="{Binding Date}"
+                                        Margin="0,0,10,0"
+                                        Padding="10,8"
+                                        Background="#F8FAFC"
+                                        BorderBrush="#E2E8F0"
+                                        Foreground="#0F172A"
+                                        Cursor="Hand">
+                                    <Button.Template>
+                                        <ControlTemplate TargetType="Button">
+                                            <Border x:Name="B"
+                                                    Background="{TemplateBinding Background}"
+                                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                                    BorderThickness="1"
+                                                    CornerRadius="10"
+                                                    Padding="{TemplateBinding Padding}">
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding DayName}" FontSize="12" FontWeight="SemiBold"/>
+                                                    <TextBlock Text="{Binding DayNumber}" FontSize="11" Foreground="#64748B" Margin="0,3,0,0"/>
+                                                </StackPanel>
+                                            </Border>
+                                            <ControlTemplate.Triggers>
+                                                <Trigger Property="IsMouseOver" Value="True">
+                                                    <Setter TargetName="B" Property="BorderBrush" Value="#84CC16"/>
+                                                </Trigger>
+                                                <DataTrigger Value="True">
+                                                    <DataTrigger.Binding>
+                                                        <MultiBinding Converter="{StaticResource DateEqualsToBoolConverter}">
+                                                            <Binding Path="Date"/>
+                                                            <Binding Path="DataContext.SelectedDate" RelativeSource="{RelativeSource AncestorType=Page}"/>
+                                                        </MultiBinding>
+                                                    </DataTrigger.Binding>
+                                                    <Setter TargetName="B" Property="BorderBrush" Value="#84CC16"/>
+                                                    <Setter TargetName="B" Property="Background" Value="#ECFCCB"/>
+                                                </DataTrigger>
+                                                <DataTrigger Binding="{Binding IsToday}" Value="True">
+                                                    <Setter TargetName="B" Property="BorderBrush" Value="#60A5FA"/>
+                                                </DataTrigger>
+                                            </ControlTemplate.Triggers>
+                                        </ControlTemplate>
+                                    </Button.Template>
+                                </Button>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <WrapPanel Margin="0,0,0,16">
+                        <Border Margin="0,0,12,8" Padding="10,6" CornerRadius="14" Background="#F0FDF4" BorderBrush="#A3E635" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse Width="10" Height="10" Fill="#84CC16" Margin="0,0,8,0"/>
+                                <TextBlock Text="Available" Foreground="#3F6212" FontWeight="Medium"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Margin="0,0,12,8" Padding="10,6" CornerRadius="14" Background="#EFF6FF" BorderBrush="#60A5FA" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse Width="10" Height="10" Fill="#3B82F6" Margin="0,0,8,0"/>
+                                <TextBlock Text="Booked" Foreground="#1D4ED8" FontWeight="Medium"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Margin="0,0,12,8" Padding="10,6" CornerRadius="14" Background="#FFEDD5" BorderBrush="#FB923C" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse Width="10" Height="10" Fill="#F97316" Margin="0,0,8,0"/>
+                                <TextBlock Text="Maintenance" Foreground="#C2410C" FontWeight="Medium"/>
+                            </StackPanel>
+                        </Border>
+                    </WrapPanel>
+
+                    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Disabled">
+                        <StackPanel>
+                            <!-- Header Row: Courts -->
+                            <Grid Margin="0,0,0,10">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="110"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+
+                                <TextBlock Grid.Column="0" Text="Time" Foreground="#64748B" FontWeight="SemiBold" VerticalAlignment="Center"/>
+
+                                <ItemsControl Grid.Column="1" ItemsSource="{Binding Courts}">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <UniformGrid Rows="1" Columns="{Binding Courts.Count}"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                    <ItemsControl.ItemTemplate>
+                                        <DataTemplate>
+                                            <Border Margin="0,0,10,0" Background="#0F172A" CornerRadius="8" Padding="10,8">
+                                                <TextBlock Text="{Binding Name}" Foreground="#84CC16" FontWeight="Bold" HorizontalAlignment="Center"/>
+                                            </Border>
+                                        </DataTemplate>
+                                    </ItemsControl.ItemTemplate>
+                                </ItemsControl>
+                            </Grid>
+
+                            <!-- Body Rows -->
+                            <ItemsControl ItemsSource="{Binding ScheduleRows}">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Grid Margin="0,0,0,10">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition Width="110"/>
+                                                <ColumnDefinition Width="*"/>
+                                            </Grid.ColumnDefinitions>
+
+                                            <TextBlock Grid.Column="0" Text="{Binding TimeLabel}" Foreground="#0F172A" FontWeight="SemiBold" VerticalAlignment="Center"/>
+
+                                            <ItemsControl Grid.Column="1" ItemsSource="{Binding Cells}">
+                                                <ItemsControl.ItemsPanel>
+                                                    <ItemsPanelTemplate>
+                                                        <UniformGrid Rows="1" Columns="{Binding DataContext.Courts.Count, RelativeSource={RelativeSource AncestorType=Page}}"/>
+                                                    </ItemsPanelTemplate>
+                                                </ItemsControl.ItemsPanel>
+                                                <ItemsControl.ItemTemplate>
+                                                    <DataTemplate>
+                                                        <Border Margin="0,0,10,0"
+                                                                Padding="12,10"
+                                                                CornerRadius="8"
+                                                                BorderThickness="2"
+                                                                ToolTip="{Binding Details}"
+                                                                Cursor="Hand"
+                                                                MouseLeftButtonUp="ScheduleCell_Click">
+                                                            <Border.Style>
+                                                                <Style TargetType="Border">
+                                                                    <Setter Property="Background" Value="#F0FDF4"/>
+                                                                    <Setter Property="BorderBrush" Value="#A3E635"/>
+                                                                    <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding StatusKey}" Value="Booked">
+                                                                            <Setter Property="Background" Value="#EFF6FF"/>
+                                                                            <Setter Property="BorderBrush" Value="#60A5FA"/>
+                                                                        </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding StatusKey}" Value="Maintenance">
+                                                                            <Setter Property="Background" Value="#FFEDD5"/>
+                                                                            <Setter Property="BorderBrush" Value="#FB923C"/>
+                                                                        </DataTrigger>
+                                                                    </Style.Triggers>
+                                                                </Style>
+                                                            </Border.Style>
+
+                                                            <TextBlock Text="{Binding StatusText}" FontWeight="SemiBold" HorizontalAlignment="Center">
+                                                                <TextBlock.Style>
+                                                                    <Style TargetType="TextBlock">
+                                                                        <Setter Property="Foreground" Value="#3F6212"/>
+                                                                        <Style.Triggers>
+                                                                            <DataTrigger Binding="{Binding StatusKey}" Value="Booked">
+                                                                                <Setter Property="Foreground" Value="#1D4ED8"/>
+                                                                            </DataTrigger>
+                                                                            <DataTrigger Binding="{Binding StatusKey}" Value="Maintenance">
+                                                                                <Setter Property="Foreground" Value="#C2410C"/>
+                                                                            </DataTrigger>
+                                                                        </Style.Triggers>
+                                                                    </Style>
+                                                                </TextBlock.Style>
+                                                            </TextBlock>
+                                                        </Border>
+                                                    </DataTemplate>
+                                                </ItemsControl.ItemTemplate>
+                                            </ItemsControl>
+                                        </Grid>
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </StackPanel>
+                    </ScrollViewer>
+                </StackPanel>
+            </Border>
+
+            <Border x:Name="AllBookingsSection" Style="{StaticResource Card}">
+                <StackPanel>
+                    <Grid Margin="0,0,0,20">
+                        <TextBlock Text="Tất cả lượt đặt sân" FontSize="18" FontWeight="SemiBold" Foreground="#0F172A"/>
+                        <TextBox HorizontalAlignment="Right"
+                                 Width="300"
+                                 materialDesign:HintAssist.Hint="Tìm kiếm lượt đặt..."
+                                 Text="{Binding SearchText, UpdateSourceTrigger=PropertyChanged}">
+                            <TextBox.Style>
+                                <Style TargetType="TextBox" BasedOn="{StaticResource {x:Type TextBox}}">
+                                    <Setter Property="Padding" Value="8"/>
+                                </Style>
+                            </TextBox.Style>
+                        </TextBox>
+                    </Grid>
+
+                    <DataGrid ItemsSource="{Binding VisibleBookings}"
+                              AutoGenerateColumns="False"
+                              CanUserAddRows="False"
+                              CanUserDeleteRows="False"
+                              IsReadOnly="True"
+                              GridLinesVisibility="None"
+                              HeadersVisibility="Column"
+                              SelectionMode="Single"
+                              AlternatingRowBackground="#F8FAFC"
+                              ScrollViewer.HorizontalScrollBarVisibility="Auto"
+                              ScrollViewer.VerticalScrollBarVisibility="Auto">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="Mã đặt" Binding="{Binding Id}" Width="Auto" FontWeight="Medium"/>
+                            <DataGridTextColumn Header="Khách hàng" Binding="{Binding Customer}" Width="200"/>
+                            <DataGridTextColumn Header="Số điện thoại" Binding="{Binding Phone}" Width="Auto"/>
+                            <DataGridTextColumn Header="Sân" Binding="{Binding Court}" Width="Auto"/>
+                            <DataGridTextColumn Header="Ngày" Binding="{Binding Date, StringFormat='dd/MM/yyyy'}" Width="Auto"/>
+                            <DataGridTextColumn Header="Giờ" Binding="{Binding Time}" Width="Auto"/>
+                            <DataGridTemplateColumn Header="Loại đặt" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border CornerRadius="4" Padding="8,4">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Type}" Value="Casual">
+                                                            <Setter Property="Background" Value="#DBEAFE"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Type}" Value="Fixed">
+                                                            <Setter Property="Background" Value="#E9D5FF"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <TextBlock Text="{Binding Type}" FontSize="11" FontWeight="Medium">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Type}" Value="Casual">
+                                                                <Setter Property="Foreground" Value="#1E40AF"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Type}" Value="Fixed">
+                                                                <Setter Property="Foreground" Value="#6B21A8"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTemplateColumn Header="Trạng thái" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Border CornerRadius="4" Padding="8,4">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Status}" Value="Checked-in">
+                                                            <Setter Property="Background" Value="#D1FAE5"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Status}" Value="Pending">
+                                                            <Setter Property="Background" Value="#FEF3C7"/>
+                                                        </DataTrigger>
+                                                        <DataTrigger Binding="{Binding Status}" Value="Cancelled">
+                                                            <Setter Property="Background" Value="#FEE2E2"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
+                                            <TextBlock Text="{Binding Status}" FontSize="11" FontWeight="Medium">
+                                                <TextBlock.Style>
+                                                    <Style TargetType="TextBlock">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Status}" Value="Checked-in">
+                                                                <Setter Property="Foreground" Value="#065F46"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Status}" Value="Pending">
+                                                                <Setter Property="Foreground" Value="#92400E"/>
+                                                            </DataTrigger>
+                                                            <DataTrigger Binding="{Binding Status}" Value="Cancelled">
+                                                                <Setter Property="Foreground" Value="#991B1B"/>
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Style>
+                                            </TextBlock>
+                                        </Border>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                            <DataGridTextColumn Header="Số tiền" Binding="{Binding Amount, StringFormat='₫{0:N0}'}" Width="Auto" FontWeight="SemiBold"/>
+                            <DataGridTemplateColumn Header="Thao tác" Width="Auto">
+                                <DataGridTemplateColumn.CellTemplate>
+                                    <DataTemplate>
+                                        <Button Click="CancelBooking_Click"
+                                                ToolTip="Hủy lịch đặt sân"
+                                                Background="Transparent"
+                                                BorderBrush="Transparent"
+                                                Padding="4"
+                                                Height="30"
+                                                Width="30"
+                                                Cursor="Hand">
+                                            <Button.Style>
+                                                <Style TargetType="Button">
+                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding Status}" Value="Pending">
+                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Button.Style>
+                                            <materialDesign:PackIcon Kind="CloseCircleOutline" Foreground="#EF4444" Width="20" Height="20"/>
+                                        </Button>
+                                    </DataTemplate>
+                                </DataGridTemplateColumn.CellTemplate>
+                            </DataGridTemplateColumn>
+                        </DataGrid.Columns>
+                    </DataGrid>
+
+                    <Button Content="Xem thêm"
+                            HorizontalAlignment="Center"
+                            Padding="16,8"
+                            Margin="0,16,0,0"
+                            Click="LoadMoreBookings_Click">
+                        <Button.Style>
+                            <Style TargetType="Button" BasedOn="{StaticResource OutlineButton}">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding CanLoadMoreBookings}" Value="True">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Button.Style>
+                    </Button>
+                </StackPanel>
+            </Border>
+        </StackPanel>
+    </ScrollViewer>
+</Page>

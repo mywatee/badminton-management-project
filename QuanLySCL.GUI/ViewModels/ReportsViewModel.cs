@@ -1,0 +1,184 @@
+using System;
+using System.Collections.ObjectModel;
+using System.Linq;
+using QuanLySCL.BUS;
+using QuanLySCL.Models;
+using LiveCharts;
+using LiveCharts.Wpf;
+using System.Windows.Input;
+using System.Collections.Generic;
+
+namespace QuanLySCL.GUI.ViewModels
+{
+    public class ReportsViewModel : BaseViewModel
+    {
+        private readonly ReportingBUS _reportingBus = new ReportingBUS();
+
+        private string _selectedTimeRange = "Theo tháng";
+        public string SelectedTimeRange
+        {
+            get => _selectedTimeRange;
+            set
+            {
+                if (SetProperty(ref _selectedTimeRange, value))
+                    LoadData();
+            }
+        }
+
+        public ObservableCollection<string> TimeRanges { get; } = new ObservableCollection<string> 
+        { 
+            "Theo ngày", "Theo tuần", "Theo tháng", "Theo năm" 
+        };
+
+        private ReportSummary _summary = new ReportSummary();
+        public ReportSummary Summary
+        {
+            get => _summary;
+            set => SetProperty(ref _summary, value);
+        }
+
+        private SeriesCollection _revenueSeries;
+        public SeriesCollection RevenueSeries
+        {
+            get => _revenueSeries;
+            set => SetProperty(ref _revenueSeries, value);
+        }
+
+        private List<string> _revenueLabels = new List<string>();
+        public List<string> RevenueLabels
+        {
+            get => _revenueLabels;
+            set => SetProperty(ref _revenueLabels, value);
+        }
+
+        private SeriesCollection _categorySeries = new SeriesCollection();
+        public SeriesCollection CategorySeries
+        {
+            get => _categorySeries;
+            set => SetProperty(ref _categorySeries, value);
+        }
+
+        private SeriesCollection _categorySeriesKPI = new SeriesCollection();
+        public SeriesCollection CategorySeriesKPI
+        {
+            get => _categorySeriesKPI;
+            set => SetProperty(ref _categorySeriesKPI, value);
+        }
+
+        private ObservableCollection<TopCustomerReport> _topCustomers = new ObservableCollection<TopCustomerReport>();
+        public ObservableCollection<TopCustomerReport> TopCustomers
+        {
+            get => _topCustomers;
+            set => SetProperty(ref _topCustomers, value);
+        }
+
+        public ICommand RefreshCommand { get; }
+        public ICommand ExportCommand { get; }
+        public Func<double, string> Formatter { get; } = x => x.ToString("N0");
+
+        public ReportsViewModel()
+        {
+            RevenueSeries = new SeriesCollection();
+            CategorySeries = new SeriesCollection();
+            CategorySeriesKPI = new SeriesCollection();
+            RefreshCommand = new RelayCommand(_ => LoadData());
+            ExportCommand = new RelayCommand(_ => ExportReport());
+            
+            // Safe initial load after UI has chance to initialize
+            System.Windows.Application.Current.Dispatcher.BeginInvoke(new Action(() => LoadData()), System.Windows.Threading.DispatcherPriority.Loaded);
+        }
+
+        public void LoadData()
+        {
+            try
+            {
+                // Basic Summary
+                Summary = _reportingBus.GetSummary(SelectedTimeRange);
+
+                // Revenue Trends (Line Chart)
+                var monthlyRevenue = _reportingBus.GetMonthlyRevenue(SelectedTimeRange) ?? new List<RevenueByMonth>();
+                var revenueValues = new ChartValues<double>();
+                revenueValues.AddRange(monthlyRevenue.Select(x => (double)x.Revenue));
+
+                RevenueSeries.Clear();
+                RevenueSeries.Add(new LineSeries
+                {
+                    Title = "Doanh thu",
+                    Values = revenueValues,
+                    PointGeometry = DefaultGeometries.Circle,
+                    PointGeometrySize = 10,
+                    StrokeThickness = 3
+                });
+                RevenueLabels = monthlyRevenue.Select(x => x.Month).ToList();
+
+                // Revenue By Category (Pie Chart)
+                var categoryRevenue = _reportingBus.GetCategoryRevenue(SelectedTimeRange) ?? new List<RevenueByCategory>();
+                
+                CategorySeries.Clear();
+                CategorySeriesKPI.Clear();
+
+                foreach (var cat in categoryRevenue)
+                {
+                    double value = (double)cat.Revenue;
+                    
+                    CategorySeries.Add(new PieSeries
+                    {
+                        Title = cat.Category,
+                        Values = new ChartValues<double> { value },
+                        DataLabels = true
+                    });
+
+                    CategorySeriesKPI.Add(new PieSeries
+                    {
+                        Title = cat.Category,
+                        Values = new ChartValues<double> { value },
+                        DataLabels = false
+                    });
+                }
+
+                // Top Customers
+                TopCustomers = new ObservableCollection<TopCustomerReport>(_reportingBus.GetTopCustomers(5, SelectedTimeRange) ?? new List<TopCustomerReport>());
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("ReportsViewModel Error: " + ex.Message);
+            }
+        }
+
+        private void ExportReport()
+        {
+            try
+            {
+                var dialog = new Microsoft.Win32.SaveFileDialog
+                {
+                    FileName = $"BaoCaoDoanhThu_{DateTime.Now:yyyyMMdd}.csv",
+                    DefaultExt = ".csv",
+                    Filter = "CSV documents (.csv)|*.csv"
+                };
+
+                if (dialog.ShowDialog() == true)
+                {
+                    var lines = new List<string>();
+                    lines.Add("BÁO CÁO TỔNG QUAN DOANH THU");
+                    lines.Add("Tổng Doanh Thu,Tổng Số Đặt Sân,Doanh Thu TB/Ngày,Tỷ Lệ Tăng Trưởng");
+                    lines.Add($"{Summary.TotalRevenue},{Summary.TotalBookings},{Summary.AvgRevenuePerDay},{Summary.RevenueGrowth}%");
+                    lines.Add("");
+                    lines.Add("TOP KHÁCH HÀNG");
+                    lines.Add("Tên Khách Hàng,Số Lượng Đặt,Tổng Tiền Thuê");
+                    foreach (var c in TopCustomers)
+                    {
+                        lines.Add($"{c.Name},{c.TotalBookings},{c.TotalSpent}");
+                    }
+
+                    // Sử dụng UTF8 với BOM để Excel hỗ trợ hiển thị Tiếng Việt
+                    System.IO.File.WriteAllLines(dialog.FileName, lines, new System.Text.UTF8Encoding(true));
+                    System.Windows.MessageBox.Show("Xuất báo cáo CSV thành công!", "Thành công", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                System.Windows.MessageBox.Show("Lỗi khi xuất file: " + ex.Message, "Lỗi", System.Windows.MessageBoxButton.OK, System.Windows.MessageBoxImage.Error);
+            }
+        }
+    }
+}

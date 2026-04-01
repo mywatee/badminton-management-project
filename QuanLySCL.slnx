@@ -1,0 +1,7 @@
+<Solution>
+  <Project Path="QuanLySCL.BUS/QuanLySCL.BUS.csproj" Id="fd81038d-97b8-4fe5-9ca2-ceefd719fe30" />
+  <Project Path="QuanLySCL.DAL/QuanLySCL.DAL.csproj" Id="6b55c1f4-94ef-43d8-aca2-fda7b0ada19e" />
+  <Project Path="QuanLySCL.GUI/QuanLySCL.GUI.csproj" />
+  <Project Path="QuanLySCL.Models/QuanLySCL.Models.csproj" Id="c18ad72a-8c51-419b-8d4a-ab41b83cd02b" />
+  <Project Path="QuanLySCL.Tests/QuanLySCL.Tests.csproj" />
+</Solution>
