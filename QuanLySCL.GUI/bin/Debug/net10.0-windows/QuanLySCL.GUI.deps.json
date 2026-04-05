@@ -10,6 +10,7 @@
         "dependencies": {
           "LiveCharts.Wpf": "0.9.7",
           "MaterialDesignThemes": "5.3.1",
+          "Microsoft.Playwright": "1.58.0",
           "Microsoft.Web.WebView2": "1.0.3856.49",
           "QuanLySCL.BUS": "1.0.0",
           "QuanLySCL.DAL": "1.0.0",
@@ -58,6 +59,14 @@
           "lib/net10.0-windows7.0/MaterialDesignThemes.Wpf.dll": {
             "assemblyVersion": "5.3.1.0",
             "fileVersion": "5.3.1.0"
+          }
+        }
+      },
+      "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
+        "runtime": {
+          "lib/netstandard2.1/Microsoft.Bcl.AsyncInterfaces.dll": {
+            "assemblyVersion": "6.0.0.0",
+            "fileVersion": "6.0.21.52210"
           }
         }
       },
@@ -310,6 +319,17 @@
           }
         }
       },
+      "Microsoft.Playwright/1.58.0": {
+        "dependencies": {
+          "Microsoft.Bcl.AsyncInterfaces": "6.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Microsoft.Playwright.dll": {
+            "assemblyVersion": "1.58.0.0",
+            "fileVersion": "1.58.0.0"
+          }
+        }
+      },
       "Microsoft.SqlServer.Server/1.0.0": {
         "runtime": {
           "lib/netstandard2.0/Microsoft.SqlServer.Server.dll": {
@@ -359,8 +379,6 @@
       },
       "QuanLySCL.BUS/1.0.0": {
         "dependencies": {
-          "LiveCharts.Wpf": "0.9.7",
-          "MaterialDesignThemes": "5.3.1",
           "QuanLySCL.DAL": "1.0.0",
           "QuanLySCL.Models": "1.0.0"
         },
@@ -450,6 +468,13 @@
       "sha512": "sha512-IjsWlh22m2jRQEMwlg5LIDZLsSEgeROyBQU7yMjqOQATx1ls/dZoLxDcLgwjNMbO2LcGPsHAeY1Q9tjKkN45ig==",
       "path": "materialdesignthemes/5.3.1",
       "hashPath": "materialdesignthemes.5.3.1.nupkg.sha512"
+    },
+    "Microsoft.Bcl.AsyncInterfaces/6.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-UcSjPsst+DfAdJGVDsu346FX0ci0ah+lw3WRtn18NUwEqRt70HaOQ7lI72vy3+1LxtqI3T5GWwV39rQSrCzAeg==",
+      "path": "microsoft.bcl.asyncinterfaces/6.0.0",
+      "hashPath": "microsoft.bcl.asyncinterfaces.6.0.0.nupkg.sha512"
     },
     "Microsoft.Bcl.Cryptography/9.0.13": {
       "type": "package",
@@ -569,6 +594,13 @@
       "sha512": "sha512-rtViGJcGsN7WcfUNErwNeQgjuU5cJNl6FDQsfi9TncwO+Epzn0FTfBsg3YuFW1Q0Ch/KPxaVdjLw3/+5Z5ceFQ==",
       "path": "microsoft.identitymodel.tokens/8.16.0",
       "hashPath": "microsoft.identitymodel.tokens.8.16.0.nupkg.sha512"
+    },
+    "Microsoft.Playwright/1.58.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LYLB00NUTzdY3NEN+fOQcxNuVALoGJMMWZYQINGBs4MfsKcTvr6WKoAmSsT5D4pPOOnN8uAyushEzoQ8qUEb0w==",
+      "path": "microsoft.playwright/1.58.0",
+      "hashPath": "microsoft.playwright.1.58.0.nupkg.sha512"
     },
     "Microsoft.SqlServer.Server/1.0.0": {
       "type": "package",

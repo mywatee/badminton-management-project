@@ -6,6 +6,7 @@ using QuanLySCL.GUI.ViewModels;
 using QuanLySCL.GUI.Windows;
 using QuanLySCL.Models;
 using System;
+using System.Linq;
 
 namespace QuanLySCL.GUI.Views
 {
@@ -73,6 +74,12 @@ namespace QuanLySCL.GUI.Views
             }
         }
 
+        private void RankProgress_Click(object sender, MouseButtonEventArgs e)
+        {
+            if (DataContext is DashboardViewModel vm)
+                vm.ToggleRankPercent();
+        }
+
         private void CheckIn_Click(object sender, RoutedEventArgs e)
         {
             if (sender is not Button btn) return;
@@ -98,6 +105,28 @@ namespace QuanLySCL.GUI.Views
                 {
                     MessageBox.Show("Lỗi: " + error, "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                 }
+            }
+        }
+
+        private void CheckOut_Click(object sender, RoutedEventArgs e)
+        {
+            if (sender is not Button btn) return;
+            if (btn.Tag is not Booking booking) return;
+
+            var viewModel = DataContext as DashboardViewModel;
+            if (viewModel == null || !viewModel.IsAdminOrStaff)
+            {
+                MessageBox.Show("Bạn không có quyền thực hiện thao tác này.", "Lỗi quyền", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var win = new CheckOutWindow(booking.Id)
+            {
+                Owner = Window.GetWindow(this)
+            };
+            if (win.ShowDialog() == true)
+            {
+                viewModel?.RefreshData();
             }
         }
         private void AddService_Click(object sender, RoutedEventArgs e)
@@ -173,6 +202,98 @@ namespace QuanLySCL.GUI.Views
             if (win.ShowDialog() == true)
             {
                 viewModel.LoadData();
+            }
+        }
+
+        private void QuickSearchBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                if (DataContext is DashboardViewModel vmEsc)
+                    vmEsc.IsQuickSearchPopupOpen = false;
+                return;
+            }
+
+            if (e.Key != Key.Enter) return;
+
+            var vm = DataContext as DashboardViewModel;
+            if (vm == null || !vm.IsAdminOrStaff) return;
+
+            var candidates = (vm.QuickSearchMatches ?? new System.Collections.ObjectModel.ObservableCollection<Booking>())
+                .Where(b => b != null && !string.IsNullOrWhiteSpace(b.Id))
+                .ToList();
+
+            if (candidates.Count == 0)
+            {
+                MessageBox.Show("Không tìm thấy lượt đặt phù hợp để thanh toán.", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            if (candidates.Count == 1)
+            {
+                OpenCheckoutForBooking(candidates[0]);
+                vm.IsQuickSearchPopupOpen = false;
+                return;
+            }
+
+            // Multiple matches -> open suggestion list for user to choose.
+            vm.IsQuickSearchPopupOpen = true;
+            vm.SelectedQuickSearchMatch ??= candidates[0];
+            QuickSearchList?.Focus();
+            e.Handled = true;
+        }
+
+        private void QuickSearchList_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Escape)
+            {
+                if (DataContext is DashboardViewModel vmEsc)
+                    vmEsc.IsQuickSearchPopupOpen = false;
+                QuickSearchBox?.Focus();
+                return;
+            }
+
+            if (e.Key != Key.Enter) return;
+            OpenCheckoutForSelectedQuickMatch();
+            e.Handled = true;
+        }
+
+        private void QuickSearchList_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            OpenCheckoutForSelectedQuickMatch();
+        }
+
+        private void OpenCheckoutForSelectedQuickMatch()
+        {
+            var vm = DataContext as DashboardViewModel;
+            if (vm == null || !vm.IsAdminOrStaff) return;
+
+            var booking = vm.SelectedQuickSearchMatch;
+            if (booking == null || string.IsNullOrWhiteSpace(booking.Id)) return;
+
+            OpenCheckoutForBooking(booking);
+            vm.IsQuickSearchPopupOpen = false;
+            QuickSearchBox?.Focus();
+        }
+
+        private void OpenCheckoutForBooking(Booking booking)
+        {
+            if (booking == null || string.IsNullOrWhiteSpace(booking.Id)) return;
+
+            var vm = DataContext as DashboardViewModel;
+            if (vm == null || !vm.IsAdminOrStaff)
+            {
+                MessageBox.Show("Bạn không có quyền thực hiện thao tác này.", "Lỗi quyền", MessageBoxButton.OK, MessageBoxImage.Warning);
+                return;
+            }
+
+            var win = new CheckOutWindow(booking.Id)
+            {
+                Owner = Window.GetWindow(this)
+            };
+            if (win.ShowDialog() == true)
+            {
+                vm.RefreshData();
             }
         }
     }

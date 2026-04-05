@@ -42,10 +42,25 @@ namespace QuanLySCL.BUS
             DateTime usageDate,
             string bookingTypeVN,
             List<(string serviceId, int quantity, decimal price)> selectedServices,
+            bool ignorePastCheck,
             out string bookingId,
             out string error)
         {
-            return _bookingDal.CreateBookingWithDetail(customerId, courtId, slotId, usageDate, bookingTypeVN, selectedServices, out bookingId, out error);
+            return _bookingDal.CreateBookingWithDetail(customerId, courtId, slotId, usageDate, bookingTypeVN, selectedServices, ignorePastCheck, out bookingId, out error);
+        }
+
+        public bool CreateBooking(
+            string customerId,
+            string courtId,
+            IReadOnlyList<string> slotIds,
+            DateTime usageDate,
+            string bookingTypeVN,
+            List<(string serviceId, int quantity, decimal price)> selectedServices,
+            bool ignorePastCheck,
+            out string bookingId,
+            out string error)
+        {
+            return _bookingDal.CreateBookingWithDetails(customerId, courtId, slotIds, usageDate, bookingTypeVN, selectedServices, ignorePastCheck, out bookingId, out error);
         }
 
         public bool IsCourtSlotFree(string courtId, string slotId, DateTime usageDate)
@@ -56,6 +71,16 @@ namespace QuanLySCL.BUS
         public decimal GetPriceForCourtSlot(string courtId, string slotId, string bookingType)
         {
             return _bookingDal.GetPriceForCourtSlot(courtId, slotId, bookingType);
+        }
+
+        public decimal GetTotalPriceForCourtSlots(string courtId, IReadOnlyList<string> slotIds, string bookingType)
+        {
+            return _bookingDal.GetTotalPriceForCourtSlots(courtId, slotIds, bookingType);
+        }
+
+        public List<string> GetBusyCourtSlots(string courtId, IReadOnlyList<string> slotIds, DateTime usageDate)
+        {
+            return _bookingDal.GetBusyCourtSlots(courtId, slotIds, usageDate);
         }
         public (decimal dailyRevenue, int activeBookings, decimal monthlyGrowth) GetBookingStats()
         {

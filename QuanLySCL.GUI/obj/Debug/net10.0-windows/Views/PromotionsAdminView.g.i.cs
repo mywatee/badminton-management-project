@@ -55,7 +55,7 @@ namespace QuanLySCL.GUI.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/QuanLySCL.GUI;V1.0.0.0;component/views/promotionsadminview.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/QuanLySCL.GUI;component/views/promotionsadminview.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Views\PromotionsAdminView.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

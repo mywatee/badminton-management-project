@@ -5,6 +5,7 @@ D:\github\QuanLySCL\QuanLySCL.Models\obj\Debug\net10.0\QuanLySCL.Models.Generate
 D:\github\QuanLySCL\QuanLySCL.Models\obj\Debug\net10.0\QuanLySCL.Models.AssemblyInfoInputs.cache
 D:\github\QuanLySCL\QuanLySCL.Models\obj\Debug\net10.0\QuanLySCL.Models.AssemblyInfo.cs
 D:\github\QuanLySCL\QuanLySCL.Models\obj\Debug\net10.0\QuanLySCL.Models.csproj.CoreCompileInputs.cache
+D:\github\QuanLySCL\QuanLySCL.Models\obj\Debug\net10.0\QuanLySCL.Models.sourcelink.json
 D:\github\QuanLySCL\QuanLySCL.Models\obj\Debug\net10.0\QuanLySCL.Models.dll
 D:\github\QuanLySCL\QuanLySCL.Models\obj\Debug\net10.0\refint\QuanLySCL.Models.dll
 D:\github\QuanLySCL\QuanLySCL.Models\obj\Debug\net10.0\QuanLySCL.Models.pdb

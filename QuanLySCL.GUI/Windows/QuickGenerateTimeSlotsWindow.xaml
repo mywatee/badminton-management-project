@@ -1,0 +1,147 @@
+<Window x:Class="QuanLySCL.GUI.Windows.QuickGenerateTimeSlotsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Tạo nhanh Ca 30 phút + Bảng giá" Height="700" Width="820"
+        WindowStartupLocation="CenterOwner"
+        Background="{StaticResource BackgroundGray}">
+
+    <Border BorderBrush="{StaticResource NavyBlueLight}" BorderThickness="0" Background="White" CornerRadius="12">
+        <Grid Margin="28">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <StackPanel Margin="0,0,0,18">
+                <Grid>
+                    <materialDesign:PackIcon Kind="ClockOutline" Width="24" Height="24" Foreground="{StaticResource LimeGreen}" VerticalAlignment="Center"/>
+                    <TextBlock Text="Tạo nhanh Ca 30 phút + Bảng giá" FontSize="22" FontWeight="Bold" Foreground="{StaticResource NavyBlueBrush}" Margin="32,0,0,0"/>
+                </Grid>
+                <TextBlock Text="Gợi ý: để đặt 1h30 và >2h, bạn nên có ca theo bước 30 phút và liền kề nhau."
+                           Foreground="#64748B" Margin="0,8,0,0"/>
+                <Separator Background="#F1F5F9" Margin="0,12,0,0"/>
+            </StackPanel>
+
+            <!-- Body -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+                <StackPanel>
+                    <TextBlock Text="1) Khung giờ hoạt động" FontWeight="SemiBold" Foreground="#0F172A" Margin="0,0,0,8"/>
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <TextBox x:Name="TxtOpen" Grid.Column="0" Margin="0,0,8,0"
+                                 materialDesign:HintAssist.Hint="Giờ mở cửa (hh:mm)"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                        <TextBox x:Name="TxtClose" Grid.Column="1" Margin="8,0,8,0"
+                                 materialDesign:HintAssist.Hint="Giờ đóng cửa (hh:mm)"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                        <TextBox x:Name="TxtStep" Grid.Column="2" Margin="8,0,0,0"
+                                 materialDesign:HintAssist.Hint="Bước (phút) (mặc định 30)"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                    </Grid>
+
+                    <TextBlock Text="2) Giờ vàng (tuỳ chọn)" FontWeight="SemiBold" Foreground="#0F172A" Margin="0,0,0,8"/>
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="TxtPeakStart" Grid.Column="0" Margin="0,0,8,0"
+                                 materialDesign:HintAssist.Hint="Bắt đầu (hh:mm)"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                        <TextBox x:Name="TxtPeakEnd" Grid.Column="1" Margin="8,0,0,0"
+                                 materialDesign:HintAssist.Hint="Kết thúc (hh:mm)"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                    </Grid>
+
+                    <TextBlock Text="3) Giá mặc định" FontWeight="SemiBold" Foreground="#0F172A" Margin="0,0,0,8"/>
+                    <CheckBox x:Name="ChkInferPrice"
+                              Content="Tự suy ra giá từ bảng giá hiện có (nếu để trống/0)"
+                              IsChecked="True"
+                              Style="{StaticResource MaterialDesignCheckBox}"
+                              Foreground="{StaticResource NavyBlueLight}" FontWeight="SemiBold"
+                              Margin="0,0,0,10"/>
+                    <Grid Margin="0,0,0,10">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="TxtLeNormal" Grid.Column="0" Margin="0,0,8,0"
+                                 materialDesign:HintAssist.Hint="Giá Lẻ (thường) VNĐ"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                        <TextBox x:Name="TxtLePeak" Grid.Column="1" Margin="8,0,0,0"
+                                 materialDesign:HintAssist.Hint="Giá Lẻ (giờ vàng) VNĐ"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,16">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <TextBox x:Name="TxtFixedNormal" Grid.Column="0" Margin="0,0,8,0"
+                                 materialDesign:HintAssist.Hint="Giá Cố định (thường) VNĐ"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                        <TextBox x:Name="TxtFixedPeak" Grid.Column="1" Margin="8,0,0,0"
+                                 materialDesign:HintAssist.Hint="Giá Cố định (giờ vàng) VNĐ"
+                                 Style="{StaticResource MaterialDesignFloatingHintTextBox}"/>
+                    </Grid>
+
+                    <CheckBox x:Name="ChkApplyAll" Content="Áp dụng giá mặc định cho tất cả Loại sân"
+                              IsChecked="True"
+                              Style="{StaticResource MaterialDesignCheckBox}"
+                              Foreground="{StaticResource NavyBlueLight}" FontWeight="SemiBold"
+                              Checked="ApplyAll_Checked" Unchecked="ApplyAll_Checked"/>
+
+                    <Border x:Name="PerTypeBorder" Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1"
+                            CornerRadius="10" Padding="12" Margin="0,10,0,16" Visibility="Collapsed">
+                        <StackPanel>
+                            <TextBlock Text="Giá theo từng Loại sân (nếu không muốn áp dụng chung)" FontWeight="SemiBold" Foreground="#0F172A" Margin="0,0,0,8"/>
+                            <DataGrid x:Name="GridCourtTypePrices"
+                                      AutoGenerateColumns="False"
+                                      CanUserAddRows="False"
+                                      HeadersVisibility="Column"
+                                      BorderThickness="0"
+                                      Background="Transparent">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Loại sân" Binding="{Binding CourtTypeName}" IsReadOnly="True" Width="2*"/>
+                                    <DataGridTextColumn Header="Lẻ (thường)" Binding="{Binding LeNormal}" Width="*"/>
+                                    <DataGridTextColumn Header="Lẻ (vàng)" Binding="{Binding LePeak}" Width="*"/>
+                                    <DataGridTextColumn Header="Cố định (thường)" Binding="{Binding FixedNormal}" Width="*"/>
+                                    <DataGridTextColumn Header="Cố định (vàng)" Binding="{Binding FixedPeak}" Width="*"/>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </StackPanel>
+                    </Border>
+
+                    <CheckBox x:Name="ChkOverwrite" Content="Ghi đè nếu ca/giá đã tồn tại"
+                              IsChecked="False"
+                              Style="{StaticResource MaterialDesignCheckBox}"
+                              Foreground="{StaticResource NavyBlueLight}" FontWeight="SemiBold"/>
+
+                    <Border Background="#FFFBEB" BorderBrush="#FDE68A" BorderThickness="1" CornerRadius="10" Padding="10" Margin="0,16,0,0">
+                        <TextBlock Text="Lưu ý: Hệ thống sẽ tạo các ca theo bước phút từ giờ mở cửa đến giờ đóng cửa (không bao gồm ca vượt quá giờ đóng cửa)."
+                                   Foreground="#92400E" TextWrapping="Wrap"/>
+                    </Border>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Actions -->
+            <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,14,0,0">
+                <Button Content="HỦY" Click="Cancel_Click" Margin="0,0,12,0"
+                        Style="{StaticResource MaterialDesignFlatButton}" Foreground="#64748B"/>
+                <Button Content="TẠO NGAY" Click="Generate_Click"
+                        Style="{StaticResource MaterialDesignFlatButton}"
+                        Background="{StaticResource LimeGreen}" Foreground="#0F172A" FontWeight="Bold"
+                        Height="40" Padding="20,0"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>

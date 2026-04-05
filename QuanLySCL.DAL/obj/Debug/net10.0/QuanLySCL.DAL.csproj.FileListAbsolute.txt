@@ -8,6 +8,7 @@ D:\github\QuanLySCL\QuanLySCL.DAL\obj\Debug\net10.0\QuanLySCL.DAL.GeneratedMSBui
 D:\github\QuanLySCL\QuanLySCL.DAL\obj\Debug\net10.0\QuanLySCL.DAL.AssemblyInfoInputs.cache
 D:\github\QuanLySCL\QuanLySCL.DAL\obj\Debug\net10.0\QuanLySCL.DAL.AssemblyInfo.cs
 D:\github\QuanLySCL\QuanLySCL.DAL\obj\Debug\net10.0\QuanLySCL.DAL.csproj.CoreCompileInputs.cache
+D:\github\QuanLySCL\QuanLySCL.DAL\obj\Debug\net10.0\QuanLySCL.DAL.sourcelink.json
 D:\github\QuanLySCL\QuanLySCL.DAL\obj\Debug\net10.0\QuanLySC.677F7DFA.Up2Date
 D:\github\QuanLySCL\QuanLySCL.DAL\obj\Debug\net10.0\QuanLySCL.DAL.dll
 D:\github\QuanLySCL\QuanLySCL.DAL\obj\Debug\net10.0\refint\QuanLySCL.DAL.dll

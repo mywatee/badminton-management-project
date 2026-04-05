@@ -58,6 +58,14 @@
                         </StackPanel>
                     </Grid>
 
+                    <Border Background="#FFFBEB" BorderBrush="#FDE68A" BorderThickness="1" CornerRadius="10" Padding="10" Margin="0,0,0,14">
+                        <StackPanel>
+                            <TextBlock Text="Lưu ý" FontWeight="SemiBold" Foreground="#92400E"/>
+                            <TextBlock Text="• Không được hủy sân trong vòng 24 giờ trước giờ chơi." Foreground="#92400E" Margin="0,4,0,0"/>
+                            <TextBlock Text="• Đặt sân cố định phải &gt;= 4 buổi (4 tuần)." Foreground="#92400E" Margin="0,2,0,0"/>
+                        </StackPanel>
+                    </Border>
+
                     <!-- Repetition Field (Only for Fixed) -->
                     <StackPanel Margin="0,0,0,14">
                         <StackPanel.Style>
@@ -85,6 +93,7 @@
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="*"/>
                             <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
                         </Grid.ColumnDefinitions>
 
                         <StackPanel Margin="0,0,10,0">
@@ -92,11 +101,26 @@
                             <ComboBox ItemsSource="{Binding Courts}" SelectedItem="{Binding SelectedCourt}" DisplayMemberPath="Name"/>
                         </StackPanel>
 
-                        <StackPanel Grid.Column="1" Margin="10,0,0,0">
-                            <TextBlock Text="Ca giờ" FontWeight="SemiBold" Foreground="#0F172A" Margin="0,0,0,6"/>
-                            <ComboBox ItemsSource="{Binding TimeSlots}" SelectedItem="{Binding SelectedSlot}" DisplayMemberPath="DisplayLabel"/>
+                        <StackPanel Grid.Column="1" Margin="10,0,10,0">
+                            <TextBlock Text="Ca giờ (bắt đầu)" FontWeight="SemiBold" Foreground="#0F172A" Margin="0,0,0,6"/>
+                            <ComboBox ItemsSource="{Binding StartTimeSlots}" SelectedItem="{Binding SelectedSlot}" DisplayMemberPath="DisplayLabel"/>
+                        </StackPanel>
+
+                        <StackPanel Grid.Column="2" Margin="10,0,0,0">
+                            <TextBlock Text="Thời lượng" FontWeight="SemiBold" Foreground="#0F172A" Margin="0,0,0,6"/>
+                            <ComboBox ItemsSource="{Binding DurationOptions}" SelectedItem="{Binding SelectedDuration}" DisplayMemberPath="Label"/>
                         </StackPanel>
                     </Grid>
+
+                    <Border Background="#FEF2F2"
+                            BorderBrush="#FCA5A5"
+                            BorderThickness="1"
+                            CornerRadius="10"
+                            Padding="12"
+                            Margin="0,0,0,14"
+                            Visibility="{Binding DurationErrorText, Converter={StaticResource StringNullOrEmptyToVisibilityConverter}}">
+                        <TextBlock Text="{Binding DurationErrorText}" Foreground="#B91C1C" TextWrapping="Wrap"/>
+                    </Border>
 
                     <Border Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="10" Padding="14" Margin="0,0,0,14">
                         <Grid>

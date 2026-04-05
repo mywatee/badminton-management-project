@@ -78,7 +78,7 @@ namespace QuanLySCL.GUI.Views
             var res = bus.DeleteService(s.Id);
             if (!res.ok)
             {
-                MessageBox.Show("Không thể xóa dịch vụ: " + (res.error ?? "Unknown"), "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(res.error ?? "Không thể xóa dịch vụ.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 
@@ -98,4 +98,3 @@ namespace QuanLySCL.GUI.Views
         }
     }
 }
-

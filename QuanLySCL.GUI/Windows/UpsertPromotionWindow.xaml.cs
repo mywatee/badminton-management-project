@@ -1,5 +1,6 @@
 using QuanLySCL.Models;
 using System;
+using System.Globalization;
 using System.Windows;
 
 namespace QuanLySCL.GUI.Windows
@@ -18,11 +19,11 @@ namespace QuanLySCL.GUI.Windows
             {
                 txtTitle.Text = "SỬA KHUYẾN MÃI";
                 txtMaKM.Text = promo.MaKM;
-                txtMaKM.IsReadOnly = true; 
+                txtMaKM.IsReadOnly = true;
                 txtTenKM.Text = promo.TenKM;
                 cmbKieu.Text = promo.Kieu;
-                txtGiaTri.Text = promo.GiaTri.ToString("G0");
-                txtDonToiThieu.Text = promo.DonToiThieu?.ToString("G0");
+                txtGiaTri.Text = promo.GiaTri.ToString("G0", CultureInfo.InvariantCulture);
+                txtDonToiThieu.Text = promo.DonToiThieu?.ToString("G0", CultureInfo.InvariantCulture);
                 dpNgayBD.SelectedDate = promo.NgayBD;
                 dpNgayKT.SelectedDate = promo.NgayKT;
                 chkTrangThai.IsChecked = promo.TrangThai;
@@ -39,9 +40,9 @@ namespace QuanLySCL.GUI.Windows
         {
             if (string.IsNullOrWhiteSpace(txtMaKM.Text)) { ShowError("Mã KM không được để trống."); return; }
             if (string.IsNullOrWhiteSpace(txtTenKM.Text)) { ShowError("Tên chương trình không được để trống."); return; }
-            if (string.IsNullOrWhiteSpace(cmbKieu.Text)) { ShowError("Loại giảm không được để trống."); return; }
-            if (!decimal.TryParse(txtGiaTri.Text, out decimal giaTri)) { ShowError("Mức giảm sai định dạng số."); return; }
-            
+            if (string.IsNullOrWhiteSpace(cmbKieu.Text)) { ShowError("Loại giảm giá không được để trống."); return; }
+            if (!decimal.TryParse(txtGiaTri.Text, out decimal giaTri)) { ShowError("Giá trị giảm sai định dạng số."); return; }
+
             decimal? donToiThieu = null;
             if (!string.IsNullOrWhiteSpace(txtDonToiThieu.Text))
             {
@@ -49,15 +50,41 @@ namespace QuanLySCL.GUI.Windows
                 donToiThieu = dt;
             }
 
+            DateTime? ngayBD = dpNgayBD.SelectedDate?.Date;
+            DateTime? ngayKT = dpNgayKT.SelectedDate?.Date;
+
+            // Yêu cầu: chặn tạo khuyến mãi với ngày trong quá khứ.
+            DateTime today = DateTime.Today;
+            if (IsNew)
+            {
+                if (ngayBD.HasValue && ngayBD.Value < today)
+                {
+                    ShowError("Ngày bắt đầu không được nằm trong quá khứ.");
+                    return;
+                }
+
+                if (ngayKT.HasValue && ngayKT.Value < today)
+                {
+                    ShowError("Ngày kết thúc không được nằm trong quá khứ.");
+                    return;
+                }
+            }
+
+            if (ngayBD.HasValue && ngayKT.HasValue && ngayKT.Value < ngayBD.Value)
+            {
+                ShowError("Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.");
+                return;
+            }
+
             EditedPromo = new Promotion
             {
-                MaKM = txtMaKM.Text.Trim().ToUpper(),
+                MaKM = txtMaKM.Text.Trim().ToUpperInvariant(),
                 TenKM = txtTenKM.Text.Trim(),
                 Kieu = cmbKieu.Text,
                 GiaTri = giaTri,
                 DonToiThieu = donToiThieu,
-                NgayBD = dpNgayBD.SelectedDate,
-                NgayKT = dpNgayKT.SelectedDate,
+                NgayBD = ngayBD,
+                NgayKT = ngayKT,
                 TrangThai = chkTrangThai.IsChecked ?? true
             };
 
@@ -72,3 +99,4 @@ namespace QuanLySCL.GUI.Windows
         }
     }
 }
+

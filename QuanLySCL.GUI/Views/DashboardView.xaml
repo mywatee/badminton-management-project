@@ -14,10 +14,82 @@
     <ScrollViewer VerticalScrollBarVisibility="Auto">
         <StackPanel Margin="40">
             <!-- Header -->
-            <StackPanel Margin="0,0,0,32">
-                <TextBlock Text="Tổng quan" FontSize="32" FontWeight="Bold" Foreground="#0F172A"/>
-                <TextBlock Text="{Binding WelcomeMessage}" FontSize="14" Foreground="#64748B" Margin="0,4,0,0"/>
-            </StackPanel>
+            <Grid Margin="0,0,0,32">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="350"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel>
+                    <TextBlock Text="Tổng quan" FontSize="32" FontWeight="Bold" Foreground="#0F172A"/>
+                    <TextBlock Text="{Binding WelcomeMessage}" FontSize="14" Foreground="#64748B" Margin="0,4,0,0"/>
+                </StackPanel>
+                
+                <!-- Quick Search Bar (For Staff) -->
+                <Grid Grid.Column="1" VerticalAlignment="Center"
+                      Visibility="{Binding IsAdminOrStaff, Converter={StaticResource BoolToVis}}">
+                    <Border x:Name="QuickSearchBorder" Background="White" CornerRadius="12" Padding="12,4"
+                            BorderBrush="#E2E8F0" BorderThickness="1">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <materialDesign:PackIcon Kind="Magnify" Foreground="#64748B" VerticalAlignment="Center" Margin="0,0,8,0"/>
+                            <TextBox x:Name="QuickSearchBox"
+                                     Grid.Column="1"
+                                     Text="{Binding QuickSearchText, UpdateSourceTrigger=PropertyChanged}"
+                                     materialDesign:HintAssist.Hint="Tìm khách thanh toán (SĐT/Tên)..."
+                                     BorderThickness="0"
+                                     VerticalAlignment="Center"
+                                     Background="Transparent"
+                                     KeyDown="QuickSearchBox_KeyDown"/>
+                        </Grid>
+                    </Border>
+
+                    <!-- Suggestion popup: choose booking to check-out -->
+                    <Popup x:Name="QuickSearchPopup"
+                           PlacementTarget="{Binding ElementName=QuickSearchBorder}"
+                           Placement="Bottom"
+                           StaysOpen="True"
+                           AllowsTransparency="True"
+                           IsOpen="{Binding IsQuickSearchPopupOpen}">
+                        <Border Background="White" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="12"
+                                Margin="0,6,0,0" Padding="8" Width="{Binding ElementName=QuickSearchBorder, Path=ActualWidth}">
+                            <StackPanel>
+                                <TextBlock Text="Chọn lượt đặt để thanh toán" Foreground="#64748B" FontSize="12" Margin="4,2,4,6"/>
+                                <ListBox x:Name="QuickSearchList"
+                                         ItemsSource="{Binding QuickSearchMatches}"
+                                         SelectedItem="{Binding SelectedQuickSearchMatch}"
+                                         MaxHeight="240"
+                                         BorderThickness="0"
+                                         Background="Transparent"
+                                         MouseDoubleClick="QuickSearchList_MouseDoubleClick"
+                                         KeyDown="QuickSearchList_KeyDown">
+                                    <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                            <Grid Margin="4,6">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition Width="*"/>
+                                                    <ColumnDefinition Width="Auto"/>
+                                                </Grid.ColumnDefinitions>
+                                                <StackPanel>
+                                                    <TextBlock Text="{Binding Customer}" FontWeight="SemiBold" Foreground="#0F172A"/>
+                                                    <TextBlock Text="{Binding Phone}" Foreground="#64748B" FontSize="12"/>
+                                                </StackPanel>
+                                                <StackPanel Grid.Column="1" HorizontalAlignment="Right">
+                                                    <TextBlock Text="{Binding Court}" Foreground="#0F172A" HorizontalAlignment="Right"/>
+                                                    <TextBlock Text="{Binding Time}" Foreground="#64748B" FontSize="12" HorizontalAlignment="Right"/>
+                                                </StackPanel>
+                                            </Grid>
+                                        </DataTemplate>
+                                    </ListBox.ItemTemplate>
+                                </ListBox>
+                                <TextBlock Text="Enter để thanh toán, Esc để đóng" Foreground="#94A3B8" FontSize="11" Margin="4,6,4,2"/>
+                            </StackPanel>
+                        </Border>
+                    </Popup>
+                </Grid>
+            </Grid>
 
             <!-- Stats Cards - ADMIN VERSION -->
             <Grid Margin="0,0,0,24" Visibility="{Binding IsAdminOrStaff, Converter={StaticResource BoolToVis}}">
@@ -129,7 +201,7 @@
                                 <materialDesign:PackIcon.Style>
                                     <Style TargetType="materialDesign:PackIcon">
                                         <Style.Triggers>
-                                            <DataTrigger Binding="{Binding UserRank}" Value="Kim cương">
+                                            <DataTrigger Binding="{Binding UserRank}" Value="VIP">
                                                 <Setter Property="Foreground" Value="#6366F1"/>
                                             </DataTrigger>
                                             <DataTrigger Binding="{Binding UserRank}" Value="Vàng">
@@ -149,6 +221,53 @@
                         <StackPanel Grid.Column="1" VerticalAlignment="Center">
                             <TextBlock Text="Hạng hiện tại" FontSize="14" Foreground="#64748B"/>
                             <TextBlock Text="{Binding UserRank}" FontSize="28" FontWeight="Bold" Foreground="#0F172A"/>
+
+                            <Border Margin="0,10,0,0" Cursor="Hand" MouseLeftButtonUp="RankProgress_Click"
+                                    ToolTip="{Binding RankTooltipText}">
+                                <Grid>
+                                    <ProgressBar Minimum="0" Maximum="100" Value="{Binding RankProgress}" Height="10"
+                                                 Background="#E2E8F0" Foreground="#84CC16"/>
+                                    <TextBlock Text="{Binding RankPercentText}"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center"
+                                               FontSize="11"
+                                               FontWeight="SemiBold"
+                                               Foreground="#0F172A"
+                                               Visibility="{Binding IsRankPercentVisible, Converter={StaticResource BoolToVis}}"/>
+                                </Grid>
+                            </Border>
+                            <TextBlock Text="{Binding NextRank, StringFormat=Mục tiêu: {0}}" Foreground="#64748B" FontSize="12" Margin="0,4,0,0">
+                                <TextBlock.Style>
+                                    <Style TargetType="TextBlock">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding NextRank}" Value="">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </TextBlock.Style>
+                            </TextBlock>
+
+                            <TextBlock Text="{Binding RankBenefitText}" Foreground="#64748B" FontSize="12" Margin="0,6,0,0" TextWrapping="Wrap"/>
+                            <TextBlock Text="{Binding RankRequirementText}" Foreground="#64748B" FontSize="12" Margin="0,2,0,0" TextWrapping="Wrap"/>
+
+                            <Expander Margin="0,10,0,0">
+                                <Expander.Header>
+                                    <StackPanel Orientation="Horizontal">
+                                        <materialDesign:PackIcon Kind="InformationOutline" Width="16" Height="16" Foreground="#64748B" Margin="0,0,6,0"/>
+                                        <TextBlock Text="Ưu đãi theo hạng" Foreground="#0F172A" FontWeight="SemiBold"/>
+                                    </StackPanel>
+                                </Expander.Header>
+                                <Border Background="#F8FAFC" BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="10" Padding="10" Margin="0,8,0,0">
+                                    <StackPanel>
+                                        <TextBlock Text="• Thành viên: 0% (chưa áp dụng giảm giá)." Foreground="#334155" FontSize="12"/>
+                                        <TextBlock Text="• Bạc: giảm 5% (>= 30 lượt đặt)." Foreground="#334155" FontSize="12" Margin="0,2,0,0"/>
+                                        <TextBlock Text="• Vàng: giảm 10% (>= 50 lượt đặt hoặc >= 5.000.000₫)." Foreground="#334155" FontSize="12" Margin="0,2,0,0"/>
+                                        <TextBlock Text="• VIP: giảm 15% (>= 100 lượt đặt hoặc >= 10.000.000₫)." Foreground="#334155" FontSize="12" Margin="0,2,0,0"/>
+                                    </StackPanel>
+                                </Border>
+                            </Expander>
                         </StackPanel>
                     </Grid>
                 </Border>
@@ -222,7 +341,13 @@
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
                                     <Grid Margin="0,4">
-                                        <TextBlock Text="{Binding Customer}" FontSize="13" Foreground="#0F172A"/>
+                                        <StackPanel Orientation="Horizontal">
+                                            <TextBlock Text="{Binding Customer}" FontSize="13" Foreground="#0F172A"/>
+                                            <Border CornerRadius="4" Background="#6366F1" Padding="6,2" Margin="8,0,0,0" 
+                                                    Visibility="{Binding IsMyBooking, Converter={StaticResource BoolToVis}}">
+                                                <TextBlock Text="Của tôi" FontSize="9" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                                            </Border>
+                                        </StackPanel>
                                         <TextBlock Text="{Binding Time}" HorizontalAlignment="Right" FontSize="13" Foreground="#64748B"/>
                                     </Grid>
                                 </DataTemplate>
@@ -278,6 +403,14 @@
                                                         <Setter Property="BorderBrush" Value="#84CC16"/>
                                                         <Setter Property="Background" Value="#F8FAFC"/>
                                                     </Trigger>
+                                                    <DataTrigger Binding="{Binding IsMyBooking}" Value="True">
+                                                        <Setter Property="BorderBrush" Value="#6366F1"/>
+                                                        <Setter Property="Effect">
+                                                            <Setter.Value>
+                                                                <DropShadowEffect BlurRadius="10" Color="#6366F1" Opacity="0.2" ShadowDepth="0"/>
+                                                            </Setter.Value>
+                                                        </Setter>
+                                                    </DataTrigger>
                                                 </Style.Triggers>
                                             </Style>
                                         </Border.Style>
@@ -297,6 +430,9 @@
                                                             <DataTrigger Binding="{Binding Status}" Value="In-use">
                                                                 <Setter Property="Background" Value="#DBEAFE"/>
                                                             </DataTrigger>
+                                                            <DataTrigger Binding="{Binding IsMyBooking}" Value="True">
+                                                                <Setter Property="Background" Value="#6366F1"/>
+                                                            </DataTrigger>
                                                             <DataTrigger Binding="{Binding Status}" Value="Maintenance">
                                                                 <Setter Property="Background" Value="#FED7AA"/>
                                                             </DataTrigger>
@@ -312,6 +448,10 @@
                                                                 </DataTrigger>
                                                                 <DataTrigger Binding="{Binding Status}" Value="In-use">
                                                                     <Setter Property="Foreground" Value="#1E40AF"/>
+                                                                </DataTrigger>
+                                                                <DataTrigger Binding="{Binding IsMyBooking}" Value="True">
+                                                                    <Setter Property="Foreground" Value="White"/>
+                                                                    <Setter Property="Text" Value="Tôi dùng"/>
                                                                 </DataTrigger>
                                                                 <DataTrigger Binding="{Binding Status}" Value="Maintenance">
                                                                     <Setter Property="Foreground" Value="#C2410C"/>
@@ -375,7 +515,18 @@
                             <ItemsControl ItemsSource="{Binding RecentBookings}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Border BorderBrush="#84CC16" BorderThickness="4,0,0,0" Padding="12,8" Margin="0,0,0,12">
+                                        <Border BorderThickness="4,0,0,0" Padding="12,8" Margin="0,0,0,12">
+                                            <Border.Style>
+                                                <Style TargetType="Border">
+                                                    <Setter Property="BorderBrush" Value="#84CC16"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding IsMyBooking}" Value="True">
+                                                            <Setter Property="BorderBrush" Value="#6366F1"/>
+                                                            <Setter Property="Background" Value="#F5F3FF"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Border.Style>
                                             <Grid>
                                                 <Grid.RowDefinitions>
                                                     <RowDefinition/>
@@ -388,7 +539,14 @@
                                                     <ColumnDefinition Width="Auto"/>
                                                 </Grid.ColumnDefinitions>
 
-                                                <TextBlock Grid.Row="0" Grid.Column="0" Text="{Binding Customer}" FontSize="13" FontWeight="SemiBold" Foreground="#0F172A"/>
+                                                <StackPanel Grid.Row="0" Grid.Column="0" Orientation="Horizontal">
+                                                    <TextBlock Text="{Binding Customer}" FontSize="13" FontWeight="SemiBold" Foreground="#0F172A"/>
+                                                    <Border CornerRadius="4" Background="#6366F1" Padding="6,2" Margin="8,0,0,0" 
+                                                            Visibility="{Binding IsMyBooking, Converter={StaticResource BoolToVis}}">
+                                                        <TextBlock Text="Của tôi" FontSize="9" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                                                    </Border>
+                                                </StackPanel>
+                                                
                                                 <Border Grid.Row="0" Grid.Column="1" Grid.RowSpan="3" CornerRadius="4" Padding="6,3" VerticalAlignment="Top">
                                                     <Border.Style>
                                                         <Style TargetType="Border">
@@ -427,7 +585,40 @@
                                                 <TextBlock Grid.Row="1" Grid.Column="0" Text="{Binding Court}" FontSize="11" Foreground="#64748B" Margin="0,2,0,0"/>
                                                 <TextBlock Grid.Row="2" Grid.Column="0" Text="{Binding Time}" FontSize="11" Foreground="#94A3B8" Margin="0,2,0,0"/>
                                                 
-                                                <!-- Actions for Admin (Check-in / Service) omitted for brevity as they use the same triggers as before -->
+                                                <!-- Actions for Admin (Check-in / Service) -->
+                                                <StackPanel Grid.Row="3" Grid.Column="0" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0,8,0,0" HorizontalAlignment="Right">
+                                                    <Button Content="Check-in" 
+                                                            Padding="8,2" FontSize="10" Height="22" 
+                                                            Margin="0,0,8,0"
+                                                            Click="CheckIn_Click"
+                                                            Tag="{Binding}">
+                                                        <Button.Style>
+                                                            <Style TargetType="Button" BasedOn="{StaticResource OutlineButton}">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Status}" Value="Pending">
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Button.Style>
+                                                    </Button>
+                                                    <Button Content="Thanh toán" 
+                                                            Padding="8,2" FontSize="10" Height="22"
+                                                            Click="CheckOut_Click"
+                                                            Tag="{Binding}">
+                                                        <Button.Style>
+                                                            <Style TargetType="Button" BasedOn="{StaticResource LimeButton}">
+                                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                                                <Style.Triggers>
+                                                                    <DataTrigger Binding="{Binding Status}" Value="Checked-in">
+                                                                        <Setter Property="Visibility" Value="Visible"/>
+                                                                    </DataTrigger>
+                                                                </Style.Triggers>
+                                                            </Style>
+                                                        </Button.Style>
+                                                    </Button>
+                                                </StackPanel>
                                             </Grid>
                                         </Border>
                                     </DataTemplate>

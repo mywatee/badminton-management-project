@@ -23,7 +23,7 @@
                 <TextBlock Text="Quản lý thông tin khách hàng và lịch sử đặt sân" FontSize="14" Foreground="#64748B" Margin="0,4,0,0"/>
             </StackPanel>
 
-            <Button HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource LimeButton}">
+            <Button HorizontalAlignment="Right" VerticalAlignment="Center" Style="{StaticResource LimeButton}" Click="AddCustomer_Click">
                 <StackPanel Orientation="Horizontal">
                     <materialDesign:PackIcon Kind="Plus" Width="16" Height="16" Margin="0,0,8,0"/>
                     <TextBlock Text="Thêm khách hàng"/>
@@ -142,19 +142,42 @@
                         <DataGridTextColumn Header="Tổng chi tiêu" Binding="{Binding TotalSpent, StringFormat='₫{0:N0}'}" Width="120"/>
                         <DataGridTextColumn Header="Thành viên từ" Binding="{Binding MemberSince, StringFormat='yyyy-MM-dd'}" Width="120"/>
 
-                        <DataGridTextColumn Header="Trạng thái" Binding="{Binding Status}" Width="90"/>
+                        <DataGridTemplateColumn Header="Rank" Width="160">
+                            <DataGridTemplateColumn.CellTemplate>
+                                <DataTemplate>
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding Status}" FontWeight="SemiBold" Foreground="#0F172A"/>
+                                        <ProgressBar Minimum="0" Maximum="100" Value="{Binding RankProgress}" Height="6" Margin="0,4,0,0"
+                                                     Background="#E2E8F0" Foreground="#84CC16"/>
+                                        <TextBlock Text="{Binding NextRank, StringFormat=Tiếp theo: {0}}" Foreground="#64748B" FontSize="11">
+                                            <TextBlock.Style>
+                                                <Style TargetType="TextBlock">
+                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding NextRank}" Value="">
+                                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </TextBlock.Style>
+                                        </TextBlock>
+                                    </StackPanel>
+                                </DataTemplate>
+                            </DataGridTemplateColumn.CellTemplate>
+                        </DataGridTemplateColumn>
 
-                        <DataGridTemplateColumn Header="Thao tác" Width="130">
+                        <DataGridTemplateColumn Header="Thao tác" Width="150">
                             <DataGridTemplateColumn.CellTemplate>
                                 <DataTemplate>
                                     <Button Content="Xem chi tiết"
-                                            MinWidth="110"
+                                            MinWidth="125"
                                             Padding="10,6"
                                             BorderThickness="1"
                                             BorderBrush="#CBD5E1"
                                             Background="White"
                                             Foreground="#0F172A"
                                             HorizontalAlignment="Stretch"
+                                            HorizontalContentAlignment="Center"
                                             Click="ViewCustomerDetails_Click"
                                             Tag="{Binding Id}"/>
                                 </DataTemplate>
@@ -166,8 +189,12 @@
                 <Button Grid.Row="2"
                         Content="Xem thêm"
                         Margin="0,14,0,0"
-                        Padding="16,10"
+                        Padding="18,12"
+                        MinWidth="140"
+                        MinHeight="40"
                         HorizontalAlignment="Center"
+                        HorizontalContentAlignment="Center"
+                        VerticalContentAlignment="Center"
                         Background="#E2E8F0"
                         BorderBrush="#CBD5E1"
                         Foreground="#0F172A"

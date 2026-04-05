@@ -22,6 +22,22 @@
                     <ComboBox Width="140" Margin="0,0,12,0" 
                               ItemsSource="{Binding TimeRanges}"
                               SelectedItem="{Binding SelectedTimeRange}"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,0,12,0">
+                        <StackPanel.Style>
+                            <Style TargetType="StackPanel">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding SelectedTimeRange}" Value="Custom">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </StackPanel.Style>
+
+                        <DatePicker SelectedDate="{Binding FromDate}" Width="130" Margin="0,0,8,0"/>
+                        <DatePicker SelectedDate="{Binding ToDate}" Width="130"/>
+                    </StackPanel>
+
                     <Button Style="{StaticResource LimeButton}" Command="{Binding ExportCommand}">
                         <StackPanel Orientation="Horizontal">
                             <materialDesign:PackIcon Kind="Download" Width="16" Height="16" Margin="0,0,8,0"/>
@@ -106,27 +122,86 @@
                 <!-- Top Customers -->
                 <Border Grid.Column="1" Style="{StaticResource Card}" Margin="12,0,0,0">
                     <StackPanel>
-                        <TextBlock Text="Khách hàng hàng đầu" FontSize="18" FontWeight="SemiBold" Foreground="#0F172A" Margin="0,0,0,20"/>
-                        <ItemsControl ItemsSource="{Binding TopCustomers}">
-                            <ItemsControl.ItemTemplate>
+                        <Grid Margin="0,0,0,20">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*"/>
+                                <ColumnDefinition Width="Auto"/>
+                            </Grid.ColumnDefinitions>
+                            <TextBlock Text="Khách hàng hàng đầu" FontSize="18" FontWeight="SemiBold" Foreground="#0F172A"/>
+                            <Button Grid.Column="1" Content="Xem chi tiết" Padding="12,6" Style="{StaticResource OutlineButton}" Click="ViewTopCustomers_Click"/>
+                        </Grid>
+                        <ListBox ItemsSource="{Binding TopCustomers}"
+                                 BorderThickness="0"
+                                 Background="Transparent"
+                                 MaxHeight="320"
+                                 ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                 ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+                            <ListBox.ItemContainerStyle>
+                                <Style TargetType="ListBoxItem">
+                                    <Setter Property="Padding" Value="0"/>
+                                    <Setter Property="Margin" Value="0"/>
+                                    <Setter Property="BorderThickness" Value="0"/>
+                                    <Setter Property="Background" Value="Transparent"/>
+                                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                                    <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
+                                </Style>
+                            </ListBox.ItemContainerStyle>
+                            <ListBox.ItemTemplate>
                                 <DataTemplate>
-                                    <Border BorderBrush="#84CC16" BorderThickness="4,0,0,0" Padding="12,8" Margin="0,0,0,12">
+                                    <Border BorderBrush="#84CC16" BorderThickness="3,0,0,0" Padding="10,6" Margin="0,0,0,8">
                                         <Grid>
                                             <StackPanel Orientation="Horizontal">
-                                                <Border Width="32" Height="32" Background="#0F172A" CornerRadius="16" Margin="0,0,12,0">
-                                                    <TextBlock Text="{Binding TotalBookings}" FontSize="13" FontWeight="Bold" Foreground="#84CC16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                                <Border Width="28" Height="28" Background="#0F172A" CornerRadius="14" Margin="0,0,10,0">
+                                                    <TextBlock Text="{Binding TotalBookings}" FontSize="12" FontWeight="Bold" Foreground="#84CC16" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                                                 </Border>
                                                 <StackPanel>
-                                                    <TextBlock Text="{Binding Name}" FontSize="13" FontWeight="SemiBold" Foreground="#0F172A"/>
-                                                    <TextBlock Text="{Binding TotalBookings, StringFormat={}{0} lượt đặt}" FontSize="11" Foreground="#64748B"/>
+                                                    <TextBlock Text="{Binding Name}" FontSize="12" FontWeight="SemiBold" Foreground="#0F172A"/>
+                                                    <TextBlock Text="{Binding TotalBookings, StringFormat={}{0} lượt đặt}" FontSize="10" Foreground="#64748B"/>
                                                 </StackPanel>
                                             </StackPanel>
-                                            <TextBlock Text="{Binding TotalSpent, StringFormat='₫{0:N0}'}" FontSize="13" FontWeight="Bold" Foreground="#0F172A" HorizontalAlignment="Right" VerticalAlignment="Center"/>
+                                            <TextBlock Text="{Binding TotalSpent, StringFormat='₫{0:N0}'}" FontSize="12" FontWeight="Bold" Foreground="#0F172A" HorizontalAlignment="Right" VerticalAlignment="Center"/>
                                         </Grid>
                                     </Border>
                                 </DataTemplate>
-                            </ItemsControl.ItemTemplate>
-                        </ItemsControl>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </StackPanel>
+                </Border>
+            </Grid>
+
+            <Grid Margin="0,0,0,24">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Grid.Column="0" Style="{StaticResource Card}" Margin="0,0,12,0">
+                    <StackPanel>
+                        <TextBlock Text="Doanh thu theo sân" FontSize="18" FontWeight="SemiBold" Foreground="#0F172A" Margin="0,0,0,12"/>
+                        <DataGrid ItemsSource="{Binding CourtRevenue}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True"
+                                  GridLinesVisibility="None" HeadersVisibility="Column" AlternatingRowBackground="#F8FAFC"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                  MaxHeight="260">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Sân" Binding="{Binding CourtName}" Width="*"/>
+                                <DataGridTextColumn Header="Doanh thu" Binding="{Binding Revenue, StringFormat='₫{0:N0}'}" Width="150"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
+                    </StackPanel>
+                </Border>
+
+                <Border Grid.Column="1" Style="{StaticResource Card}" Margin="12,0,0,0">
+                    <StackPanel>
+                        <TextBlock Text="Doanh thu theo dịch vụ" FontSize="18" FontWeight="SemiBold" Foreground="#0F172A" Margin="0,0,0,12"/>
+                        <DataGrid ItemsSource="{Binding ServiceRevenue}" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="True"
+                                  GridLinesVisibility="None" HeadersVisibility="Column" AlternatingRowBackground="#F8FAFC"
+                                  ScrollViewer.HorizontalScrollBarVisibility="Auto" ScrollViewer.VerticalScrollBarVisibility="Auto"
+                                  MaxHeight="260">
+                            <DataGrid.Columns>
+                                <DataGridTextColumn Header="Dịch vụ" Binding="{Binding ServiceName}" Width="*"/>
+                                <DataGridTextColumn Header="Doanh thu" Binding="{Binding Revenue, StringFormat='₫{0:N0}'}" Width="150"/>
+                            </DataGrid.Columns>
+                        </DataGrid>
                     </StackPanel>
                 </Border>
             </Grid>
@@ -143,4 +218,3 @@
         </StackPanel>
     </ScrollViewer>
 </Page>
-

@@ -17,7 +17,14 @@ namespace QuanLySCL.BUS
 
         public (bool ok, string msg) DangKy(string ten, string sdt, string email, string user, string pass)
         {
-            return _dal.DangKyTaiKhoan(ten, sdt, email, user, pass);
+            var res = _dal.DangKyTaiKhoan(ten, sdt, email, user, pass);
+            return (res.success, res.message);
+        }
+
+        public (bool ok, string msg) TaoTaiKhoanKhachHang(string customerId, string username, string password, bool isActive)
+        {
+            var res = _dal.TaoTaiKhoanKhachHang(customerId, username, password, isActive);
+            return (res.ok, res.message);
         }
 
         public (bool ok, string msg) KiemTraHopLeDangKy(string user, string phone, string email)
@@ -95,3 +102,4 @@ namespace QuanLySCL.BUS
         }
     }
 }
+

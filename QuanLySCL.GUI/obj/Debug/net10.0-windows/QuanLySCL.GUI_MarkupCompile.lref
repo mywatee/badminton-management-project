@@ -8,5 +8,8 @@ FD:\github\QuanLySCL\QuanLySCL.GUI\Views\ReportsView.xaml;;
 FD:\github\QuanLySCL\QuanLySCL.GUI\Views\ServicesView.xaml;;
 FD:\github\QuanLySCL\QuanLySCL.GUI\Views\TimeSlotsAdminView.xaml;;
 FD:\github\QuanLySCL\QuanLySCL.GUI\Views\VietQRWindow.xaml;;
+FD:\github\QuanLySCL\QuanLySCL.GUI\Windows\AddServiceWindow.xaml;;
+FD:\github\QuanLySCL\QuanLySCL.GUI\Windows\CheckOutWindow.xaml;;
 FD:\github\QuanLySCL\QuanLySCL.GUI\Windows\CreateBookingWindow.xaml;;
+FD:\github\QuanLySCL\QuanLySCL.GUI\Windows\TodayBookingsWindow.xaml;;
 

@@ -29,6 +29,10 @@
                                 Style="{StaticResource MaterialDesignIconButton}" Foreground="#64748B" Margin="0,0,8,0">
                             <materialDesign:PackIcon Kind="Refresh" />
                         </Button>
+                        <Button Click="QuickGenerate_Click" Content="TẠO NHANH 30P + GIÁ"
+                                Style="{StaticResource MaterialDesignOutlinedButton}"
+                                BorderBrush="#93C5FD" Foreground="#1E40AF" FontWeight="Bold"
+                                Height="40" Padding="16,0" Margin="0,0,8,0"/>
                         <Button Click="Add_Click" Content="THÊM CA MỚI" 
                                 Style="{StaticResource MaterialDesignFlatButton}"
                                 Background="{StaticResource LimeGreen}" Foreground="#0F172A" FontWeight="Bold" Height="40" Padding="16,0">

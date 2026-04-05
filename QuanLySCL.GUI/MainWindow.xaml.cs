@@ -64,16 +64,17 @@ namespace QuanLySCL.GUI
             if (AdminSection != null) AdminSection.Visibility = isAdmin ? Visibility.Visible : Visibility.Collapsed;
             if (AdminPanelNav != null) AdminPanelNav.Visibility = isAdmin ? Visibility.Visible : Visibility.Collapsed;
 
-            if (isStaff)
-            {
-                if (FindName("StaffNav") is RadioButton staff) staff.Visibility = Visibility.Collapsed;
-                if (FindName("ReportsNav") is RadioButton reports) reports.Visibility = Visibility.Collapsed;
-            }
-
             if (isCustomer)
             {
                 if (FindName("ServicesNav") is RadioButton services) services.Visibility = Visibility.Collapsed;
                 if (FindName("CustomersNav") is RadioButton customers) customers.Visibility = Visibility.Collapsed;
+                if (FindName("StaffNav") is RadioButton staff) staff.Visibility = Visibility.Collapsed;
+                if (FindName("ReportsNav") is RadioButton reports) reports.Visibility = Visibility.Collapsed;
+            }
+            
+            if (isStaff)
+            {
+                // Staff account should not access reporting or staff-management screens.
                 if (FindName("StaffNav") is RadioButton staff) staff.Visibility = Visibility.Collapsed;
                 if (FindName("ReportsNav") is RadioButton reports) reports.Visibility = Visibility.Collapsed;
             }
@@ -137,7 +138,7 @@ namespace QuanLySCL.GUI
                     MainFrame.Navigate(new ServicesView());
                     break;
                 case "Customers":
-                    MainFrame.Navigate(new CustomersView());
+                    MainFrame.Navigate(new CustomersView(CurrentRole));
                     break;
                 case "Staff":
                     MainFrame.Navigate(new StaffView());

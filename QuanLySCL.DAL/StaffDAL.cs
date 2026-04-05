@@ -7,6 +7,16 @@ namespace QuanLySCL.DAL
 {
     public class StaffDAL : BaseDAL
     {
+        public bool HasLinkedAccount(string staffId)
+        {
+            if (string.IsNullOrWhiteSpace(staffId)) return false;
+
+            string sql = "SELECT COUNT(*) FROM TAI_KHOAN WHERE MaNV = @id";
+            DataTable dt = ExecuteQuery(sql, new object[] { staffId.Trim() });
+            if (dt.Rows.Count == 0) return false;
+            return Convert.ToInt32(dt.Rows[0][0]) > 0;
+        }
+
         public ObservableCollection<Staff> GetAllStaff()
         {
             ObservableCollection<Staff> list = new ObservableCollection<Staff>();

@@ -9,6 +9,27 @@ namespace QuanLySCL.BUS
     {
         private readonly KhuyenMaiDAL _dal = new KhuyenMaiDAL();
 
+        private static (bool ok, string? error) ValidatePromotionDates(bool isNew, DateTime? ngayBD, DateTime? ngayKT)
+        {
+            DateTime? start = ngayBD?.Date;
+            DateTime? end = ngayKT?.Date;
+
+            if (start.HasValue && end.HasValue && end.Value < start.Value)
+                return (false, "Ngày kết thúc phải lớn hơn hoặc bằng ngày bắt đầu.");
+
+            // Chỉ chặn ngày trong quá khứ khi tạo mới (theo yêu cầu doc).
+            if (isNew)
+            {
+                DateTime today = DateTime.Today;
+                if (start.HasValue && start.Value < today)
+                    return (false, "Ngày bắt đầu không được nằm trong quá khứ.");
+                if (end.HasValue && end.Value < today)
+                    return (false, "Ngày kết thúc không được nằm trong quá khứ.");
+            }
+
+            return (true, null);
+        }
+
         public (decimal discount, string error) CalculateDiscount(string code, decimal subtotal)
         {
             if (string.IsNullOrWhiteSpace(code)) return (0, "Vui lòng nhập mã khuyến mãi.");
@@ -63,6 +84,9 @@ namespace QuanLySCL.BUS
         {
             if (string.IsNullOrWhiteSpace(promo.MaKM))
                 return (false, "Mã khuyến mãi không được trống.");
+
+            var dateCheck = ValidatePromotionDates(isNew, promo.NgayBD, promo.NgayKT);
+            if (!dateCheck.ok) return (false, dateCheck.error);
 
             try
             {

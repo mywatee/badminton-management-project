@@ -4,11 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:conv="clr-namespace:QuanLySCL.GUI.Converters"
         mc:Ignorable="d"
         Title="Danh sách lịch đặt trong ngày" Height="600" Width="1000"
         WindowStartupLocation="CenterOwner"
         Background="#F1F5F9"
         FontFamily="Segoe UI">
+
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolToVis"/>
+    </Window.Resources>
 
     <Grid Margin="24">
         <Grid.RowDefinitions>
@@ -41,6 +46,18 @@
                       CanUserResizeRows="False"
                       SelectionMode="Single"
                       SelectionUnit="FullRow">
+                <DataGrid.RowStyle>
+                    <Style TargetType="DataGridRow" BasedOn="{StaticResource {x:Type DataGridRow}}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsMyBooking}" Value="True">
+                                <Setter Property="Background" Value="#F5F3FF"/>
+                                <Setter Property="BorderBrush" Value="#6366F1"/>
+                                <Setter Property="BorderThickness" Value="2,0,0,0"/>
+                                <Setter Property="FontWeight" Value="SemiBold"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </DataGrid.RowStyle>
                 <DataGrid.Resources>
                     <Style TargetType="DataGridColumnHeader">
                         <Setter Property="Background" Value="#F8FAFC"/>
@@ -69,7 +86,19 @@
                 </DataGrid.Resources>
                 <DataGrid.Columns>
                     <DataGridTextColumn Header="Mã hóa đơn" Binding="{Binding Id}" Width="120" Foreground="#6366F1"/>
-                    <DataGridTextColumn Header="Khách hàng" Binding="{Binding Customer}" Width="*"/>
+                    <DataGridTemplateColumn Header="Khách hàng" Width="*">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal">
+                                    <TextBlock Text="{Binding Customer}" VerticalAlignment="Center"/>
+                                    <Border CornerRadius="4" Background="#6366F1" Padding="6,2" Margin="8,0,0,0" 
+                                            Visibility="{Binding IsMyBooking, Converter={StaticResource BoolToVis}}">
+                                        <TextBlock Text="Của tôi" FontSize="9" FontWeight="Bold" Foreground="White" VerticalAlignment="Center"/>
+                                    </Border>
+                                </StackPanel>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                     <DataGridTextColumn Header="Loại đặt" Binding="{Binding Type}" Width="150"/>
                     <DataGridTextColumn Header="Sân cầu" Binding="{Binding Court}" Width="150"/>
                     <DataGridTextColumn Header="Ca Giờ" Binding="{Binding Time}" Width="150" FontWeight="Bold"/>

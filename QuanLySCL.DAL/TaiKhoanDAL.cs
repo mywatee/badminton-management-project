@@ -77,6 +77,45 @@ namespace QuanLySCL.DAL
             }
         }
 
+        public (bool ok, string message) TaoTaiKhoanKhachHang(string customerId, string username, string password, bool isActive)
+        {
+            if (string.IsNullOrWhiteSpace(customerId)) return (false, "Thiếu mã khách hàng.");
+            if (string.IsNullOrWhiteSpace(username)) return (false, "Thiếu tên đăng nhập.");
+            if (string.IsNullOrWhiteSpace(password)) return (false, "Thiếu mật khẩu.");
+
+            string kh = customerId.Trim();
+            string user = username.Trim();
+
+            var existsKH = ExecuteQuery("SELECT COUNT(*) FROM KHACH_HANG WHERE MaKH = @id", new object[] { kh });
+            if (existsKH.Rows.Count == 0 || Convert.ToInt32(existsKH.Rows[0][0]) <= 0)
+                return (false, "Không tìm thấy khách hàng.");
+
+            var dupUser = ExecuteQuery("SELECT COUNT(*) FROM TAI_KHOAN WHERE TenDangNhap = @u", new object[] { user });
+            if (dupUser.Rows.Count > 0 && Convert.ToInt32(dupUser.Rows[0][0]) > 0)
+                return (false, "Tên đăng nhập đã tồn tại!");
+
+            var dupKH = ExecuteQuery("SELECT COUNT(*) FROM TAI_KHOAN WHERE MaKH = @id", new object[] { kh });
+            if (dupKH.Rows.Count > 0 && Convert.ToInt32(dupKH.Rows[0][0]) > 0)
+                return (false, "Khách hàng này đã có tài khoản!");
+
+            Guid salt = Guid.NewGuid();
+            byte[] hashedPass = SecurityHelper.HashPassword(password, salt);
+
+            string insertSql = @"
+                INSERT INTO TAI_KHOAN (TenDangNhap, MatKhauHash, MuoiSalt, MaNV, MaKH, VaiTro, TrangThai)
+                VALUES (@u, @p, @s, NULL, @kh, N'KhachHang', @st)";
+
+            try
+            {
+                int rows = ExecuteNonQuery(insertSql, new object[] { user, hashedPass, salt, kh, isActive ? 1 : 0 });
+                return rows > 0 ? (true, "OK") : (false, "Không thể tạo tài khoản.");
+            }
+            catch (Exception ex)
+            {
+                return (false, ex.Message);
+            }
+        }
+
         public (int user, int phone, int email) KiemTraTrung(string user, string phone, string email)
         {
             string sql = @"SELECT 
@@ -303,6 +342,34 @@ namespace QuanLySCL.DAL
 
             try
             {
+                // Refuse hard delete if the account owner has transaction history.
+                // Instead, users should use "Khóa/Mở" to preserve data integrity.
+                //
+                // We check both customer/staff links, and cover both court bookings and POS service-only sales
+                // (POS sales are also stored as DAT_SAN rows without CT_DAT_SAN).
+                var dtHistory = ExecuteQuery(@"
+                    SELECT TOP 1 1
+                    FROM TAI_KHOAN TK
+                    WHERE TK.TenDangNhap = @u
+                      AND (
+                           (TK.MaKH IS NOT NULL AND (
+                               EXISTS (SELECT 1 FROM DAT_SAN DS WHERE DS.MaKH = TK.MaKH)
+                               OR EXISTS (SELECT 1 FROM HOA_DON HD INNER JOIN DAT_SAN DS ON DS.MaPhieuDat = HD.MaPhieuDat WHERE DS.MaKH = TK.MaKH)
+                               OR EXISTS (SELECT 1 FROM CT_DICH_VU CT INNER JOIN DAT_SAN DS ON DS.MaPhieuDat = CT.MaPhieuDat WHERE DS.MaKH = TK.MaKH)
+                           ))
+                           OR
+                           (TK.MaNV IS NOT NULL AND (
+                               EXISTS (SELECT 1 FROM DAT_SAN DS WHERE DS.MaNV = TK.MaNV)
+                               OR EXISTS (SELECT 1 FROM LICH_SU_DAT_SAN LS WHERE LS.MaNV = TK.MaNV)
+                           ))
+                      )",
+                    new object[] { user });
+
+                if (dtHistory.Rows.Count > 0)
+                {
+                    return (false, "Tài khoản đã phát sinh các phiên giao dịch. Không thể xóa, vui lòng sử dụng chức năng Khóa tài khoản.");
+                }
+
                 int res = ExecuteNonQuery("DELETE FROM TAI_KHOAN WHERE TenDangNhap = @u", new object[] { user });
                 return res > 0 ? (true, "OK") : (false, "Không thể xóa tài khoản.");
             }

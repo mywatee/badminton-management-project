@@ -1,0 +1,81 @@
+<Window x:Class="QuanLySCL.GUI.Windows.UpsertCustomerWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Thêm khách hàng"
+        Width="520" Height="440"
+        WindowStartupLocation="CenterOwner"
+        Background="{StaticResource BackgroundGray}">
+    <Grid Margin="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <StackPanel Grid.Row="0" Margin="0,0,0,16">
+            <TextBlock Text="Thêm khách hàng" FontSize="20" FontWeight="SemiBold" Foreground="#0F172A"/>
+            <TextBlock Text="Tạo nhanh hồ sơ khách để đặt sân/ghi nhận lịch sử." FontSize="12" Foreground="#64748B" Margin="0,4,0,0"/>
+        </StackPanel>
+
+        <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto">
+            <StackPanel>
+                <TextBox x:Name="txtName"
+                         materialDesign:HintAssist.Hint="Họ và tên"
+                         Margin="0,0,0,12"/>
+
+                <TextBox x:Name="txtPhone"
+                         materialDesign:HintAssist.Hint="Số điện thoại (10-11 số, bắt đầu 0)"
+                         Margin="0,0,0,12"/>
+
+                <TextBox x:Name="txtEmail"
+                         materialDesign:HintAssist.Hint="Email (không bắt buộc)"
+                         Margin="0,0,0,12"/>
+
+                <CheckBox x:Name="chkCreateAccount"
+                          Content="Tạo tài khoản đăng nhập"
+                          Margin="0,0,0,12"/>
+
+                <StackPanel Margin="0,0,0,12">
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding IsChecked, ElementName=chkCreateAccount}" Value="True">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+
+                    <TextBox x:Name="txtUsername"
+                             materialDesign:HintAssist.Hint="Tên đăng nhập (>= 5 ký tự, không khoảng trắng)"
+                             Margin="0,0,0,12"/>
+
+                    <PasswordBox x:Name="txtPassword"
+                                 materialDesign:HintAssist.Hint="Mật khẩu (>= 6 ký tự)"
+                                 Margin="0,0,0,12"/>
+
+                    <PasswordBox x:Name="txtConfirmPassword"
+                                 materialDesign:HintAssist.Hint="Xác nhận mật khẩu"
+                                 Margin="0,0,0,0"/>
+                </StackPanel>
+
+                <Border x:Name="brdError"
+                        Background="#FEE2E2"
+                        BorderBrush="#FCA5A5"
+                        BorderThickness="1"
+                        CornerRadius="10"
+                        Padding="12"
+                        Visibility="Collapsed">
+                    <TextBlock x:Name="txtError" Foreground="#B91C1C" TextWrapping="Wrap"/>
+                </Border>
+            </StackPanel>
+        </ScrollViewer>
+
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,16,0,0">
+            <Button Content="Hủy" Style="{StaticResource OutlineButton}" Width="90" Margin="0,0,12,0" Click="Cancel_Click"/>
+            <Button Content="Lưu" Style="{StaticResource LimeButton}" Width="90" Click="Save_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

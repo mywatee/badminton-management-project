@@ -10,7 +10,7 @@ namespace QuanLySCL.BUS
         // QUAN TRỌNG: API Key của bạn từ Brevo
         private const string ApiKey = "";
         private const string SenderEmail = "srqkendra961@gmail.com"; // Thay bằng email bạn đã đăng ký với Brevo
-        private const string SenderName = "zxc";
+        private const string SenderName = "Hệ Thống Quản lý Sân Cầu Lông";
 
         public async Task<(bool success, string errorMsg)> SendOTPAsync(string receiverEmail, string otpCode)
         {

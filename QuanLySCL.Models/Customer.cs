@@ -11,6 +11,10 @@ namespace QuanLySCL.Models
         public int TotalBookings { get; set; }
         public decimal TotalSpent { get; set; }
         public DateTime MemberSince { get; set; }
-        public string Status { get; set; } = "New"; // VIP, Regular, New
+
+        // Rank/Status (derived; not persisted)
+        public string Status { get; set; } = "New"; // New, Silver, Gold, VIP
+        public int RankProgress { get; set; } // 0..100 (progress to next tier)
+        public string NextRank { get; set; } = string.Empty; // Silver/Gold/VIP or empty when maxed
     }
 }

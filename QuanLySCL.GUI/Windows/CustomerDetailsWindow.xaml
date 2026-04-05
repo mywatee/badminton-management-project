@@ -31,6 +31,24 @@
                         <TextBlock Text="  •  " Foreground="#CBD5E1"/>
                         <TextBlock Text="{Binding Customer.Email}" Foreground="#64748B"/>
                     </StackPanel>
+
+                    <StackPanel Margin="0,10,0,0">
+                        <TextBlock Text="{Binding Customer.Status, StringFormat=Rank: {0}}" Foreground="#0F172A" FontWeight="SemiBold"/>
+                        <ProgressBar Minimum="0" Maximum="100" Value="{Binding Customer.RankProgress}" Height="8" Margin="0,6,0,0"
+                                     Background="#E2E8F0" Foreground="#84CC16"/>
+                        <TextBlock Text="{Binding Customer.NextRank, StringFormat=Mục tiêu: {0}}" Foreground="#64748B" FontSize="12" Margin="0,4,0,0">
+                            <TextBlock.Style>
+                                <Style TargetType="TextBlock">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding Customer.NextRank}" Value="">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </TextBlock.Style>
+                        </TextBlock>
+                    </StackPanel>
                 </StackPanel>
 
                 <StackPanel Grid.Column="1" Orientation="Horizontal" VerticalAlignment="Top">
@@ -110,4 +128,3 @@
         </Border>
     </Grid>
 </Window>
-

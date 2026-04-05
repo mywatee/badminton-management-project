@@ -27,6 +27,14 @@
                 </Button>
             </Grid>
 
+            <Border Background="#FFFBEB" BorderBrush="#FDE68A" BorderThickness="1" CornerRadius="12" Padding="12" Margin="0,0,0,18">
+                <StackPanel>
+                    <TextBlock Text="Lưu ý" FontWeight="SemiBold" Foreground="#92400E"/>
+                    <TextBlock Text="• Không được hủy sân trong vòng 24 giờ trước giờ chơi." Foreground="#92400E" Margin="0,4,0,0"/>
+                    <TextBlock Text="• Đặt sân cố định phải &gt;= 4 buổi (4 tuần)." Foreground="#92400E" Margin="0,2,0,0"/>
+                </StackPanel>
+            </Border>
+
             <Border x:Name="ScheduleSection" Style="{StaticResource Card}" Margin="0,0,0,24">
                 <StackPanel>
                     <Grid Margin="0,0,0,20">
@@ -49,6 +57,32 @@
                                     Foreground="#0F172A"
                                     Cursor="Hand">
                                 <materialDesign:PackIcon Kind="ChevronLeft" Width="18" Height="18"/>
+                            </Button>
+                            <ComboBox Width="170" Margin="0,0,8,0"
+                                      SelectedValue="{Binding ScheduleViewMinutes, UpdateSourceTrigger=PropertyChanged}"
+                                      SelectedValuePath="Tag">
+                                <ComboBoxItem Content="Gọn (60 phút)" Tag="60"/>
+                                <ComboBoxItem Content="Chi tiết (30 phút)" Tag="30"/>
+                            </ComboBox>
+                            <Button Click="BackToHourView_Click"
+                                    Content="Quay lại 60p"
+                                    Padding="12,8"
+                                    Margin="0,0,8,0"
+                                    Background="#FEF9C3"
+                                    BorderBrush="#F59E0B"
+                                    Foreground="#92400E"
+                                    FontWeight="SemiBold"
+                                    Cursor="Hand">
+                                <Button.Style>
+                                    <Style TargetType="Button" BasedOn="{StaticResource {x:Type Button}}">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding IsScheduleCompactView}" Value="True">
+                                                <Setter Property="Visibility" Value="Collapsed"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Button.Style>
                             </Button>
                             <DatePicker SelectedDate="{Binding SelectedDate, UpdateSourceTrigger=PropertyChanged}"
                                         Width="150"
@@ -134,6 +168,12 @@
                                 <TextBlock Text="Available" Foreground="#3F6212" FontWeight="Medium"/>
                             </StackPanel>
                         </Border>
+                        <Border Margin="0,0,12,8" Padding="10,6" CornerRadius="14" Background="#FEF9C3" BorderBrush="#F59E0B" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse Width="10" Height="10" Fill="#F59E0B" Margin="0,0,8,0"/>
+                                <TextBlock Text="Có 30p" Foreground="#92400E" FontWeight="Medium"/>
+                            </StackPanel>
+                        </Border>
                         <Border Margin="0,0,12,8" Padding="10,6" CornerRadius="14" Background="#EFF6FF" BorderBrush="#60A5FA" BorderThickness="1">
                             <StackPanel Orientation="Horizontal">
                                 <Ellipse Width="10" Height="10" Fill="#3B82F6" Margin="0,0,8,0"/>
@@ -144,6 +184,12 @@
                             <StackPanel Orientation="Horizontal">
                                 <Ellipse Width="10" Height="10" Fill="#F97316" Margin="0,0,8,0"/>
                                 <TextBlock Text="Maintenance" Foreground="#C2410C" FontWeight="Medium"/>
+                            </StackPanel>
+                        </Border>
+                        <Border Margin="0,0,12,8" Padding="10,6" CornerRadius="14" Background="#FCE7F3" BorderBrush="#F472B6" BorderThickness="1">
+                            <StackPanel Orientation="Horizontal">
+                                <Ellipse Width="10" Height="10" Fill="#EC4899" Margin="0,0,8,0"/>
+                                <TextBlock Text="In-use" Foreground="#9D174D" FontWeight="Medium"/>
                             </StackPanel>
                         </Border>
                     </WrapPanel>
@@ -179,7 +225,7 @@
                             <ItemsControl ItemsSource="{Binding ScheduleRows}">
                                 <ItemsControl.ItemTemplate>
                                     <DataTemplate>
-                                        <Grid Margin="0,0,0,10">
+                                        <Grid Margin="{Binding DataContext.ScheduleRowMargin, RelativeSource={RelativeSource AncestorType=Page}}">
                                             <Grid.ColumnDefinitions>
                                                 <ColumnDefinition Width="110"/>
                                                 <ColumnDefinition Width="*"/>
@@ -196,7 +242,7 @@
                                                 <ItemsControl.ItemTemplate>
                                                     <DataTemplate>
                                                         <Border Margin="0,0,10,0"
-                                                                Padding="12,10"
+                                                                Padding="{Binding DataContext.ScheduleCellPadding, RelativeSource={RelativeSource AncestorType=Page}}"
                                                                 CornerRadius="8"
                                                                 BorderThickness="2"
                                                                 ToolTip="{Binding Details}"
@@ -207,6 +253,10 @@
                                                                     <Setter Property="Background" Value="#F0FDF4"/>
                                                                     <Setter Property="BorderBrush" Value="#A3E635"/>
                                                                     <Style.Triggers>
+                                                                        <DataTrigger Binding="{Binding StatusKey}" Value="Partial">
+                                                                            <Setter Property="Background" Value="#FEF9C3"/>
+                                                                            <Setter Property="BorderBrush" Value="#F59E0B"/>
+                                                                        </DataTrigger>
                                                                         <DataTrigger Binding="{Binding StatusKey}" Value="Booked">
                                                                             <Setter Property="Background" Value="#EFF6FF"/>
                                                                             <Setter Property="BorderBrush" Value="#60A5FA"/>
@@ -215,25 +265,70 @@
                                                                             <Setter Property="Background" Value="#FFEDD5"/>
                                                                             <Setter Property="BorderBrush" Value="#FB923C"/>
                                                                         </DataTrigger>
+                                                                        <DataTrigger Binding="{Binding StatusKey}" Value="InUse">
+                                                                            <Setter Property="Background" Value="#FCE7F3"/>
+                                                                            <Setter Property="BorderBrush" Value="#F472B6"/>
+                                                                        </DataTrigger>
                                                                     </Style.Triggers>
                                                                 </Style>
                                                             </Border.Style>
 
-                                                            <TextBlock Text="{Binding StatusText}" FontWeight="SemiBold" HorizontalAlignment="Center">
-                                                                <TextBlock.Style>
-                                                                    <Style TargetType="TextBlock">
-                                                                        <Setter Property="Foreground" Value="#3F6212"/>
-                                                                        <Style.Triggers>
-                                                                            <DataTrigger Binding="{Binding StatusKey}" Value="Booked">
-                                                                                <Setter Property="Foreground" Value="#1D4ED8"/>
-                                                                            </DataTrigger>
-                                                                            <DataTrigger Binding="{Binding StatusKey}" Value="Maintenance">
-                                                                                <Setter Property="Foreground" Value="#C2410C"/>
-                                                                            </DataTrigger>
-                                                                        </Style.Triggers>
-                                                                    </Style>
-                                                                </TextBlock.Style>
-                                                            </TextBlock>
+                                                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                <Ellipse Width="10" Height="10" Margin="0,0,6,0">
+                                                                    <Ellipse.Style>
+                                                                        <Style TargetType="Ellipse">
+                                                                            <Setter Property="Fill" Value="#84CC16"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding StatusKey}" Value="Partial">
+                                                                                    <Setter Property="Fill" Value="#F59E0B"/>
+                                                                                </DataTrigger>
+                                                                                <DataTrigger Binding="{Binding StatusKey}" Value="Booked">
+                                                                                    <Setter Property="Fill" Value="#3B82F6"/>
+                                                                                </DataTrigger>
+                                                                                <DataTrigger Binding="{Binding StatusKey}" Value="Maintenance">
+                                                                                    <Setter Property="Fill" Value="#F97316"/>
+                                                                                </DataTrigger>
+                                                                                <DataTrigger Binding="{Binding StatusKey}" Value="InUse">
+                                                                                    <Setter Property="Fill" Value="#EC4899"/>
+                                                                                </DataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </Ellipse.Style>
+                                                                </Ellipse>
+                                                                <TextBlock Text="{Binding StatusText}" FontWeight="SemiBold" HorizontalAlignment="Center">
+                                                                    <TextBlock.Style>
+                                                                        <Style TargetType="TextBlock">
+                                                                            <Setter Property="Foreground" Value="#3F6212"/>
+                                                                            <Setter Property="Visibility" Value="Visible"/>
+                                                                            <Style.Triggers>
+                                                                                <DataTrigger Binding="{Binding StatusKey}" Value="Partial">
+                                                                                    <Setter Property="Foreground" Value="#92400E"/>
+                                                                                </DataTrigger>
+                                                                                <DataTrigger Binding="{Binding StatusKey}" Value="Booked">
+                                                                                    <Setter Property="Foreground" Value="#1D4ED8"/>
+                                                                                </DataTrigger>
+                                                                                <DataTrigger Binding="{Binding StatusKey}" Value="Maintenance">
+                                                                                    <Setter Property="Foreground" Value="#C2410C"/>
+                                                                                </DataTrigger>
+                                                                                <DataTrigger Binding="{Binding StatusKey}" Value="InUse">
+                                                                                    <Setter Property="Foreground" Value="#9D174D"/>
+                                                                                </DataTrigger>
+                                                                                <DataTrigger Binding="{Binding DataContext.IsScheduleCompactView, RelativeSource={RelativeSource AncestorType=Page}}" Value="True">
+                                                                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                                                                </DataTrigger>
+                                                                                <MultiDataTrigger>
+                                                                                    <MultiDataTrigger.Conditions>
+                                                                                        <Condition Binding="{Binding DataContext.IsScheduleCompactView, RelativeSource={RelativeSource AncestorType=Page}}" Value="True"/>
+                                                                                        <Condition Binding="{Binding StatusKey}" Value="Partial"/>
+                                                                                    </MultiDataTrigger.Conditions>
+                                                                                    <Setter Property="Visibility" Value="Visible"/>
+                                                                                    <Setter Property="FontSize" Value="11"/>
+                                                                                </MultiDataTrigger>
+                                                                            </Style.Triggers>
+                                                                        </Style>
+                                                                    </TextBlock.Style>
+                                                                </TextBlock>
+                                                            </StackPanel>
                                                         </Border>
                                                     </DataTemplate>
                                                 </ItemsControl.ItemTemplate>
@@ -359,26 +454,11 @@
                             <DataGridTemplateColumn Header="Thao tác" Width="Auto">
                                 <DataGridTemplateColumn.CellTemplate>
                                     <DataTemplate>
-                                        <Button Click="CancelBooking_Click"
-                                                ToolTip="Hủy lịch đặt sân"
-                                                Background="Transparent"
-                                                BorderBrush="Transparent"
-                                                Padding="4"
-                                                Height="30"
-                                                Width="30"
-                                                Cursor="Hand">
-                                            <Button.Style>
-                                                <Style TargetType="Button">
-                                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                                    <Style.Triggers>
-                                                        <DataTrigger Binding="{Binding Status}" Value="Pending">
-                                                            <Setter Property="Visibility" Value="Visible"/>
-                                                        </DataTrigger>
-                                                    </Style.Triggers>
-                                                </Style>
-                                            </Button.Style>
-                                            <materialDesign:PackIcon Kind="CloseCircleOutline" Foreground="#EF4444" Width="20" Height="20"/>
-                                        </Button>
+                                        <StackPanel Orientation="Horizontal">
+                                            <Button Click="ViewDetail_Click" ToolTip="Xem chi tiết" Background="Transparent" BorderBrush="Transparent" Padding="4" Height="30" Width="30" Cursor="Hand">
+                                                <materialDesign:PackIcon Kind="EyeOutline" Foreground="{StaticResource NavyBlueBrush}" Width="20" Height="20"/>
+                                            </Button>
+                                        </StackPanel>
                                     </DataTemplate>
                                 </DataGridTemplateColumn.CellTemplate>
                             </DataGridTemplateColumn>

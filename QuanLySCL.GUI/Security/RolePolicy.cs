@@ -15,8 +15,8 @@ namespace QuanLySCL.GUI.Security
 
             if (role.Equals("NhanVien", StringComparison.OrdinalIgnoreCase))
             {
-                // Staff can access operational pages but not admin panel.
-                return navTag is "Dashboard" or "Booking" or "Services" or "Customers" or "Staff" or "Reports";
+                // Staff can access operational pages but not admin/staff-management/reporting.
+                return navTag is "Dashboard" or "Booking" or "Services" or "Customers";
             }
 
             if (role.Equals("KhachHang", StringComparison.OrdinalIgnoreCase))
@@ -30,4 +30,3 @@ namespace QuanLySCL.GUI.Security
         }
     }
 }
-

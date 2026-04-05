@@ -36,6 +36,19 @@ namespace QuanLySCL.GUI.Views
                 Vm.Load();
         }
 
+        private void QuickGenerate_Click(object sender, RoutedEventArgs e)
+        {
+            if (Vm == null) return;
+
+            var win = new QuickGenerateTimeSlotsWindow
+            {
+                Owner = Window.GetWindow(this)
+            };
+
+            if (win.ShowDialog() == true)
+                Vm.Load();
+        }
+
         private void Edit_Click(object sender, RoutedEventArgs e)
         {
             if (Vm == null) return;

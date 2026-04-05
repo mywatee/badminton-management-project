@@ -192,8 +192,8 @@
   </ItemGroup>
   <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
     <PkgMicrosoft_Xaml_Behaviors_Wpf Condition=" '$(PkgMicrosoft_Xaml_Behaviors_Wpf)' == '' ">C:\Users\ASUS\.nuget\packages\microsoft.xaml.behaviors.wpf\1.1.77</PkgMicrosoft_Xaml_Behaviors_Wpf>
+    <PkgMicrosoft_Web_WebView2 Condition=" '$(PkgMicrosoft_Web_WebView2)' == '' ">C:\Users\ASUS\.nuget\packages\microsoft.web.webview2\1.0.3856.49</PkgMicrosoft_Web_WebView2>
     <PkgMaterialDesignThemes Condition=" '$(PkgMaterialDesignThemes)' == '' ">C:\Users\ASUS\.nuget\packages\materialdesignthemes\5.3.1</PkgMaterialDesignThemes>
     <PkgLiveCharts_Wpf Condition=" '$(PkgLiveCharts_Wpf)' == '' ">C:\Users\ASUS\.nuget\packages\livecharts.wpf\0.9.7</PkgLiveCharts_Wpf>
-    <PkgMicrosoft_Web_WebView2 Condition=" '$(PkgMicrosoft_Web_WebView2)' == '' ">C:\Users\ASUS\.nuget\packages\microsoft.web.webview2\1.0.3856.49</PkgMicrosoft_Web_WebView2>
   </PropertyGroup>
 </Project>

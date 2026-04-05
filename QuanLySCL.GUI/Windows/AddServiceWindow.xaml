@@ -2,12 +2,20 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="Thêm dịch vụ" Height="500" Width="600"
+        xmlns:converters="clr-namespace:QuanLySCL.GUI.Converters"
+        Title="Thêm dịch vụ" Height="550" Width="650"
         WindowStartupLocation="CenterOwner"
         ResizeMode="NoResize"
         Background="{StaticResource BackgroundGray}"
         WindowStyle="None"
         AllowsTransparency="True">
+
+    <Window.Resources>
+        <converters:InverseBooleanConverter x:Key="InverseBooleanConverter"/>
+        <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter"/>
+        <converters:InverseBooleanToVisibilityConverter x:Key="InverseBooleanToVisibilityConverter"/>
+        <converters:NullToVisibilityConverter x:Key="NullToVisibilityConverter"/>
+    </Window.Resources>
     
     <Border BorderBrush="{StaticResource NavyBlueBrush}" BorderThickness="1" CornerRadius="12" Background="White">
         <Grid>
@@ -38,41 +46,64 @@
                 </Grid.ColumnDefinitions>
 
                 <!-- Service List -->
-                <StackPanel Grid.Column="0" Margin="0,0,16,0">
-                    <TextBlock Text="Chọn dịch vụ" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                <Grid Grid.Column="0" Margin="0,0,16,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="Auto"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
                     
-                    <StackPanel Orientation="Horizontal" Margin="0,0,0,12">
+                    <TextBlock Grid.Row="0" Text="Chọn dịch vụ (có thể chọn nhiều)" FontWeight="SemiBold" Margin="0,0,0,12"/>
+                    
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Margin="0,0,0,12">
                         <RadioButton Content="Tất cả" IsChecked="True" Style="{StaticResource MaterialDesignTabRadioButton}" Margin="0,0,8,0" Command="{Binding FilterCommand}" CommandParameter="All"/>
                         <RadioButton Content="Đồ uống" Style="{StaticResource MaterialDesignTabRadioButton}" Margin="0,0,8,0" Command="{Binding FilterCommand}" CommandParameter="Drinks"/>
                         <RadioButton Content="Dụng cụ" Style="{StaticResource MaterialDesignTabRadioButton}" Command="{Binding FilterCommand}" CommandParameter="Equipment"/>
                     </StackPanel>
 
-                    <ListBox x:Name="ServiceList" ItemsSource="{Binding FilteredServices}" 
-                             SelectedItem="{Binding SelectedService}"
-                             Height="280">
+                    <ListBox Grid.Row="2" x:Name="ServiceList" ItemsSource="{Binding FilteredServices}" 
+                             SelectedItem="{Binding ActiveItem}"
+                             ScrollViewer.VerticalScrollBarVisibility="Auto">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
-                                <Grid Margin="4">
+                                <Grid Margin="4" IsEnabled="{Binding IsOutOfStock, Converter={StaticResource InverseBooleanConverter}}">
                                     <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
                                         <ColumnDefinition Width="*"/>
-                                        <ColumnDefinition Width="80"/>
+                                        <ColumnDefinition Width="Auto"/>
                                     </Grid.ColumnDefinitions>
-                                    <StackPanel Grid.Column="0" VerticalAlignment="Center">
-                                        <TextBlock Text="{Binding Name}" FontWeight="Medium" FontSize="14"/>
+
+                                    <CheckBox Grid.Column="0"
+                                              Margin="0,0,10,0"
+                                              VerticalAlignment="Center"
+                                              IsChecked="{Binding IsSelected, Mode=TwoWay}"
+                                              IsEnabled="{Binding IsOutOfStock, Converter={StaticResource InverseBooleanConverter}}"/>
+
+                                    <StackPanel Grid.Column="1" Margin="0,0,8,0">
+                                        <TextBlock Text="{Binding Name}" FontWeight="Medium" FontSize="14" TextWrapping="Wrap"/>
+                                        <TextBlock Text="Hết hàng" FontSize="11" Foreground="#DC2626" Margin="0,2,0,0"
+                                                   Visibility="{Binding IsOutOfStock, Converter={StaticResource BooleanToVisibilityConverter}}"/>
                                     </StackPanel>
-                                    <TextBlock Grid.Column="1" Text="{Binding Price, StringFormat={}{0:N0}đ}" 
+
+                                    <TextBlock Grid.Column="2" Text="{Binding Price, StringFormat={}{0:N0}đ}" 
                                                HorizontalAlignment="Right" VerticalAlignment="Center" 
                                                Foreground="{StaticResource NavyBlueBrush}" FontWeight="SemiBold"/>
                                 </Grid>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
-                </StackPanel>
+                </Grid>
 
                 <!-- Selection Details -->
                 <StackPanel Grid.Column="1" VerticalAlignment="Top">
                     <Border Background="#F1F5F9" Padding="16" CornerRadius="8">
                         <StackPanel>
+                            <TextBlock Text="Dịch vụ đang chỉnh" FontWeight="SemiBold" Margin="0,0,0,8"/>
+                            <TextBlock Text="{Binding ActiveItem.Name}" FontSize="12" Foreground="#334155" TextWrapping="Wrap" Margin="0,0,0,12"
+                                       Visibility="{Binding HasActiveItem, Converter={StaticResource BooleanToVisibilityConverter}}"/>
+                            <TextBlock Text="Chọn một dịch vụ bên trái để chỉnh số lượng." FontSize="12" Foreground="#64748B" TextWrapping="Wrap" Margin="0,0,0,12"
+                                       Visibility="{Binding HasActiveItem, Converter={StaticResource InverseBooleanToVisibilityConverter}}"/>
+
                             <TextBlock Text="Số lượng" FontWeight="SemiBold" Margin="0,0,0,12"/>
                             <Grid Margin="0,0,0,20">
                                 <Grid.ColumnDefinitions>
@@ -83,13 +114,21 @@
                                 <Button Grid.Column="0" Style="{StaticResource MaterialDesignOutlinedButton}" Padding="0" Width="36" Height="36" Command="{Binding DecreaseCommand}">
                                     <materialDesign:PackIcon Kind="Minus" Width="18"/>
                                 </Button>
-                                <TextBox Grid.Column="1" Text="{Binding Quantity}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18" FontWeight="Bold" BorderThickness="0" Background="Transparent"/>
+                                <TextBox Grid.Column="1"
+                                         Text="{Binding ActiveItem.Quantity, UpdateSourceTrigger=PropertyChanged}"
+                                         HorizontalContentAlignment="Center"
+                                         VerticalContentAlignment="Center"
+                                         FontSize="18"
+                                         FontWeight="Bold"
+                                         BorderThickness="0"
+                                         Background="Transparent"/>
                                 <Button Grid.Column="2" Style="{StaticResource MaterialDesignOutlinedButton}" Padding="0" Width="36" Height="36" Command="{Binding IncreaseCommand}">
                                     <materialDesign:PackIcon Kind="Plus" Width="18"/>
                                 </Button>
                             </Grid>
 
-                            <TextBlock Text="Thành tiền dự kiến" FontSize="11" Foreground="Gray"/>
+                            <TextBlock Text="{Binding SelectedCount, StringFormat=Đã chọn: {0} dịch vụ}" FontSize="11" Foreground="Gray" Margin="0,0,0,4"/>
+                            <TextBlock Text="Tổng tiền dự kiến" FontSize="11" Foreground="Gray"/>
                             <TextBlock Text="{Binding TotalPrice, StringFormat={}{0:N0}đ}" FontSize="24" FontWeight="Bold" Foreground="{StaticResource NavyBlueBrush}"/>
                         </StackPanel>
                     </Border>

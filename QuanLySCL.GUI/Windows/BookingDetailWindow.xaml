@@ -1,0 +1,115 @@
+<Window x:Class="QuanLySCL.GUI.Windows.BookingDetailWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        Title="Chi tiết lượt đặt" Height="500" Width="450"
+        WindowStartupLocation="CenterOwner" ResizeMode="NoResize"
+        Background="#F8FAFC" WindowStyle="None" AllowsTransparency="True">
+
+    <Border BorderBrush="#E2E8F0" BorderThickness="1" CornerRadius="16" Background="White">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- Header -->
+            <Border Grid.Row="0" Background="{StaticResource NavyBlueBrush}" CornerRadius="15,15,0,0" Padding="20,15">
+                <Grid>
+                    <TextBlock Text="CHI TIẾT LƯỢT ĐẶT" Foreground="White" FontSize="16" FontWeight="Bold" VerticalAlignment="Center"/>
+                    <Button HorizontalAlignment="Right" Style="{StaticResource MaterialDesignIconButton}" Foreground="White" Click="Close_Click">
+                        <materialDesign:PackIcon Kind="Close" Width="20" Height="20"/>
+                    </Button>
+                </Grid>
+            </Border>
+
+            <!-- Content -->
+            <ScrollViewer Grid.Row="1" VerticalScrollBarVisibility="Auto" Padding="24">
+                <StackPanel>
+                    <!-- Status Badge -->
+                    <Border HorizontalAlignment="Left" CornerRadius="4" Padding="8,4" Margin="0,0,0,16">
+                        <Border.Style>
+                            <Style TargetType="Border">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Booking.Status}" Value="Completed">
+                                        <Setter Property="Background" Value="#DCFCE7"/>
+                                        <Setter Property="TextBlock.Foreground" Value="#166534"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Booking.Status}" Value="Pending">
+                                        <Setter Property="Background" Value="#FEF9C3"/>
+                                        <Setter Property="TextBlock.Foreground" Value="#854D0E"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Booking.Status}" Value="Cancelled">
+                                        <Setter Property="Background" Value="#FEE2E2"/>
+                                        <Setter Property="TextBlock.Foreground" Value="#991B1B"/>
+                                    </DataTrigger>
+                                    <DataTrigger Binding="{Binding Booking.Status}" Value="InUse">
+                                        <Setter Property="Background" Value="#FCE7F3"/>
+                                        <Setter Property="TextBlock.Foreground" Value="#9D174D"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </Border.Style>
+                        <TextBlock Text="{Binding Booking.Status}" FontWeight="SemiBold" FontSize="12"/>
+                    </Border>
+
+                    <Grid Margin="0,0,0,12">
+                        <TextBlock Text="Mã đặt sân:" Foreground="#64748B" FontSize="13"/>
+                        <TextBlock Text="{Binding Booking.Id}" HorizontalAlignment="Right" FontWeight="Medium" Foreground="#0F172A"/>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,12">
+                        <TextBlock Text="Khách hàng:" Foreground="#64748B" FontSize="13"/>
+                        <TextBlock Text="{Binding Booking.Customer}" HorizontalAlignment="Right" FontWeight="SemiBold" Foreground="#0F172A"/>
+                    </Grid>
+
+                    <Grid Margin="0,0,0,12">
+                        <TextBlock Text="Sân / Thời gian:" Foreground="#64748B" FontSize="13"/>
+                        <TextBlock Text="{Binding InfoLine}" HorizontalAlignment="Right" Foreground="#0F172A"/>
+                    </Grid>
+
+                    <Separator Background="#F1F5F9" Margin="0,12"/>
+
+                    <!-- Services -->
+                    <TextBlock Text="Dịch vụ đã dùng:" FontWeight="Bold" Margin="0,0,0,12" Foreground="#0F172A"/>
+                    <ItemsControl ItemsSource="{Binding Services}">
+                        <ItemsControl.ItemTemplate>
+                            <DataTemplate>
+                                <Grid Margin="0,0,0,6">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="*"/>
+                                        <ColumnDefinition Width="Auto"/>
+                                    </Grid.ColumnDefinitions>
+                                    <TextBlock Text="{Binding ServiceName}" FontSize="13" Foreground="#334155"/>
+                                    <TextBlock Grid.Column="1" Text="{Binding Total, StringFormat='₫{0:N0}'}" FontSize="13" Foreground="#334155" Margin="12,0,0,0"/>
+                                </Grid>
+                            </DataTemplate>
+                        </ItemsControl.ItemTemplate>
+                    </ItemsControl>
+
+                    <TextBlock Text="Chưa có dịch vụ" FontStyle="Italic" Foreground="#94A3B8" FontSize="13">
+                        <TextBlock.Style>
+                            <Style TargetType="TextBlock">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Services.Count}" Value="0">
+                                        <Setter Property="Visibility" Value="Visible"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+            </ScrollViewer>
+
+            <!-- Total -->
+            <Border Grid.Row="2" Background="#F8FAFC" Padding="24,16" CornerRadius="0,0,15,15">
+                <Grid>
+                    <TextBlock Text="TỔNG CỘNG" FontWeight="Bold" Foreground="#0F172A" VerticalAlignment="Center"/>
+                    <TextBlock Text="{Binding Booking.Amount, StringFormat='₫{0:N0}'}" HorizontalAlignment="Right" FontSize="20" FontWeight="Bold" Foreground="{StaticResource NavyBlueBrush}"/>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>

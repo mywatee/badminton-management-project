@@ -63,7 +63,7 @@ namespace QuanLySCL.GUI.Windows {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/QuanLySCL.GUI;V1.0.0.0;component/windows/createstaffaccountwindow.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/QuanLySCL.GUI;component/windows/createstaffaccountwindow.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Windows\CreateStaffAccountWindow.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

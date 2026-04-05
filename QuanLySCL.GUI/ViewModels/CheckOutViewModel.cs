@@ -56,15 +56,21 @@ namespace QuanLySCL.GUI.ViewModels
 
         private readonly CustomerBUS _customerBus = new CustomerBUS();
 
-        private System.Collections.Generic.List<BookingServiceDetail> _services = new System.Collections.Generic.List<BookingServiceDetail>();
+        private System.Collections.ObjectModel.ObservableCollection<BookingServiceDetail> _services = new System.Collections.ObjectModel.ObservableCollection<BookingServiceDetail>();
+        public System.Collections.ObjectModel.ObservableCollection<BookingServiceDetail> Services
+        {
+            get => _services;
+            set => SetProperty(ref _services, value);
+        }
 
         private void LoadBooking(string bookingId)
         {
             Booking = _bookingBus.GetBookingById(bookingId);
             if (Booking != null)
             {
-                _services = _serviceBus.GetServiceDetailsByBooking(bookingId).ToList();
-                ServiceFee = _services.Sum(s => s.Total);
+                var details = _serviceBus.GetServiceDetailsByBooking(bookingId);
+                Services = new System.Collections.ObjectModel.ObservableCollection<BookingServiceDetail>(details);
+                ServiceFee = Services.Sum(s => s.Total);
 
                 // Auto-apply member discount
                 var customer = _customerBus.GetAllCustomers().FirstOrDefault(c => c.Phone == Booking.Phone);
@@ -108,7 +114,7 @@ namespace QuanLySCL.GUI.ViewModels
         public void PrintInvoice(Invoice? invoice = null)
         {
             if (invoice == null) invoice = CreateInvoice();
-            Helpers.PrintHelper.PrintInvoice(invoice, Booking, _services);
+            Helpers.PrintHelper.PrintInvoice(invoice, Booking, Services);
         }
     }
 }

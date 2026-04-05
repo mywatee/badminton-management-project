@@ -1,0 +1,532 @@
+{\rtf1\ansi\deff0\uc1{\fonttbl{\f0 Times New Roman;}{\f1 Consolas;}}\paperw11906\paperh16838\margl1417\margr1417\margt1134\margb1134
+\pard\qc\sa240\sl360\slmult1\fi0\li0\keepn\f0\fs32\b CH\u431?\u416?NG 5: DEMO V\u192? X\u194?Y D\u7920?NG CH\u431?\u416?NG TR\u204?NH\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa160\sl360\slmult1\fi0\li0\keepn\f0\fs28\b 5.1. M\u7909?c ti\u234?u ch\u432?\u417?ng\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 Ch\u432?\u417?ng n\u224?y tr\u236?nh b\u224?y quy tr\u236?nh \b x\u226?y d\u7921?ng \u8211? c\u224?i \u273?\u7863?t \u8211? c\u7845?u h\u236?nh \u8211? ch\u7841?y th\u7917?\b0  v\u224? \b demo c\u225?c ch\u7913?c n\u259?ng ch\u237?nh\b0  c\u7911?a ph\u7847?n m\u7873?m \b Qu\u7843?n L\u253? S\u226?n C\u7847?u L\u244?ng (QuanLySCL)\b0 . N\u7897?i dung t\u7853?p trung v\u224?o:\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Thi\u7871?t l\u7853?p m\u244?i tr\u432?\u7901?ng v\u224? c\u244?ng ngh\u7879? s\u7917? d\u7909?ng.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Kh\u7903?i t\u7841?o c\u417? s\u7903? d\u7919? li\u7879?u (CSDL) v\u224? d\u7919? li\u7879?u n\u7873?n ph\u7909?c v\u7909? v\u7853?n h\u224?nh.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Bi\u234?n d\u7883?ch (build) v\u224? ch\u7841?y ch\u432?\u417?ng tr\u236?nh.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Demo theo k\u7883?ch b\u7843?n nghi\u7879?p v\u7909? (Admin / Nh\u226?n vi\u234?n / Kh\u225?ch h\u224?ng).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab G\u7907?i \u253? ki\u7875?m th\u7917? t\u7921? \u273?\u7897?ng (E2E) v\u224? xu\u7845?t b\u225?o c\u225?o.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\keepn\f0\fs26\b 5.1.1. Danh s\u225?ch h\u236?nh minh h\u7885?a (demo ch\u7913?c n\u259?ng ch\u237?nh)\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 Khi vi\u7871?t b\u225?o c\u225?o Word, m\u7895?i h\u236?nh n\u234?n c\u243? caption theo m\u7851?u: \f1 H\u236?nh 5.x. <T\u234?n h\u236?nh>\f0 . Danh s\u225?ch h\u236?nh \u273?\u7873? xu\u7845?t:\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 1. \b H\u236?nh 5.1\b0 : M\u224?n h\u236?nh \u273?\u259?ng nh\u7853?p (\f1 LoginWindow\f0 )\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 2. \b H\u236?nh 5.2\b0 : Giao di\u7879?n ch\u237?nh theo vai tr\u242? (Admin / Nh\u226?n vi\u234?n / Kh\u225?ch h\u224?ng) (\f1 MainWindow\f0 )\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 3. \b H\u236?nh 5.3\b0 : Qu\u7843?n l\u253? s\u226?n / lo\u7841?i s\u226?n (Admin \u8211? Courts)\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 4. \b H\u236?nh 5.4\b0 : T\u7841?o nhanh ca gi\u7901? + gi\u225? (Admin \u8211? Quick Generate Time Slots & Prices)\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 5. \b H\u236?nh 5.5\b0 : Danh s\u225?ch ca gi\u7901? sau khi t\u7841?o (Admin \u8211? Time Slots)\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 6. \b H\u236?nh 5.6\b0 : Qu\u7843?n l\u253? b\u7843?ng gi\u225? theo ca (Admin \u8211? Pricing)\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 7. \b H\u236?nh 5.7\b0 : T\u7841?o phi\u7871?u \u273?\u7863?t s\u226?n (Booking \u8211? Create Booking)\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 8. \b H\u236?nh 5.8\b0 : Chi ti\u7871?t phi\u7871?u \u273?\u7863?t / tr\u7841?ng th\u225?i (Booking Detail)\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 9. \b H\u236?nh 5.9\b0 : Check-out + thanh to\u225?n + h\u243?a \u273?\u417?n (CheckOut / Invoice)\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 10. \b H\u236?nh 5.10\b0 : B\u225?n d\u7883?ch v\u7909? (POS \u8211? Services/Cart)\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 11. \b H\u236?nh 5.11\b0 : \u193?p d\u7909?ng khuy\u7871?n m\u227?i (Promotion)\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 12. \b H\u236?nh 5.12\b0 : B\u225?o c\u225?o \u8211? th\u7889?ng k\u234? (Dashboard/Reports, bi\u7875?u \u273?\u7891? LiveCharts)\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 Ghi ch\u250?: Trong Word, ph\u7847?n "Danh s\u225?ch h\u236?nh" th\u432?\u7901?ng \u273?\u7863?t \u7903? \u273?\u7847?u b\u225?o c\u225?o (t\u249?y quy \u273?\u7883?nh). Trong Ch\u432?\u417?ng 5, ch\u7881? c\u7847?n \u273?\u7863?t caption ngay d\u432?\u7899?i h\u236?nh.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\keepn\f0\fs26\b 5.1.2. K\u7883?ch b\u7843?n demo t\u7893?ng qu\u225?t (t\u243?m t\u7855?t)\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Chu\u7849?n b\u7883? DB \f1 QLSCL\f0 , seed s\u226?n/ca gi\u7901?/b\u7843?ng gi\u225?/d\u7883?ch v\u7909?.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Demo theo 3 vai tr\u242?: Admin (c\u7845?u h\u236?nh), Nh\u226?n vi\u234?n (v\u7853?n h\u224?nh), Kh\u225?ch h\u224?ng (\u273?\u7863?t s\u226?n).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Th\u7921?c hi\u7879?n lu\u7891?ng nghi\u7879?p v\u7909?: \b \u272?\u7863?t s\u226?n \u8594? Check-in \u8594? Th\u234?m d\u7883?ch v\u7909? (n\u7871?u c\u243?) \u8594? Check-out \u8594? H\u243?a \u273?\u417?n \u8594? B\u225?o c\u225?o\b0 .\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa160\sl360\slmult1\fi0\li0\keepn\f0\fs28\b 5.2. T\u7893?ng quan ki\u7871?n tr\u250?c v\u224? c\u225?c module trong project\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 Project \u273?\u432?\u7907?c t\u7893? ch\u7913?c theo m\u244? h\u236?nh nhi\u7873?u t\u7847?ng, t\u225?ch bi\u7879?t r\u245? tr\u225?ch nhi\u7879?m:\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab \f1 QuanLySCL.Models\f0 : c\u225?c l\u7899?p m\u244? h\u236?nh d\u7919? li\u7879?u (Booking, Court, Customer, TimeSlot, PriceEntry, Invoice, Service, Promotion, \u8230?).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab \f1 QuanLySCL.DAL\f0 : t\u7847?ng truy c\u7853?p d\u7919? li\u7879?u (SQL Server) b\u7857?ng \f1 Microsoft.Data.SqlClient\f0  (CRUD + truy v\u7845?n nghi\u7879?p v\u7909?).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab \f1 QuanLySCL.BUS\f0 : t\u7847?ng nghi\u7879?p v\u7909? (g\u7885?i DAL, ki\u7875?m tra/\u273?i\u7873?u ph\u7889?i quy tr\u236?nh nh\u432? \u273?\u7863?t s\u226?n, check-in/out, d\u7883?ch v\u7909?, b\u225?o c\u225?o, t\u224?i kho\u7843?n).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab \f1 QuanLySCL.GUI\f0 : \u7913?ng d\u7909?ng WPF (MaterialDesignThemes, LiveCharts, WebView2), giao di\u7879?n theo vai tr\u242?.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab \f1 QuanLySCL.E2E\f0 : ki\u7875?m th\u7917? end-to-end b\u7857?ng Playwright + NUnit, c\u243? th\u7875? xu\u7845?t b\u225?o c\u225?o Excel.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 Lu\u7891?ng x\u7917? l\u253? t\u7893?ng qu\u225?t:\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \f1 GUI (View/ViewModel) \u8594? BUS \u8594? DAL \u8594? SQL Server (QLSCL)\f0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa160\sl360\slmult1\fi0\li0\keepn\f0\fs28\b 5.3. M\u244?i tr\u432?\u7901?ng c\u224?i \u273?\u7863?t v\u224? y\u234?u c\u7847?u h\u7879? th\u7889?ng\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\keepn\f0\fs26\b 5.3.1. Ph\u7847?n m\u7873?m c\u7847?n c\u224?i \u273?\u7863?t\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Windows 10/11\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab \b .NET SDK 10\b0  (project \u273?ang target \f1 net10.0\f0  v\u224? \f1 net10.0-windows\f0 )\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab GUI WPF: \f1 QuanLySCL.GUI\f0  target \f1 net10.0-windows\f0 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Microsoft SQL Server (khuy\u7871?n ngh\u7883? \b SQL Server Express\b0  ho\u7863?c b\u7843?n Developer)\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab (Tu\u7923? ch\u7885?n) Visual Studio (khuy\u7871?n ngh\u7883? khi l\u224?m WPF): workload \u8220?.NET Desktop Development\u8221?\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\keepn\f0\fs26\b 5.3.2. C\u7845?u h\u236?nh k\u7871?t n\u7889?i CSDL\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 K\u7871?t n\u7889?i DB \u273?\u432?\u7907?c c\u7845?u h\u236?nh t\u7841?i \f1 QuanLySCL.DAL/BaseDAL.cs\f0  th\u244?ng qua:\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Bi\u7871?n m\u244?i tr\u432?\u7901?ng \f1 QLSCL_CONNECTION_STRING\f0  (\u432?u ti\u234?n)\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab N\u7871?u kh\u244?ng c\u243? env var th\u236? d\u249?ng m\u7863?c \u273?\u7883?nh:\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab \f1 Data Source=.\\SQLEXPRESS;Initial Catalog=QLSCL;Integrated Security=True;TrustServerCertificate=True\f0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 V\u237? d\u7909? c\u7845?u h\u236?nh env var (PowerShell):\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl280\slmult1\fi0\li360\f1\fs22 $env:QLSCL_CONNECTION_STRING="Data Source=.\\SQLEXPRESS;Initial Catalog=QLSCL;Integrated Security=True;TrustServerCertificate=True"\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa160\sl360\slmult1\fi0\li0\keepn\f0\fs28\b 5.4. X\u226?y d\u7921?ng c\u417? s\u7903? d\u7919? li\u7879?u v\u224? d\u7919? li\u7879?u n\u7873?n\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\keepn\f0\fs26\b 5.4.1. T\u7841?o schema CSDL\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 Script kh\u7903?i t\u7841?o schema:\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab \f1 sqlfinal.sql\f0 : t\u7841?o database \f1 QLSCL\f0  v\u224? c\u225?c b\u7843?ng (v\u237? d\u7909?: \f1 CA_GIO\f0 , \f1 BANG_GIA\f0 , \f1 LOAI_SAN\f0 , \f1 SAN\f0 , \f1 KHACH_HANG\f0 , \f1 TAI_KHOAN\f0 , \f1 DAT_SAN\f0 , \f1 CT_DAT_SAN\f0 , \f1 DICH_VU\f0 , \f1 HOA_DON\f0 , \u8230?).\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 Th\u7921?c hi\u7879?n:\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 1. M\u7903? SQL Server Management Studio (SSMS)\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 2. Ch\u7841?y \f1 sqlfinal.sql\f0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\keepn\f0\fs26\b 5.4.2. Seed ca gi\u7901? (CA_GIO) v\u224? b\u7843?ng gi\u225? (BANG_GIA)\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 H\u7879? th\u7889?ng c\u7847?n c\u243? d\u7919? li\u7879?u \b ca gi\u7901?\b0  v\u224? \b b\u7843?ng gi\u225?\b0  \u273?\u7875? t\u237?nh ti\u7873?n/\u273?\u7863?t s\u226?n.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 C\u243? 2 c\u225?ch:\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b C\u225?ch A \u8211? Ch\u7841?y script SQL (khuy\u7871?n ngh\u7883? khi tri\u7875?n khai nhanh):\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab \f1 scripts/seed_timeslots_30m_and_prices.sql\f0 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab T\u7841?o ca theo b\u432?\u7899?c 30 ph\u250?t (m\u7863?c \u273?\u7883?nh 06:00\u8211?22:00)\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab C\u243? th\u7875? c\u7845?u h\u236?nh khung \u8220?gi\u7901? v\u224?ng\u8221? (m\u7863?c \u273?\u7883?nh 18:00\u8211?21:00)\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Upsert \f1 CA_GIO\f0  v\u224? suy lu\u7853?n/seed \f1 BANG_GIA\f0  d\u7921?a tr\u234?n gi\u225? c\u243? s\u7861?n\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab L\u432?u \u253?: script s\u7869? \b b\u7887? qua\b0  rule n\u7871?u kh\u244?ng suy lu\u7853?n \u273?\u432?\u7907?c gi\u225? n\u7873?n.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b C\u225?ch B \u8211? D\u249?ng ch\u7913?c n\u259?ng t\u7841?o nhanh trong GUI:\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab C\u7917?a s\u7893? \f1 QuickGenerateTimeSlotsWindow\f0  cho ph\u233?p:\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Nh\u7853?p gi\u7901? m\u7903?/\u273?\u243?ng c\u7917?a, b\u432?\u7899?c ph\u250?t, khung gi\u7901? v\u224?ng\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Nh\u7853?p gi\u225? theo lo\u7841?i \u273?\u7863?t (L\u7867? / C\u7889? \u273?\u7883?nh) v\u224? theo gi\u7901? th\u432?\u7901?ng/gi\u7901? v\u224?ng\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab (Tu\u7923? ch\u7885?n) suy lu\u7853?n gi\u225? t\u7915? d\u7919? li\u7879?u hi\u7879?n c\u243?\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Upsert xu\u7889?ng DB qua \f1 AdminBUS.UpsertTimeSlotsAndPrices(...)\f0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\keepn\f0\fs26\b 5.4.3. D\u7919? li\u7879?u d\u7883?ch v\u7909? (DICH_VU)\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 C\u243? script c\u7853?p nh\u7853?t danh s\u225?ch d\u7883?ch v\u7909? (\u273?\u7891?ng b\u7897? gi\u225?, xo\u225? \u8220?thu\u234? gi\u224?y\u8221?, chu\u7849?n ho\u225? \u8220?\u7889?ng c\u7847?u\u8221?):\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab \f1 scripts/update_services_prices.sql\f0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 Ngo\u224?i ra, \u7903? runtime, \f1 QuanLySCL.BUS/ServiceBUS.cs\f0  c\u243? c\u417? ch\u7871? \u8220?best-effort\u8221? \u273?\u7843?m b\u7843?o t\u7891?n t\u7841?i m\u7897?t s\u7889? s\u7843?n ph\u7849?m \u7889?ng c\u7847?u m\u7851?u (kh\u244?ng b\u7855?t bu\u7897?c).\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\keepn\f0\fs26\b 5.4.4. T\u7841?o t\u224?i kho\u7843?n Admin ban \u273?\u7847?u\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 Do \f1 sqlfinal.sql\f0  ch\u7911? y\u7871?u t\u7841?o schema, \u273?\u7875? c\u243? \b Admin\b0  \u273?\u259?ng nh\u7853?p l\u7847?n \u273?\u7847?u c\u243? th\u7875? l\u224?m theo h\u432?\u7899?ng an to\u224?n nh\u7845?t:\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 1. D\u249?ng m\u224?n h\u236?nh \b \u272?\u259?ng k\u253?\b0  trong app \u273?\u7875? t\u7841?o m\u7897?t t\u224?i kho\u7843?n (\u273?\u227? c\u243? hash/salt h\u7907?p l\u7879?).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 2. Ch\u7841?y l\u7879?nh SQL \u273?\u7875? n\u226?ng quy\u7873?n:\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl280\slmult1\fi0\li360\f1\fs22 UPDATE TAI_KHOAN\u10?SET VaiTro = N'Admin'\u10?WHERE TenDangNhap = 'ten_dang_nhap_can_cap_quyen';\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa160\sl360\slmult1\fi0\li0\keepn\f0\fs28\b 5.5. Bi\u234?n d\u7883?ch (build) v\u224? ch\u7841?y ch\u432?\u417?ng tr\u236?nh\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\keepn\f0\fs26\b 5.5.1. Build b\u7857?ng Visual Studio (khuy\u7871?n ngh\u7883?)\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 1. M\u7903? project/solution trong Visual Studio\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 2. Ch\u7885?n Startup Project: \f1 QuanLySCL.GUI\f0 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 3. Build c\u7845?u h\u236?nh \f1 Debug\f0  ho\u7863?c \f1 Release\f0 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 4. Run \u273?\u7875? m\u7903? \u7913?ng d\u7909?ng\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\keepn\f0\fs26\b 5.5.2. Build b\u7857?ng .NET CLI\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 T\u7841?i th\u432? m\u7909?c repo:\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl280\slmult1\fi0\li360\f1\fs22 dotnet restore .\\QuanLySCL.GUI\\QuanLySCL.GUI.csproj\u10?dotnet build   .\\QuanLySCL.GUI\\QuanLySCL.GUI.csproj -c Release\u10?dotnet run     --project .\\QuanLySCL.GUI\\QuanLySCL.GUI.csproj\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 L\u432?u \u253?:\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Khi ch\u7841?y l\u7847?n \u273?\u7847?u, c\u7847?n \u273?\u7843?m b\u7843?o k\u7871?t n\u7889?i SQL Server v\u224? DB \f1 QLSCL\f0  \u273?\u227? s\u7861?n s\u224?ng.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab \u7912?ng d\u7909?ng kh\u7903?i \u273?\u7897?ng t\u7841?i \f1 QuanLySCL.GUI/App.xaml.cs\f0 , hi\u7875?n th\u7883? \f1 LoginWindow\f0  tr\u432?\u7899?c, sau \u273?\u243? m\u7903? \f1 MainWindow\f0 .\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa160\sl360\slmult1\fi0\li0\keepn\f0\fs28\b 5.6. Demo ch??ng tr?nh v? h??ng d?n s? d?ng (chi ti?t)\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 M?c 5.6 tr?nh b?y demo theo \b lu?ng nghi?p v? th?c t?\b0  c?a m?t c? s? s?n c?u l?ng. M?i ch?c n?ng ??u c?: \b m?c ??ch ? ti?n ?i?u ki?n ? thao t?c ? d? li?u minh h?a ? k?t qu? mong ??i ? l?i th??ng g?p ? h?nh ch?p ?? xu?t\b0 .\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\keepn\f0\fs26\b 5.6.1. ??ng nh?p, ph?n quy?n v? ?i?u h??ng theo vai tr?\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b M?c ??ch\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab X?c th?c ng??i d?ng.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Hi?n th? ??ng menu/ch?c n?ng theo vai tr? (Admin/Nh?n vi?n/Kh?ch h?ng).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab ?i?u h??ng m?c ??nh ??ng theo vai tr?.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b Ti?n ?i?u ki?n\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab C? ?t nh?t 01 t?i kho?n h?p l? trong \f1 TAI_KHOAN\f0 .\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab ?? c?u h?nh k?t n?i DB \f1 QLSCL\f0 .\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b Thao t?c demo\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 1. M? ?ng d?ng ? m?n h?nh \f1 LoginWindow\f0 .\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 2. Nh?p \b T?n ??ng nh?p\b0  v? \b M?t kh?u\b0 .\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 3. Nh?n \b ??ng nh?p\b0 .\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 4. Quan s?t \f1 MainWindow\f0 :\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab T?n ng??i d?ng v? vai tr? hi?n th? ??ng.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Menu/nh?m ch?c n?ng hi?n th? ??ng quy?n.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Trang m?c ??nh theo vai tr?:\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Admin ? trang qu?n tr?.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Kh?ch h?ng ? trang ??t s?n (Booking).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Nh?n vi?n ? Dashboard.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b D? li?u minh h?a\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab T?i kho?n Admin: d?ng ?? demo ph?n qu?n tr? (Courts/TimeSlots/Pricing/Promotions/Accounts).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab T?i kho?n Nh?n vi?n: d?ng ?? demo v?n h?nh (booking, check-in/out, POS).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab T?i kho?n Kh?ch h?ng: d?ng ?? demo ??t s?n ph?a kh?ch.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b K?t qu? mong ??i\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab ??ng nh?p th?nh c?ng ? v?o \f1 MainWindow\f0 .\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Ng??i d?ng \b kh?ng c? quy?n\b0  s?:\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab kh?ng th?y menu t??ng ?ng, ho?c\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab b? c?nh b?o khi c? truy c?p (n?u c?) v? b? ??a v? trang ph? h?p.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b L?i th??ng g?p & c?ch x? l?\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Kh?ng ??ng nh?p ???c: ki?m tra \f1 QLSCL_CONNECTION_STRING\f0 , DB \f1 QLSCL\f0  c? t?n t?i, SQL Server ?ang ch?y.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Sai m?t kh?u: th? ch?c n?ng qu?n m?t kh?u (n?u tri?n khai) ho?c t?o l?i t?i kho?n.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b H?nh minh h?a ?? xu?t\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab H?nh 5.1: M?n h?nh ??ng nh?p.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab H?nh 5.2: Giao di?n ch?nh theo vai tr?.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\keepn\f0\fs26\b 5.6.2. Qu?n tr? lo?i s?n v? s?n (Admin)\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b M?c ??ch\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab T?o d? li?u n?n v? \b lo?i s?n\b0  v? \b s?n\b0  ?? ph?c v?: ??t s?n, t?nh ti?n theo lo?i s?n, b?o c?o doanh thu theo s?n.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b Ti?n ?i?u ki?n\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab ??ng nh?p v?i vai tr? \b Admin\b0 .\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab CSDL c? b?ng \f1 LOAI_SAN\f0 , \f1 SAN\f0 .\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b Thao t?c demo (g?i ? k?ch b?n)\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 1. V?o menu Admin ? \b Courts\b0 .\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 2. Th?m m?i \b Lo?i s?n\b0 :\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab V? d?: ?S?n ti?u chu?n?, ?S?n VIP?.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 3. Th?m m?i \b S?n\b0 :\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Ch?n lo?i s?n t??ng ?ng.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Tr?ng th?i ban ??u: ?Available/Tr?ng? (t?y h? th?ng).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 4. S?a th?ng tin 01 s?n (??i t?n/??i lo?i/??i tr?ng th?i) ?? ch?ng minh CRUD.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b K?t qu? mong ??i\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Lo?i s?n v? s?n hi?n th? trong danh s?ch.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab D? li?u ???c l?u DB v? d?ng ???c ? m?n Booking.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b L?i th??ng g?p & c?ch x? l?\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Kh?ng l?u ???c: ki?m tra kh?a ch?nh/unique trong DB, ki?m tra format m? s?n (n?u c? quy ??c).\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b H?nh minh h?a ?? xu?t\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab H?nh 5.3: Qu?n l? s?n/lo?i s?n.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\keepn\f0\fs26\b 5.6.3. T?o ca gi? (CA_GIO) v? b?ng gi? (BANG_GIA) (Admin)\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b M?c ??ch\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Chu?n h?a \b khung gi?\b0  ?? ??t s?n theo ca.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab C?u h?nh \b b?ng gi?\b0  theo \f1 (Lo?i s?n, Ca, Lo?i ??t)\f0  ?? t?nh ti?n t? ??ng.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b Ti?n ?i?u ki?n\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab ?? c? ?t nh?t 01 lo?i s?n trong \f1 LOAI_SAN\f0 .\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab C? d? li?u gi? (n?u d?ng ch? ?? ?suy lu?n?), ho?c nh?p gi? th? c?ng.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b C?ch A ? Demo t?o nhanh trong GUI (khuy?n ngh? ?? ch?p h?nh)\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 1. V?o Admin ? \b Time Slots\b0  (ho?c m? c?a s? t?o nhanh).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 2. M? \f1 QuickGenerateTimeSlotsWindow\f0 .\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 3. Nh?p c?u h?nh ca:\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Open: \f1 06:00\f0 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Close: \f1 22:00\f0 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Step: \f1 30\f0  (ph?t)\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab PeakStart/PeakEnd (tu? ch?n): \f1 18:00\f0  ? \f1 21:00\f0 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 4. Nh?p gi? m?u (c? th? ?i?u ch?nh theo ?? t?i):\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab L? ? gi? th??ng: 80.000\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab L? ? gi? v?ng: 100.000\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab C? ??nh ? gi? th??ng: 70.000\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab C? ??nh ? gi? v?ng: 90.000\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 5. Ch?n \b Overwrite\b0  n?u mu?n c?p nh?t l?i d? li?u ?? c?.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 6. Nh?n \b Generate\b0 .\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 7. Ki?m tra:\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Danh s?ch ca gi? (Time Slots).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Danh s?ch gi? (Pricing).\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b K?t qu? mong ??i\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab T?o c?c ca 30 ph?t t? 06:00 ??n 22:00.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Ca trong [18:00, 21:00) ???c ??nh d?u gi? v?ng (n?u c?u h?nh).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab B?ng gi? c? rule cho m?i lo?i s?n v? m?i ca, v?i 2 lo?i ??t: \b L?\b0  v? \b C? ??nh\b0 .\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b C?ch B ? Demo b?ng script SQL (ph? h?p tri?n khai nhanh)\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Ch?y \f1 scripts/seed_timeslots_30m_and_prices.sql\f0 .\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Quan s?t th?ng b?o \f1 inserted/updated/skipped\f0  cho \f1 CA_GIO\f0  v? \f1 BANG_GIA\f0 .\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b L?i th??ng g?p & c?ch x? l?\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Kh?ng suy lu?n ???c gi? (skipped nhi?u): c?n t?o tr??c m?t s? d?ng \f1 BANG_GIA\f0  l?m ?gi? n?n? ho?c nh?p gi? th? c?ng trong GUI.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Close ? Open: nh?p l?i th?i gian.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Step kh?ng h?p l?: n?n d?ng 30.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b H?nh minh h?a ?? xu?t\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab H?nh 5.4: C?a s? t?o nhanh ca gi? + gi?.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab H?nh 5.5: Danh s?ch ca gi? sau t?o.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab H?nh 5.6: Qu?n l? b?ng gi? theo ca.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\keepn\f0\fs26\b 5.6.4. T?o phi?u ??t s?n (Booking) ? lu?ng ??t s?n c? b?n\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b M?c ??ch\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Demo nghi?p v? ??t s?n theo ng?y/ca.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Ki?m tra ch?ng tr?ng l?ch v? t?nh gi? t? ??ng.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b Ti?n ?i?u ki?n\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab C? d? li?u: \f1 SAN\f0 , \f1 CA_GIO\f0 , \f1 BANG_GIA\f0 .\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab T?i kho?n kh?ch h?ng ho?c nh?n vi?n c? quy?n t?o booking.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b Thao t?c demo (g?i ?)\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 1. V?o menu \b Booking\b0 .\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 2. Ch?n \b Ng?y s? d?ng\b0  (v? d?: h?m nay).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 3. Ch?n \b S?n\b0 .\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 4. Ch?n \b 1 ca\b0  (ho?c nhi?u ca li?n ti?p n?u ???c h? tr?).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 5. Ch?n \b Lo?i ??t\b0 :\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab \f1 L?\f0  (??t theo l?n), ho?c\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab \f1 C? ??nh\f0  (??t theo g?i/c? ??nh).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 6. (Tu? ch?n) ch?n th?m d?ch v? k?m theo booking n?u UI h? tr? ngay l?c t?o.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 7. Nh?n \b T?o/X?c nh?n\b0 .\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b D? li?u minh h?a\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Ng?y: 05/04/2026\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Ca: 18:00?18:30 (gi? v?ng)\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Lo?i ??t: L?\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b K?t qu? mong ??i\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab H? th?ng ki?m tra ca tr?ng.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab N?u h?p l?: t?o phi?u \f1 DAT_SAN\f0  v? chi ti?t \f1 CT_DAT_SAN\f0 .\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab T?ng ti?n s?n l?y t? \f1 BANG_GIA\f0  theo lo?i s?n + ca + lo?i ??t.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b Demo t?nh hu?ng tr?ng l?ch (b?t bu?c ?? th? hi?n t?nh ??ng ??n)\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 1. T?o 01 booking ? ca X.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 2. T?o ti?p booking kh?c c?ng s?n, c?ng ng?y, c?ng ca X.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 3. H? th?ng ph?i b?o ca b?n v? kh?ng cho ??t tr?ng.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b H?nh minh h?a ?? xu?t\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab H?nh 5.7: M?n t?o booking.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab H?nh 5.8: M?n chi ti?t booking / tr?ng th?i.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\keepn\f0\fs26\b 5.6.5. Check-in ? Check-out ? Thanh to?n ? Xu?t h?a ??n\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b M?c ??ch\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Demo quy tr?nh v?n h?nh th?c t?: kh?ch ??n ? check-in ? s? d?ng s?n ? check-out ? thanh to?n ? l?u h?a ??n.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b Ti?n ?i?u ki?n\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab C? ?t nh?t 01 booking h?p l? ? tr?ng th?i ch?.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab C? gi? s?n; (tu? ch?n) c? d?ch v? ?? c?ng th?m ti?n.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b Thao t?c demo\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b A. Check-in\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 1. M? chi ti?t phi?u ??t.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 2. Nh?n \b Check-in\b0 .\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 3. Quan s?t:\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Tr?ng th?i phi?u ??t ??i sang ?Checked-in/Nh?n s?n?.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Tr?ng th?i s?n ??i sang ?In-use/?ang s? d?ng? (n?u c? theo thi?t k?).\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b B. Th?m d?ch v? (n?u demo d?ch v? g?n v?i booking)\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 1. ? m?n chi ti?t booking, ch?n d?ch v? (n??c, ?ng c?u, ?).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 2. Nh?p s? l??ng.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 3. X?c nh?n th?m.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b C. Check-out + thanh to?n\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 1. Nh?n \b Check-out\b0 .\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 2. Ki?m tra:\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Ti?n s?n.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Ti?n d?ch v?.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab S? ti?n gi?m (n?u c? khuy?n m?i).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 3. Ch?n ph??ng th?c thanh to?n (ti?n m?t/chuy?n kho?n/VietQR n?u c?).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 4. X?c nh?n ? h? th?ng t?o \f1 HOA_DON\f0 .\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b K?t qu? mong ??i\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab H?a ??n ???c t?o v? l?u DB.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Booking chuy?n tr?ng th?i ho?n t?t.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab S?n tr? v? tr?ng th?i r?nh.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b L?i th??ng g?p & c?ch x? l?\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Kh?ng t?o ???c h?a ??n: ki?m tra r?ng bu?c kh?a ngo?i v? d? li?u d?ch v?.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b H?nh minh h?a ?? xu?t\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab H?nh 5.9: M?n check-out v? th?ng tin h?a ??n.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\keepn\f0\fs26\b 5.6.6. B?n d?ch v? (POS) ? t?o h?a ??n d?ch v? ??c l?p\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b M?c ??ch\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Demo b?n d?ch v? kh?ng ph? thu?c booking (m? h?nh POS).\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b Ti?n ?i?u ki?n\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab C? d? li?u trong \f1 DICH_VU\f0 .\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab (Tu? ch?n) ?? ch?y \f1 scripts/update_services_prices.sql\f0  ?? chu?n ho? danh m?c.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b Thao t?c demo\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 1. V?o menu \b Services\b0 .\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 2. Ch?n 2?3 s?n ph?m v? th?m v?o gi?.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 3. Ch?nh s? l??ng.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 4. (Tu? ch?n) nh?p \b m? khuy?n m?i\b0 .\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 5. Nh?n \b Checkout\b0  ? ch?n ph??ng th?c thanh to?n ? x?c nh?n.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b K?t qu? mong ??i\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab T?o h?a ??n d?ch v? (ho?c b?n ghi b?n h?ng theo thi?t k?).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab T?n kho gi?m t??ng ?ng (n?u h? th?ng qu?n l? t?n kho).\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b H?nh minh h?a ?? xu?t\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab H?nh 5.10: M?n POS/gi? h?ng/checkout.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\keepn\f0\fs26\b 5.6.7. Qu?n l? v? ?p d?ng khuy?n m?i\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b M?c ??ch\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Demo t?o m? khuy?n m?i v? ?p d?ng gi?m gi? khi thanh to?n.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b Ti?n ?i?u ki?n\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Admin c? quy?n t?o khuy?n m?i.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b Thao t?c demo\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 1. Admin v?o \b Promotions\b0  ? t?o m? (v? d?: \f1 KM10\f0 ).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 2. C?u h?nh ?i?u ki?n (n?u c?): s? ti?n t?i thi?u, ng?y hi?u l?c.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 3. Khi thanh to?n (booking ho?c POS): nh?p m? \f1 KM10\f0  ? ?p d?ng.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 4. Quan s?t s? ti?n gi?m v? t?ng ti?n sau gi?m.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b K?t qu? mong ??i\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab M? h?p l? ? h? th?ng t?nh gi?m ??ng.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab M? h?t h?n/kh?ng ??t ?i?u ki?n ? th?ng b?o r? r?ng.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b H?nh minh h?a ?? xu?t\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab H?nh 5.11: Qu?n l?/?p d?ng khuy?n m?i.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\keepn\f0\fs26\b 5.6.8. B?o c?o ? th?ng k? (Dashboard/Reports)\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b M?c ??ch\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Demo c?c b?o c?o qu?n tr?: doanh thu, top kh?ch h?ng, xu h??ng theo th?i gian.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b Ti?n ?i?u ki?n\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab C? d? li?u ph?t sinh: ?t nh?t 1?2 h?a ??n (t? check-out ho?c POS).\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b Thao t?c demo\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 1. V?o \b Dashboard\b0  ho?c \b Reports\b0 .\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 2. Ch?n kho?ng th?i gian (n?u c? l?a ch?n).\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 3. Quan s?t:\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab T?ng doanh thu ng?y/th?ng.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Top kh?ch h?ng.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Bi?u ?? xu h??ng (LiveCharts).\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b K?t qu? mong ??i\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab S? li?u kh?p v?i d? li?u h?a ??n v? phi?u ??t.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Bi?u ?? hi?n th? ??ng xu h??ng.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \b H?nh minh h?a ?? xu?t\b0 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab H?nh 5.12: M?n b?o c?o ? th?ng k?.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa160\sl360\slmult1\fi0\li0\keepn\f0\fs28\b 5.7. Ki\u7875?m th\u7917? t\u7921? \u273?\u7897?ng (E2E) v\u224? xu\u7845?t b\u225?o c\u225?o Excel (tu\u7923? ch\u7885?n)\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 Module \f1 QuanLySCL.E2E\f0  s\u7917? d\u7909?ng:\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab NUnit (\f1 Microsoft.NET.Test.Sdk\f0 , \f1 NUnit\f0 , \f1 NUnit3TestAdapter\f0 )\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Playwright (\f1 Microsoft.Playwright.NUnit\f0 )\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab ClosedXML \u273?\u7875? xu\u7845?t b\u225?o c\u225?o Excel\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 C\u7845?u h\u236?nh qua bi\u7871?n m\u244?i tr\u432?\u7901?ng (xem \f1 QuanLySCL.E2E/Config/E2ESettings.cs\f0 ):\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab \f1 E2E_BASE_URL\f0 : URL c\u7911?a h\u7879? th\u7889?ng \u273?\u7875? Playwright m\u7903? tr\u236?nh duy\u7879?t (n\u7871?u c\u243? m\u244?i tr\u432?\u7901?ng web/test host)\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab \f1 E2E_WORD_SPEC\f0 : \u273?\u432?\u7901?ng d\u7851?n file Word \f1 chucnang.docx\f0  \u273?\u7875? tr\u237?ch 5 ch\u7913?c n\u259?ng ch\u237?nh\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab \f1 E2E_EXCEL_TEMPLATE\f0 : template Excel (v\u237? d\u7909? \f1 TemplateTest.xlsx\f0 )\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab \f1 E2E_OUTPUT_DIR\f0 : th\u432? m\u7909?c xu\u7845?t k\u7871?t qu\u7843? (m\u7863?c \u273?\u7883?nh \f1 TestResults\f0 )\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab \f1 E2E_REPEAT\f0 : s\u7889? l\u7847?n l\u7863?p m\u7895?i test case\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 Ch\u7841?y test:\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl280\slmult1\fi0\li360\f1\fs22 dotnet test .\\QuanLySCL.E2E\\QuanLySCL.E2E.csproj -c Release\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 K\u7871?t qu\u7843? Excel \u273?\u432?\u7907?c ghi b\u7903?i \f1 QuanLySCL.E2E/Reporting/ExcelReportWriter.cs\f0 .\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa160\sl360\slmult1\fi0\li0\keepn\f0\fs28\b 5.8. T\u7893?ng k\u7871?t\b0\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 Qua demo, h\u7879? th\u7889?ng th\u7875? hi\u7879?n \u273?\u7847?y \u273?\u7911? c\u225?c nh\u243?m ch\u7913?c n\u259?ng c\u7889?t l\u245?i:\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Qu\u7843?n tr\u7883? d\u7919? li\u7879?u n\u7873?n: s\u226?n, ca gi\u7901?, b\u7843?ng gi\u225?, khuy\u7871?n m\u227?i, t\u224?i kho\u7843?n.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab \u272?\u7863?t s\u226?n v\u224? ki\u7875?m so\u225?t l\u7883?ch b\u7853?n theo ca.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Check-in/check-out, t\u237?nh ti\u7873?n v\u224? ho\u225? \u273?\u417?n.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab Qu\u7843?n l\u253?/b\u225?n d\u7883?ch v\u7909? (POS), \u225?p d\u7909?ng khuy\u7871?n m\u227?i.\par
+\pard\qj\sa120\sl360\slmult1\fi-360\li720\f0\fs26 \u8226?\tab B\u225?o c\u225?o \u8211? th\u7889?ng k\u234? doanh thu, top kh\u225?ch h\u224?ng v\u224? bi\u7875?u \u273?\u7891?.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+\pard\qj\sa200\sl360\slmult1\fi567\li0\f0\fs26 \u272?\u226?y l\u224? n\u7873?n t\u7843?ng \u273?\u7875? tri\u7875?n khai th\u7921?c t\u7871? cho m\u7897?t c\u417? s\u7903? kinh doanh s\u226?n c\u7847?u l\u244?ng v\u7899?i quy tr\u236?nh v\u7853?n h\u224?nh r\u245? r\u224?ng, d\u7877? m\u7903? r\u7897?ng.\par
+\pard\qj\sa80\sl360\slmult1\fi0\li0\f0\fs26 \par
+}

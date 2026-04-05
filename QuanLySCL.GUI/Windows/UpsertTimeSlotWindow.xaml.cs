@@ -81,7 +81,7 @@ namespace QuanLySCL.GUI.Windows
             }
             else
             {
-                MessageBox.Show("Lỗi: " + error, "Lỗi lưu dữ liệu");
+                MessageBox.Show(error ?? "Lỗi lưu dữ liệu.", "Lỗi lưu dữ liệu", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

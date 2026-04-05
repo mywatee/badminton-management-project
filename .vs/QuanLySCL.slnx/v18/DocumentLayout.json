@@ -3,6 +3,21 @@
   "WorkspaceRootPath": "D:\\github\\QuanLySCL\\",
   "Documents": [
     {
+      "AbsoluteMoniker": "D:0:0:{80E13782-4EDB-FEA1-81B2-97CB8AE69DA3}|QuanLySCL.GUI\\QuanLySCL.GUI.csproj|d:\\github\\quanlyscl\\quanlyscl.gui\\windows\\courtactionwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{80E13782-4EDB-FEA1-81B2-97CB8AE69DA3}|QuanLySCL.GUI\\QuanLySCL.GUI.csproj|solutionrelative:quanlyscl.gui\\windows\\courtactionwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{80E13782-4EDB-FEA1-81B2-97CB8AE69DA3}|QuanLySCL.GUI\\QuanLySCL.GUI.csproj|d:\\github\\quanlyscl\\quanlyscl.gui\\windows\\checkoutwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{80E13782-4EDB-FEA1-81B2-97CB8AE69DA3}|QuanLySCL.GUI\\QuanLySCL.GUI.csproj|solutionrelative:quanlyscl.gui\\windows\\checkoutwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\dotnet\\sdk\\10.0.200\\Sdks\\Microsoft.NET.Sdk.WindowsDesktop\\targets\\Microsoft.WinFX.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{80E13782-4EDB-FEA1-81B2-97CB8AE69DA3}|QuanLySCL.GUI\\QuanLySCL.GUI.csproj|d:\\github\\quanlyscl\\quanlyscl.gui\\viewmodels\\checkoutviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{80E13782-4EDB-FEA1-81B2-97CB8AE69DA3}|QuanLySCL.GUI\\QuanLySCL.GUI.csproj|solutionrelative:quanlyscl.gui\\viewmodels\\checkoutviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
       "AbsoluteMoniker": "D:0:0:{80E13782-4EDB-FEA1-81B2-97CB8AE69DA3}|QuanLySCL.GUI\\QuanLySCL.GUI.csproj|d:\\github\\quanlyscl\\quanlyscl.gui\\viewmodels\\bookingviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{80E13782-4EDB-FEA1-81B2-97CB8AE69DA3}|QuanLySCL.GUI\\QuanLySCL.GUI.csproj|solutionrelative:quanlyscl.gui\\viewmodels\\bookingviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -13,9 +28,6 @@
     {
       "AbsoluteMoniker": "D:0:0:{80E13782-4EDB-FEA1-81B2-97CB8AE69DA3}|QuanLySCL.GUI\\QuanLySCL.GUI.csproj|d:\\github\\quanlyscl\\quanlyscl.gui\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{80E13782-4EDB-FEA1-81B2-97CB8AE69DA3}|QuanLySCL.GUI\\QuanLySCL.GUI.csproj|solutionrelative:quanlyscl.gui\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Program Files\\dotnet\\sdk\\10.0.200\\Sdks\\Microsoft.NET.Sdk.WindowsDesktop\\targets\\Microsoft.WinFX.targets||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
       "AbsoluteMoniker": "D:0:0:{80E13782-4EDB-FEA1-81B2-97CB8AE69DA3}|QuanLySCL.GUI\\QuanLySCL.GUI.csproj|d:\\github\\quanlyscl\\quanlyscl.gui\\views\\dashboardview.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
@@ -56,10 +68,6 @@
       "RelativeMoniker": "D:0:0:{C18AD72A-8C51-419B-8D4A-AB41B83CD02B}|QuanLySCL.Models\\QuanLySCL.Models.csproj|solutionrelative:quanlyscl.models\\quanlyscl.models.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{80E13782-4EDB-FEA1-81B2-97CB8AE69DA3}|QuanLySCL.GUI\\QuanLySCL.GUI.csproj|d:\\github\\quanlyscl\\quanlyscl.gui\\viewmodels\\checkoutviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{80E13782-4EDB-FEA1-81B2-97CB8AE69DA3}|QuanLySCL.GUI\\QuanLySCL.GUI.csproj|solutionrelative:quanlyscl.gui\\viewmodels\\checkoutviewmodel.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
       "AbsoluteMoniker": "D:0:0:{80E13782-4EDB-FEA1-81B2-97CB8AE69DA3}|QuanLySCL.GUI\\QuanLySCL.GUI.csproj|d:\\github\\quanlyscl\\quanlyscl.gui\\helpers\\printhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{80E13782-4EDB-FEA1-81B2-97CB8AE69DA3}|QuanLySCL.GUI\\QuanLySCL.GUI.csproj|solutionrelative:quanlyscl.gui\\helpers\\printhelper.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
@@ -92,31 +100,43 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
+              "Title": "CourtActionWindow.xaml.cs",
+              "DocumentMoniker": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\Windows\\CourtActionWindow.xaml.cs",
+              "RelativeDocumentMoniker": "QuanLySCL.GUI\\Windows\\CourtActionWindow.xaml.cs",
+              "ToolTip": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\Windows\\CourtActionWindow.xaml.cs",
+              "RelativeToolTip": "QuanLySCL.GUI\\Windows\\CourtActionWindow.xaml.cs",
+              "ViewState": "AgIAADYAAAAAAAAAAAAcwEAAAAAkAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-01T08:30:57.169Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "CheckOutWindow.xaml.cs",
+              "DocumentMoniker": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\Windows\\CheckOutWindow.xaml.cs",
+              "RelativeDocumentMoniker": "QuanLySCL.GUI\\Windows\\CheckOutWindow.xaml.cs",
+              "ToolTip": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\Windows\\CheckOutWindow.xaml.cs",
+              "RelativeToolTip": "QuanLySCL.GUI\\Windows\\CheckOutWindow.xaml.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAMAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-04-01T07:53:36.951Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
               "Title": "BookingViewModel.cs",
               "DocumentMoniker": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\ViewModels\\BookingViewModel.cs",
               "RelativeDocumentMoniker": "QuanLySCL.GUI\\ViewModels\\BookingViewModel.cs",
               "ToolTip": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\ViewModels\\BookingViewModel.cs",
               "RelativeToolTip": "QuanLySCL.GUI\\ViewModels\\BookingViewModel.cs",
-              "ViewState": "AgIAAJ4BAAAAAAAAAAAcwLABAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAAKMBAAAAAAAAAAAcwLUBAAAgAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-31T04:13:54.525Z",
-              "EditorCaption": ""
+              "WhenOpened": "2026-03-31T04:13:54.525Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "DashboardView.xaml.cs",
-              "DocumentMoniker": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\Views\\DashboardView.xaml.cs",
-              "RelativeDocumentMoniker": "QuanLySCL.GUI\\Views\\DashboardView.xaml.cs",
-              "ToolTip": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\Views\\DashboardView.xaml.cs",
-              "RelativeToolTip": "QuanLySCL.GUI\\Views\\DashboardView.xaml.cs",
-              "ViewState": "AgIAAHsAAAAAAAAAAAAcwI8AAAAeAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-30T03:33:23.555Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
+              "DocumentIndex": 2,
               "Title": "Microsoft.WinFX.targets",
               "DocumentMoniker": "C:\\Program Files\\dotnet\\sdk\\10.0.200\\Sdks\\Microsoft.NET.Sdk.WindowsDesktop\\targets\\Microsoft.WinFX.targets",
               "ToolTip": "C:\\Program Files\\dotnet\\sdk\\10.0.200\\Sdks\\Microsoft.NET.Sdk.WindowsDesktop\\targets\\Microsoft.WinFX.targets",
@@ -126,7 +146,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 6,
               "Title": "MainWindow.xaml.cs",
               "DocumentMoniker": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\MainWindow.xaml.cs",
               "RelativeDocumentMoniker": "QuanLySCL.GUI\\MainWindow.xaml.cs",
@@ -138,7 +158,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 7,
+              "DocumentIndex": 10,
               "Title": "MainWindow.xaml",
               "DocumentMoniker": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\MainWindow.xaml",
               "RelativeDocumentMoniker": "QuanLySCL.GUI\\MainWindow.xaml",
@@ -149,7 +169,31 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
+              "Title": "CheckOutViewModel.cs",
+              "DocumentMoniker": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\ViewModels\\CheckOutViewModel.cs",
+              "RelativeDocumentMoniker": "QuanLySCL.GUI\\ViewModels\\CheckOutViewModel.cs",
+              "ToolTip": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\ViewModels\\CheckOutViewModel.cs",
+              "RelativeToolTip": "QuanLySCL.GUI\\ViewModels\\CheckOutViewModel.cs",
+              "ViewState": "AgIAAGUAAAAAAAAAAAAcwHQAAABJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-30T03:31:37.686Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "DashboardView.xaml.cs",
+              "DocumentMoniker": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\Views\\DashboardView.xaml.cs",
+              "RelativeDocumentMoniker": "QuanLySCL.GUI\\Views\\DashboardView.xaml.cs",
+              "ToolTip": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\Views\\DashboardView.xaml.cs",
+              "RelativeToolTip": "QuanLySCL.GUI\\Views\\DashboardView.xaml.cs",
+              "ViewState": "AgIAAHsAAAAAAAAAAAAcwI8AAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2026-03-30T03:33:23.555Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
               "Title": "DashboardViewModel.cs",
               "DocumentMoniker": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\ViewModels\\DashboardViewModel.cs",
               "RelativeDocumentMoniker": "QuanLySCL.GUI\\ViewModels\\DashboardViewModel.cs",
@@ -161,17 +205,16 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 10,
+              "DocumentIndex": 13,
               "Title": "XamlReader.cs",
               "DocumentMoniker": "C:\\Users\\ASUS\\AppData\\Local\\Temp\\.vsdbgsrc\\ba71154a7b44d057354e94bf9136ff00912660e0c8e1435d76b141387af3b90b\\XamlReader.cs",
               "ToolTip": "C:\\Users\\ASUS\\AppData\\Local\\Temp\\.vsdbgsrc\\ba71154a7b44d057354e94bf9136ff00912660e0c8e1435d76b141387af3b90b\\XamlReader.cs",
-              "ViewState": "AgIAAJsBAAAAAAAAAADgv6gBAAACAAAAAQAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
               "WhenOpened": "2026-03-30T05:30:31.465Z"
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 12,
               "Title": "ServicesViewModel.cs",
               "DocumentMoniker": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\ViewModels\\ServicesViewModel.cs",
               "RelativeDocumentMoniker": "QuanLySCL.GUI\\ViewModels\\ServicesViewModel.cs",
@@ -183,7 +226,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 8,
               "Title": "BookingView.xaml.cs",
               "DocumentMoniker": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\Views\\BookingView.xaml.cs",
               "RelativeDocumentMoniker": "QuanLySCL.GUI\\Views\\BookingView.xaml.cs",
@@ -195,7 +238,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
+              "DocumentIndex": 9,
               "Title": "DashboardView.xaml",
               "DocumentMoniker": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\Views\\DashboardView.xaml",
               "RelativeDocumentMoniker": "QuanLySCL.GUI\\Views\\DashboardView.xaml",
@@ -206,7 +249,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 8,
+              "DocumentIndex": 11,
               "Title": "ServicesView.xaml.cs",
               "DocumentMoniker": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\Views\\ServicesView.xaml.cs",
               "RelativeDocumentMoniker": "QuanLySCL.GUI\\Views\\ServicesView.xaml.cs",
@@ -218,7 +261,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 12,
+              "DocumentIndex": 15,
               "Title": "ReportsViewModel.cs",
               "DocumentMoniker": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\ViewModels\\ReportsViewModel.cs",
               "RelativeDocumentMoniker": "QuanLySCL.GUI\\ViewModels\\ReportsViewModel.cs",
@@ -230,7 +273,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 11,
+              "DocumentIndex": 14,
               "Title": "ChartUpdater.cs",
               "DocumentMoniker": "C:\\Users\\ASUS\\AppData\\Local\\Temp\\.vsdbgsrc\\322467f2f0ff3a5e25c957bc22f206f4ea97f7e0913122ec8a210a8849f21412\\ChartUpdater.cs",
               "ToolTip": "C:\\Users\\ASUS\\AppData\\Local\\Temp\\.vsdbgsrc\\322467f2f0ff3a5e25c957bc22f206f4ea97f7e0913122ec8a210a8849f21412\\ChartUpdater.cs [Read Only]",
@@ -241,7 +284,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 13,
+              "DocumentIndex": 16,
               "Title": "QuanLySCL.Models.csproj",
               "DocumentMoniker": "D:\\github\\QuanLySCL\\QuanLySCL.Models\\QuanLySCL.Models.csproj",
               "RelativeDocumentMoniker": "QuanLySCL.Models\\QuanLySCL.Models.csproj",
@@ -253,19 +296,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 14,
-              "Title": "CheckOutViewModel.cs",
-              "DocumentMoniker": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\ViewModels\\CheckOutViewModel.cs",
-              "RelativeDocumentMoniker": "QuanLySCL.GUI\\ViewModels\\CheckOutViewModel.cs",
-              "ToolTip": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\ViewModels\\CheckOutViewModel.cs",
-              "RelativeToolTip": "QuanLySCL.GUI\\ViewModels\\CheckOutViewModel.cs",
-              "ViewState": "AgIAAEYAAAAAAAAAAAAcwFwAAAAAAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2026-03-30T03:31:37.686Z"
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 15,
+              "DocumentIndex": 17,
               "Title": "PrintHelper.cs",
               "DocumentMoniker": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\Helpers\\PrintHelper.cs",
               "RelativeDocumentMoniker": "QuanLySCL.GUI\\Helpers\\PrintHelper.cs",
@@ -277,7 +308,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 16,
+              "DocumentIndex": 18,
               "Title": "CustomerBUS.cs",
               "DocumentMoniker": "D:\\github\\QuanLySCL\\QuanLySCL.BUS\\CustomerBUS.cs",
               "RelativeDocumentMoniker": "QuanLySCL.BUS\\CustomerBUS.cs",
@@ -289,7 +320,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 17,
+              "DocumentIndex": 19,
               "Title": "ReportingDAL.cs",
               "DocumentMoniker": "D:\\github\\QuanLySCL\\QuanLySCL.DAL\\ReportingDAL.cs",
               "RelativeDocumentMoniker": "QuanLySCL.DAL\\ReportingDAL.cs",
@@ -301,7 +332,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 18,
+              "DocumentIndex": 20,
               "Title": "ServicesView.xaml",
               "DocumentMoniker": "D:\\github\\QuanLySCL\\QuanLySCL.GUI\\Views\\ServicesView.xaml",
               "RelativeDocumentMoniker": "QuanLySCL.GUI\\Views\\ServicesView.xaml",
@@ -312,7 +343,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 19,
+              "DocumentIndex": 21,
               "Title": "Account.cs",
               "DocumentMoniker": "D:\\github\\QuanLySCL\\QuanLySCL.Models\\Account.cs",
               "RelativeDocumentMoniker": "QuanLySCL.Models\\Account.cs",

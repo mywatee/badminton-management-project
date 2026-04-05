@@ -60,7 +60,7 @@ namespace QuanLySCL.GUI.Views
             var res = bus.DeleteStaff(staff.Id);
             if (!res.ok)
             {
-                MessageBox.Show("Không thể xóa nhân viên: " + (res.error ?? "Unknown"), "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(res.error ?? "Không thể xóa nhân viên.", "Lỗi", MessageBoxButton.OK, MessageBoxImage.Error);
                 return;
             }
 

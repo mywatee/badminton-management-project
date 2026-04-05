@@ -12,6 +12,7 @@ namespace QuanLySCL.GUI.ViewModels
 
         private readonly CustomerBUS _customerBus = new CustomerBUS();
         private readonly BookingBUS _bookingBus = new BookingBUS();
+        private readonly string _role;
 
         private ObservableCollection<Customer> _allCustomers = new ObservableCollection<Customer>();
 
@@ -62,8 +63,17 @@ namespace QuanLySCL.GUI.ViewModels
             }
         }
 
-        public CustomersViewModel()
+        public CustomersViewModel(string role = "Admin")
         {
+            _role = role ?? "Admin";
+            LoadData();
+        }
+
+        public void Reload()
+        {
+            _displayCount = PageSize;
+            _searchText = string.Empty;
+            OnPropertyChanged(nameof(SearchText));
             LoadData();
         }
 

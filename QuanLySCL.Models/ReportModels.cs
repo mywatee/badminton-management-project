@@ -11,9 +11,24 @@ namespace QuanLySCL.Models
 
     public class TopCustomerReport
     {
+        public string CustomerId { get; set; } = string.Empty;
         public string Name { get; set; } = string.Empty;
         public int TotalBookings { get; set; }
         public decimal TotalSpent { get; set; }
+    }
+
+    public class RevenueByCourt
+    {
+        public string CourtId { get; set; } = string.Empty;
+        public string CourtName { get; set; } = string.Empty;
+        public decimal Revenue { get; set; }
+    }
+
+    public class RevenueByService
+    {
+        public string ServiceId { get; set; } = string.Empty;
+        public string ServiceName { get; set; } = string.Empty;
+        public decimal Revenue { get; set; }
     }
 
     public class RevenueByCategory

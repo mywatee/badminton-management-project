@@ -52,7 +52,7 @@ namespace QuanLySCL.GUI.Templates {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/QuanLySCL.GUI;V1.0.0.0;component/templates/receipttemplate.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/QuanLySCL.GUI;component/templates/receipttemplate.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\..\Templates\ReceiptTemplate.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

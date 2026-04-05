@@ -30,6 +30,28 @@ namespace QuanLySCL.GUI.ViewModels
             "Theo ngày", "Theo tuần", "Theo tháng", "Theo năm" 
         };
 
+        private DateTime? _fromDate = DateTime.Today.AddDays(-7);
+        public DateTime? FromDate
+        {
+            get => _fromDate;
+            set
+            {
+                if (SetProperty(ref _fromDate, value) && string.Equals(SelectedTimeRange, "Custom", StringComparison.OrdinalIgnoreCase))
+                    LoadData();
+            }
+        }
+
+        private DateTime? _toDate = DateTime.Today;
+        public DateTime? ToDate
+        {
+            get => _toDate;
+            set
+            {
+                if (SetProperty(ref _toDate, value) && string.Equals(SelectedTimeRange, "Custom", StringComparison.OrdinalIgnoreCase))
+                    LoadData();
+            }
+        }
+
         private ReportSummary _summary = new ReportSummary();
         public ReportSummary Summary
         {
@@ -72,6 +94,20 @@ namespace QuanLySCL.GUI.ViewModels
             set => SetProperty(ref _topCustomers, value);
         }
 
+        private ObservableCollection<RevenueByCourt> _courtRevenue = new ObservableCollection<RevenueByCourt>();
+        public ObservableCollection<RevenueByCourt> CourtRevenue
+        {
+            get => _courtRevenue;
+            set => SetProperty(ref _courtRevenue, value);
+        }
+
+        private ObservableCollection<RevenueByService> _serviceRevenue = new ObservableCollection<RevenueByService>();
+        public ObservableCollection<RevenueByService> ServiceRevenue
+        {
+            get => _serviceRevenue;
+            set => SetProperty(ref _serviceRevenue, value);
+        }
+
         public ICommand RefreshCommand { get; }
         public ICommand ExportCommand { get; }
         public Func<double, string> Formatter { get; } = x => x.ToString("N0");
@@ -81,6 +117,10 @@ namespace QuanLySCL.GUI.ViewModels
             RevenueSeries = new SeriesCollection();
             CategorySeries = new SeriesCollection();
             CategorySeriesKPI = new SeriesCollection();
+
+            if (!TimeRanges.Contains("Custom"))
+                TimeRanges.Add("Custom");
+
             RefreshCommand = new RelayCommand(_ => LoadData());
             ExportCommand = new RelayCommand(_ => ExportReport());
             
@@ -92,11 +132,18 @@ namespace QuanLySCL.GUI.ViewModels
         {
             try
             {
+                bool custom = string.Equals(SelectedTimeRange, "Custom", StringComparison.OrdinalIgnoreCase);
+                DateTime from = (FromDate ?? DateTime.Today).Date;
+                DateTime to = (ToDate ?? from).Date;
+                if (to < from) (from, to) = (to, from);
+
                 // Basic Summary
-                Summary = _reportingBus.GetSummary(SelectedTimeRange);
+                Summary = custom ? _reportingBus.GetSummaryByDateRange(from, to) : _reportingBus.GetSummary(SelectedTimeRange);
 
                 // Revenue Trends (Line Chart)
-                var monthlyRevenue = _reportingBus.GetMonthlyRevenue(SelectedTimeRange) ?? new List<RevenueByMonth>();
+                var monthlyRevenue = custom
+                    ? (_reportingBus.GetRevenueTrendsByDateRange(from, to) ?? new List<RevenueByMonth>())
+                    : (_reportingBus.GetMonthlyRevenue(SelectedTimeRange) ?? new List<RevenueByMonth>());
                 var revenueValues = new ChartValues<double>();
                 revenueValues.AddRange(monthlyRevenue.Select(x => (double)x.Revenue));
 
@@ -112,7 +159,9 @@ namespace QuanLySCL.GUI.ViewModels
                 RevenueLabels = monthlyRevenue.Select(x => x.Month).ToList();
 
                 // Revenue By Category (Pie Chart)
-                var categoryRevenue = _reportingBus.GetCategoryRevenue(SelectedTimeRange) ?? new List<RevenueByCategory>();
+                var categoryRevenue = custom
+                    ? (_reportingBus.GetCategoryRevenueByDateRange(from, to) ?? new List<RevenueByCategory>())
+                    : (_reportingBus.GetCategoryRevenue(SelectedTimeRange) ?? new List<RevenueByCategory>());
                 
                 CategorySeries.Clear();
                 CategorySeriesKPI.Clear();
@@ -137,7 +186,20 @@ namespace QuanLySCL.GUI.ViewModels
                 }
 
                 // Top Customers
-                TopCustomers = new ObservableCollection<TopCustomerReport>(_reportingBus.GetTopCustomers(5, SelectedTimeRange) ?? new List<TopCustomerReport>());
+                TopCustomers = new ObservableCollection<TopCustomerReport>(
+                    custom
+                        ? (_reportingBus.GetTopCustomersByDateRange(from, to, top: 20) ?? new List<TopCustomerReport>())
+                        : (_reportingBus.GetTopCustomersWithId(20, SelectedTimeRange) ?? new List<TopCustomerReport>()));
+
+                CourtRevenue = new ObservableCollection<RevenueByCourt>(
+                    custom
+                        ? (_reportingBus.GetCourtRevenueByDateRange(from, to) ?? new List<RevenueByCourt>())
+                        : (_reportingBus.GetCourtRevenue(SelectedTimeRange) ?? new List<RevenueByCourt>()));
+
+                ServiceRevenue = new ObservableCollection<RevenueByService>(
+                    custom
+                        ? (_reportingBus.GetServiceRevenueByDateRange(from, to) ?? new List<RevenueByService>())
+                        : (_reportingBus.GetServiceRevenue(SelectedTimeRange) ?? new List<RevenueByService>()));
             }
             catch (Exception ex)
             {

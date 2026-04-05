@@ -7,8 +7,9 @@ namespace QuanLySCL.Models
         public string? Type { get; set; } // LoaiSan (string name)
         public string Status { get; set; } = "Available";
         public string TypeId { get; set; } = string.Empty; // MaLoaiSan
+        public bool IsMyBooking { get; set; }
     }
-
+    
     public class CourtType
     {
         public string Id { get; set; } = string.Empty;

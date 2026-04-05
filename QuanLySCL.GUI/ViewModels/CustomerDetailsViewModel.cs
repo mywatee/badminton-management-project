@@ -73,9 +73,10 @@ namespace QuanLySCL.GUI.ViewModels
                 Bookings = new ObservableCollection<Booking>();
             }
 
-            TotalBookings = Bookings.Count;
-            TotalSpent = Bookings.Where(b => string.Equals(b.Status, "Completed", StringComparison.OrdinalIgnoreCase))
-                                .Sum(b => b.Amount);
+            // Keep totals consistent with the Customers list, which excludes cancelled bookings
+            // and uses invoice totals (HOA_DON) when available.
+            TotalBookings = Math.Max(0, Customer?.TotalBookings ?? 0);
+            TotalSpent = Math.Max(0, Customer?.TotalSpent ?? 0);
 
             _displayCount = PageSize;
             ApplyVisible();
@@ -95,4 +96,3 @@ namespace QuanLySCL.GUI.ViewModels
         }
     }
 }
-

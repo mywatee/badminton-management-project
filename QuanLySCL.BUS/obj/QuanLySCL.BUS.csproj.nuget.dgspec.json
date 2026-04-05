@@ -52,20 +52,6 @@
       "frameworks": {
         "net10.0": {
           "targetAlias": "net10.0",
-          "dependencies": {
-            "LiveCharts.Core": {
-              "target": "Package",
-              "version": "[0.9.8, )"
-            },
-            "LiveCharts.Wpf": {
-              "target": "Package",
-              "version": "[0.9.7, )"
-            },
-            "MaterialDesignThemes": {
-              "target": "Package",
-              "version": "[5.3.1, )"
-            }
-          },
           "imports": [
             "net461",
             "net462",

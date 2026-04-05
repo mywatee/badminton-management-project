@@ -1,9 +1,11 @@
 using QuanLySCL.BUS;
+using QuanLySCL.BUS;
 using QuanLySCL.Models;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 
 namespace QuanLySCL.GUI.ViewModels
 {
@@ -63,6 +65,28 @@ namespace QuanLySCL.GUI.ViewModels
             }
         }
 
+        private int _scheduleViewMinutes = 60;
+        public int ScheduleViewMinutes
+        {
+            get => _scheduleViewMinutes;
+            set
+            {
+                int normalized = (value == 30) ? 30 : 60;
+                if (SetProperty(ref _scheduleViewMinutes, normalized))
+                {
+                    OnPropertyChanged(nameof(IsScheduleCompactView));
+                    OnPropertyChanged(nameof(ScheduleCellPadding));
+                    OnPropertyChanged(nameof(ScheduleRowMargin));
+                    SaveSchedulePrefs();
+                    RefreshSchedule();
+                }
+            }
+        }
+
+        public bool IsScheduleCompactView => ScheduleViewMinutes >= 60;
+        public Thickness ScheduleCellPadding => IsScheduleCompactView ? new Thickness(10, 6, 10, 6) : new Thickness(12, 10, 12, 10);
+        public Thickness ScheduleRowMargin => IsScheduleCompactView ? new Thickness(0, 0, 0, 6) : new Thickness(0, 0, 0, 10);
+
         private string _currentWeekRange;
         public string CurrentWeekRange
         {
@@ -74,6 +98,7 @@ namespace QuanLySCL.GUI.ViewModels
         {
             _role = string.IsNullOrEmpty(role) ? "KhachHang" : role;
             _customerId = customerId;
+            LoadSchedulePrefs();
             LoadData();
         }
 
@@ -238,26 +263,56 @@ namespace QuanLySCL.GUI.ViewModels
             ObservableCollection<ScheduleRowViewModel> rows = new ObservableCollection<ScheduleRowViewModel>();
             var courtsOrdered = Courts.OrderBy(c => c.Name).ToList();
 
-            foreach (var slot in TimeSlots.OrderBy(s => s.StartTime))
+            foreach (var window in BuildScheduleWindows())
             {
-                ScheduleRowViewModel row = new ScheduleRowViewModel { TimeLabel = slot.DisplayLabel };
+                TimeSlot slotForView = window.viewSlot;
+                var slotIdsInWindow = window.slotIds;
+
+                ScheduleRowViewModel row = new ScheduleRowViewModel { TimeLabel = slotForView.DisplayLabel };
 
                 foreach (var court in courtsOrdered)
                 {
-                    var booking = lookup[$"{slot.Id?.Trim()}|{court.Id?.Trim()}".ToUpper()].FirstOrDefault();
-                    string statusKey = GetCompactStatus(court, booking);
+                    var perSlotBookings = new List<(string slotId, CourtScheduleItem booking)>();
+                    CourtScheduleItem booking = null;
+                    foreach (var sid in slotIdsInWindow)
+                    {
+                        var b = lookup[$"{sid?.Trim()}|{court.Id?.Trim()}".ToUpper()].FirstOrDefault();
+                        if (b != null && b.Status == "Cancelled") b = null;
+                        perSlotBookings.Add((sid, b));
+                        if (b == null) continue;
+
+                        if (b.Status == "Checked-in")
+                        {
+                            booking = b;
+                            break;
+                        }
+
+                        if (booking == null) booking = b;
+                    }
+
+                    string statusKey = GetWindowStatus(court, perSlotBookings);
+
+                    string details;
+                    if (statusKey == "Partial")
+                    {
+                        details = BuildWindowDetails(date, slotForView, court, perSlotBookings);
+                    }
+                    else
+                    {
+                        details = BuildDetails(date, slotForView, court, booking, _role);
+                    }
 
                     row.Cells.Add(new ScheduleCellViewModel
                     {
                         CourtId = court.Id,
                         CourtName = court.Name,
-                        SlotId = slot.Id,
-                        SlotName = slot.Name,
+                        SlotId = slotForView.Id,
+                        SlotName = slotForView.DisplayLabel,
                         StatusKey = statusKey,
                         StatusText = GetCompactStatusText(statusKey),
                         BookingId = booking?.BookingId,
                         BookingStatus = booking?.Status,
-                        Details = BuildDetails(date, slot, court, booking, _role)
+                        Details = details
                     });
                 }
 
@@ -266,6 +321,146 @@ namespace QuanLySCL.GUI.ViewModels
 
             ScheduleRows = rows;
             OnPropertyChanged(nameof(ScheduleRows));
+        }
+
+        private IEnumerable<(TimeSlot viewSlot, List<string> slotIds)> BuildScheduleWindows()
+        {
+            var timeSlotsOrdered = (TimeSlots ?? new ObservableCollection<TimeSlot>())
+                .OrderBy(s => s.StartTime)
+                .ThenBy(s => s.EndTime)
+                .ToList();
+
+            if (timeSlotsOrdered.Count == 0)
+                yield break;
+
+            if (ScheduleViewMinutes == 30)
+            {
+                foreach (var s in timeSlotsOrdered)
+                    yield return (s, new List<string> { s.Id });
+                yield break;
+            }
+
+            var byStart = timeSlotsOrdered
+                .GroupBy(s => s.StartTime)
+                .ToDictionary(g => g.Key, g => g.First());
+
+            TimeSpan minStart = timeSlotsOrdered.Min(s => s.StartTime);
+            TimeSpan maxEnd = timeSlotsOrdered.Max(s => s.EndTime);
+
+            var duration = TimeSpan.FromMinutes(60);
+
+            // Align to the hour for compact view.
+            TimeSpan alignedStart = new TimeSpan(minStart.Hours, 0, 0);
+            if (alignedStart > minStart) alignedStart = alignedStart.Add(TimeSpan.FromHours(-1));
+
+            for (TimeSpan start = alignedStart; start < maxEnd; start = start.Add(duration))
+            {
+                if (!byStart.TryGetValue(start, out var first))
+                    continue;
+
+                var list = new List<TimeSlot> { first };
+                TimeSpan end = first.EndTime;
+
+                while (end < start.Add(duration))
+                {
+                    if (!byStart.TryGetValue(end, out var next))
+                        break;
+                    if (next.EndTime <= next.StartTime)
+                        break;
+
+                    list.Add(next);
+                    end = next.EndTime;
+                }
+
+                if (list.Count == 0) continue;
+
+                TimeSpan viewEnd = end;
+                if (viewEnd > start.Add(duration))
+                    viewEnd = start.Add(duration);
+
+                var viewSlot = new TimeSlot
+                {
+                    Id = first.Id,
+                    Name = $"{start:hh\\:mm} - {viewEnd:hh\\:mm}",
+                    StartTime = start,
+                    EndTime = viewEnd,
+                    LaKhungGioVang = list.Any(s => s.LaKhungGioVang)
+                };
+
+                yield return (viewSlot, list.Select(s => s.Id).ToList());
+            }
+        }
+
+        private static string GetWindowStatus(Court court, List<(string slotId, CourtScheduleItem booking)> perSlotBookings)
+        {
+            if (court?.Status == "Maintenance") return "Maintenance";
+
+            if (perSlotBookings == null || perSlotBookings.Count == 0)
+                return "Available";
+
+            bool anyInUse = perSlotBookings.Any(x => x.booking != null && x.booking.Status == "Checked-in");
+            if (anyInUse) return "InUse";
+
+            bool anyBooked = perSlotBookings.Any(x => x.booking != null && x.booking.Status != "Cancelled");
+            bool anyFree = perSlotBookings.Any(x => x.booking == null || x.booking.Status == "Cancelled");
+
+            if (!anyBooked) return "Available";
+            if (!anyFree) return "Booked";
+            return "Partial";
+        }
+
+        private string BuildWindowDetails(DateTime date, TimeSlot viewSlot, Court court, List<(string slotId, CourtScheduleItem booking)> perSlotBookings)
+        {
+            var free = perSlotBookings.Where(x => x.booking == null || x.booking.Status == "Cancelled").Select(x => x.slotId).ToList();
+            var busy = perSlotBookings.Where(x => x.booking != null && x.booking.Status != "Cancelled").Select(x => x.slotId).ToList();
+
+            string freeStr = string.Join(", ", ResolveSlotLabels(free));
+            string busyStr = string.Join(", ", ResolveSlotLabels(busy));
+
+            return string.Join(
+                "\n",
+                new[]
+                {
+                    $"{court.Name} - {viewSlot.DisplayLabel}",
+                    $"{date:dd/MM/yyyy}",
+                    $"Có thể đặt 30p: {freeStr}",
+                    $"Đã bận: {busyStr}",
+                    "Gợi ý: bấm để xem chi tiết 30 phút."
+                });
+        }
+
+        private IEnumerable<string> ResolveSlotLabels(IEnumerable<string> slotIds)
+        {
+            if (slotIds == null) return Array.Empty<string>();
+
+            var idSet = new HashSet<string>(slotIds.Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => s.Trim()), StringComparer.OrdinalIgnoreCase);
+            if (idSet.Count == 0) return Array.Empty<string>();
+
+            return (TimeSlots ?? new ObservableCollection<TimeSlot>())
+                .Where(s => idSet.Contains(s.Id))
+                .OrderBy(s => s.StartTime)
+                .Select(s => s.DisplayLabel)
+                .ToList();
+        }
+
+        private void LoadSchedulePrefs()
+        {
+            try
+            {
+                var prefs = Helpers.UiPreferencesStore.Load();
+                if (prefs != null && (prefs.ScheduleViewMinutes == 30 || prefs.ScheduleViewMinutes == 60))
+                    _scheduleViewMinutes = prefs.ScheduleViewMinutes;
+            }
+            catch { }
+        }
+
+        private void SaveSchedulePrefs()
+        {
+            try
+            {
+                Helpers.UiPreferencesStore.Save(new Helpers.UiPreferences { ScheduleViewMinutes = ScheduleViewMinutes });
+            }
+            catch { }
         }
 
         private void ApplyBookingFilter()
@@ -381,6 +576,10 @@ namespace QuanLySCL.GUI.ViewModels
             {
                 // Cancelled should free the slot.
                 if (booking.Status == "Cancelled") return "Available";
+                
+                // If the booking is checked-in, it's currently in-use.
+                if (booking.Status == "Checked-in") return "InUse";
+
                 return "Booked";
             }
 
@@ -391,8 +590,10 @@ namespace QuanLySCL.GUI.ViewModels
         {
             return statusKey switch
             {
+                "InUse" => "In-use",
                 "Booked" => "Booked",
                 "Maintenance" => "Maintenance",
+                "Partial" => "30p",
                 _ => "Available"
             };
         }
@@ -424,29 +625,63 @@ namespace QuanLySCL.GUI.ViewModels
                     $"Trạng thái: {booking.Status}"
                 });
         }
+
+        private static bool TryGetBookingStartDateTime(Booking booking, out DateTime start)
+        {
+            start = default;
+            if (booking == null) return false;
+
+            string time = (booking.Time ?? string.Empty).Trim();
+            if (string.IsNullOrWhiteSpace(time)) return false;
+
+            string startPart = time.Split('-').FirstOrDefault()?.Trim() ?? string.Empty;
+            if (!TimeSpan.TryParse(startPart, out TimeSpan startTime)) return false;
+
+            start = booking.Date.Date.Add(startTime);
+            return true;
+        }
+
         public bool CancelBooking(string bookingId, out string error)
         {
+            var booking = _bookingBus.GetBookingById(bookingId);
+            if (booking == null)
+            {
+                error = "Không tìm thấy thông tin đặt sân.";
+                return false;
+            }
+
             // RBAC Check: Users can only cancel their own bookings, unless they are Admin/Staff.
             bool isAdminOrStaff = string.Equals(UserRole, "Admin", StringComparison.OrdinalIgnoreCase) || 
                                   string.Equals(UserRole, "NhanVien", StringComparison.OrdinalIgnoreCase);
 
             if (!isAdminOrStaff)
             {
-                var booking = _bookingBus.GetBookingById(bookingId);
-                if (booking == null)
-                {
-                    error = "Không tìm thấy thông tin đặt sân.";
-                    return false;
-                }
-
                 if (string.IsNullOrWhiteSpace(CustomerId) || booking.CustomerId != CustomerId)
                 {
                     error = "Không đủ quyền. Bạn không phải là chủ sở hữu của lịch đặt sân này.";
                     return false;
                 }
+
+                // Rule (doc): không được hủy sân trong vòng 24 giờ trước giờ chơi.
+                // Admin/Nhân viên được phép override.
+                if (TryGetBookingStartDateTime(booking, out DateTime start) && DateTime.Now > start.AddHours(-24))
+                {
+                    error = "Không thể hủy sân trong vòng 24 giờ trước giờ chơi.";
+                    return false;
+                }
             }
 
             bool ok = _bookingBus.UpdateBookingStatus(bookingId, "Cancelled", out error);
+            if (ok)
+            {
+                ReloadFromDatabase();
+            }
+            return ok;
+        }
+
+        public bool CheckInBooking(string bookingId, out string error)
+        {
+            bool ok = _bookingBus.PerformCheckIn(bookingId, out error);
             if (ok)
             {
                 ReloadFromDatabase();

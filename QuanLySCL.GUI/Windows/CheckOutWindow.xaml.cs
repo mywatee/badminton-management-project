@@ -22,9 +22,23 @@ namespace QuanLySCL.GUI.Windows
 
         private void Finish_Click(object sender, RoutedEventArgs e)
         {
+            // If QR payment method is selected, show the QR window first
+            if (_viewModel.PaymentMethod == "Chuyển khoản (QR)")
+            {
+                var qrWin = new QuanLySCL.GUI.Views.VietQRWindow(_viewModel.TotalAmount, $"Thanh toan {_viewModel.Booking.Court} - {_viewModel.Booking.Customer}");
+                qrWin.Owner = this;
+                qrWin.ShowDialog();
+
+                if (qrWin.DialogResult != true)
+                {
+                    // User cancelled or staff didn't confirm receiving money
+                    return;
+                }
+            }
+
             if (_viewModel.ConfirmCheckOut(out string error))
             {
-                MessageBox.Show("Thanh toán thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
+                MessageBox.Show("Thanh toán và trả sân thành công!", "Thông báo", MessageBoxButton.OK, MessageBoxImage.Information);
                 DialogResult = true;
                 Close();
             }

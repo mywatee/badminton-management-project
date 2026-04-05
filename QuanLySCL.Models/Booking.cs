@@ -20,5 +20,6 @@ namespace QuanLySCL.Models
         public string Type { get; set; } = "Casual"; // Casual, Fixed
         public string Status { get; set; } = "Pending"; // Pending, Checked-in, Completed, Cancelled
         public decimal Amount { get; set; }
+        public bool IsMyBooking { get; set; }
     }
 }

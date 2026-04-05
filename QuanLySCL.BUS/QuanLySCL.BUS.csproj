@@ -7,9 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="LiveCharts.Core" Version="0.9.8" />
-    <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
-    <PackageReference Include="MaterialDesignThemes" Version="5.3.1" />
+    <!-- BUS layer should not depend on UI (WPF) packages. -->
   </ItemGroup>
 
   <ItemGroup>

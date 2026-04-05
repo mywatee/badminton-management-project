@@ -7,10 +7,10 @@ namespace QuanLySCL.GUI.Views
 {
     public partial class CustomersView : Page
     {
-        public CustomersView()
+        public CustomersView(string role = "Admin")
         {
             InitializeComponent();
-            DataContext = new CustomersViewModel();
+            DataContext = new CustomersViewModel(role);
         }
 
         private CustomersViewModel Vm => DataContext as CustomersViewModel;
@@ -35,6 +35,29 @@ namespace QuanLySCL.GUI.Views
         private void LoadMore_Click(object sender, RoutedEventArgs e)
         {
             Vm?.LoadMore();
+        }
+
+        private void AddCustomer_Click(object sender, RoutedEventArgs e)
+        {
+            var win = new UpsertCustomerWindow()
+            {
+                Owner = Window.GetWindow(this)
+            };
+
+            bool? res = win.ShowDialog();
+            if (res == true)
+            {
+                Vm?.Reload();
+
+                if (!string.IsNullOrWhiteSpace(win.CreatedCustomerId))
+                {
+                    var detail = new CustomerDetailsWindow(win.CreatedCustomerId.Trim())
+                    {
+                        Owner = Window.GetWindow(this)
+                    };
+                    detail.ShowDialog();
+                }
+            }
         }
     }
 }

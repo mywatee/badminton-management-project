@@ -1,0 +1,12 @@
+D:\github\QuanLySCL\QuanLySCL.Models\bin\Release\net10.0\QuanLySCL.Models.deps.json
+D:\github\QuanLySCL\QuanLySCL.Models\bin\Release\net10.0\QuanLySCL.Models.dll
+D:\github\QuanLySCL\QuanLySCL.Models\bin\Release\net10.0\QuanLySCL.Models.pdb
+D:\github\QuanLySCL\QuanLySCL.Models\obj\Release\net10.0\QuanLySCL.Models.GeneratedMSBuildEditorConfig.editorconfig
+D:\github\QuanLySCL\QuanLySCL.Models\obj\Release\net10.0\QuanLySCL.Models.AssemblyInfoInputs.cache
+D:\github\QuanLySCL\QuanLySCL.Models\obj\Release\net10.0\QuanLySCL.Models.AssemblyInfo.cs
+D:\github\QuanLySCL\QuanLySCL.Models\obj\Release\net10.0\QuanLySCL.Models.csproj.CoreCompileInputs.cache
+D:\github\QuanLySCL\QuanLySCL.Models\obj\Release\net10.0\QuanLySCL.Models.sourcelink.json
+D:\github\QuanLySCL\QuanLySCL.Models\obj\Release\net10.0\QuanLySCL.Models.dll
+D:\github\QuanLySCL\QuanLySCL.Models\obj\Release\net10.0\refint\QuanLySCL.Models.dll
+D:\github\QuanLySCL\QuanLySCL.Models\obj\Release\net10.0\QuanLySCL.Models.pdb
+D:\github\QuanLySCL\QuanLySCL.Models\obj\Release\net10.0\ref\QuanLySCL.Models.dll

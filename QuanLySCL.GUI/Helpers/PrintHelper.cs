@@ -10,7 +10,7 @@ namespace QuanLySCL.GUI.Helpers
 {
     public static class PrintHelper
     {
-        public static void PrintInvoice(Invoice invoice, Booking booking, List<BookingServiceDetail> services)
+        public static void PrintInvoice(Invoice invoice, Booking booking, System.Collections.Generic.IEnumerable<BookingServiceDetail> services)
         {
             FlowDocument doc = new FlowDocument
             {

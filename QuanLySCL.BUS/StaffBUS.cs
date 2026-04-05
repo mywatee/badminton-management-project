@@ -2,12 +2,22 @@ using QuanLySCL.DAL;
 using QuanLySCL.Models;
 using System;
 using System.Collections.ObjectModel;
+using System.Text.RegularExpressions;
+using Microsoft.Data.SqlClient;
 
 namespace QuanLySCL.BUS
 {
     public class StaffBUS
     {
         private readonly StaffDAL _staffDal = new StaffDAL();
+        private const string CannotDeleteStaffWithHistoryMessage =
+            "Nhân viên này đã có lịch sử giao dịch. Không thể xóa, vui lòng sử dụng chức năng Khóa tài khoản!";
+
+        private static bool IsValidPhone(string? phone)
+        {
+            string p = (phone ?? string.Empty).Trim();
+            return Regex.IsMatch(p, @"^0[0-9]{9,10}$");
+        }
 
         public ObservableCollection<Staff> GetAllStaff()
         {
@@ -30,6 +40,8 @@ namespace QuanLySCL.BUS
         {
             if (string.IsNullOrWhiteSpace(name)) return (false, null, "Vui lòng nhập họ tên.");
             if (string.IsNullOrWhiteSpace(phone)) return (false, null, "Vui lòng nhập số điện thoại.");
+
+            if (!IsValidPhone(phone)) return (false, null, "Số điện thoại không hợp lệ (phải bắt đầu bằng 0 và có 10-11 số).");
 
             string id = _staffDal.GetNextStaffId();
             var staff = new Staff
@@ -63,6 +75,8 @@ namespace QuanLySCL.BUS
             if (string.IsNullOrWhiteSpace(staff.Name)) return (false, "Vui lòng nhập họ tên.");
             if (string.IsNullOrWhiteSpace(staff.Phone)) return (false, "Vui lòng nhập số điện thoại.");
 
+            if (!IsValidPhone(staff.Phone)) return (false, "Số điện thoại không hợp lệ (phải bắt đầu bằng 0 và có 10-11 số).");
+
             staff.Email = string.Empty;
             staff.Department = "Chung";
             staff.Status = "Active";
@@ -84,11 +98,28 @@ namespace QuanLySCL.BUS
             if (string.IsNullOrWhiteSpace(id)) return (false, "Mã nhân viên không hợp lệ.");
             try
             {
-                int rows = _staffDal.DeleteStaff(id.Trim());
+                string staffId = id.Trim();
+
+                if (_staffDal.HasLinkedAccount(staffId))
+                {
+                    return (false, CannotDeleteStaffWithHistoryMessage);
+                }
+
+                int rows = _staffDal.DeleteStaff(staffId);
                 return rows > 0 ? (true, null) : (false, "Không thể xóa nhân viên.");
+            }
+            catch (SqlException ex) when (ex.Number == 547) // Foreign key conflict
+            {
+                return (false, CannotDeleteStaffWithHistoryMessage);
             }
             catch (Exception ex)
             {
+                if (!string.IsNullOrWhiteSpace(ex.Message) &&
+                    ex.Message.IndexOf("REFERENCE constraint", StringComparison.OrdinalIgnoreCase) >= 0)
+                {
+                    return (false, CannotDeleteStaffWithHistoryMessage);
+                }
+
                 return (false, ex.Message);
             }
         }
